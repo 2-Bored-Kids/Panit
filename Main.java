@@ -27,10 +27,11 @@ public class Main extends EBAnwendung
         super(1920, 1080);
 
         Utils.init();
-
         pen = new Buntstift();
-
+        pen.setzeFuellmuster(1);
         this.hatBildschirm.setTitle("Panit");
+
+        clear();
 
         e_selection = new Etikett(20, 250, 200, 30, "Auswahl");
         e_selection.setzeAusrichtung(1);
@@ -43,8 +44,8 @@ public class Main extends EBAnwendung
         a_colors = new Radiogruppe();
         a_black = new Radioknopf(20, 330, 150, 20, "Schwarz");
         a_black.setzeBearbeiterGeklickt("a_blackGeklickt");
-        a_black.waehle();
         a_colors.fuegeEin(a_black);
+        a_black.waehle();
         a_red = new Radioknopf(20, 350, 150, 20, "Rot");
         a_red.setzeBearbeiterGeklickt("a_redGeklickt");
         a_colors.fuegeEin(a_red);
@@ -69,7 +70,23 @@ public class Main extends EBAnwendung
         r_selection = new Regler(20, 290, 200, 30, 5, 1, 30);
         r_selection.setzeBearbeiterGeaendert("r_selectionGeaendert");
 
+        pen.setzeLinienBreite(r_selection.wert());
+
         fuehreAus();
+    }
+
+    public static void main(String[]args){
+        Main main = new Main();
+    }
+    
+    public void clear(){
+        pen.hoch();
+        this.hatBildschirm.loescheAlles();
+        Utils.setColor(pen, 150, 150, 150);
+        pen.bewegeBis(0, 0);
+        pen.zeichneRechteck(300, 575);
+        Utils.setColor(pen, 0, 0, 0);
+        
     }
 
     public void b_mode_paintGeklickt()
@@ -84,7 +101,8 @@ public class Main extends EBAnwendung
 
     public void b_delAllGeklickt()
     {
-        this.hatBildschirm.loescheAlles();
+        clear();
+        a_black.waehle();
     }
 
     public void a_blackGeklickt()
@@ -129,17 +147,29 @@ public class Main extends EBAnwendung
 
     public void r_selectionGeaendert()
     {
-        pen.setzeLinienBreite(r_selection.wert());
+        pen.setzeLinienBreite(r_selection.wert() * 2);
+    }
+    
+    @Override
+    public void bearbeiteDoppelKlick(int x, int y){
+        clear();
+        a_black.waehle();
     }
 
     @Override
     public void bearbeiteMausBewegt(int x, int y){
-        if(active) {
-            pen.bewegeBis(x, y);
-            pen.zeichneKreis(pen.linienBreite()); 
-        }
-    }
 
+        boolean menu = x < 320 && y < 595;
+
+        pen.bewegeBis(x, y);
+        if(active && !menu) {
+            pen.runter();
+            pen.zeichneKreis(pen.linienBreite() / 2); 
+        }else{
+            pen.hoch();
+        }
+
+    }
     @Override
     public void bearbeiteMausLos(int x, int y){
         active = false;
@@ -147,7 +177,11 @@ public class Main extends EBAnwendung
 
     @Override
     public void bearbeiteMausDruck(int x, int y){
-        active = true;
+
+        boolean menu = x < 320 && y < 595;
+        if(!menu){
+            active = true;
+        }
     }
 }
 
