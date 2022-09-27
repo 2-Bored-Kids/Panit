@@ -20,6 +20,10 @@ public class Main extends EBAnwendung
     Radioknopf a_orange;
     Regler r_selection;
 
+    public static void main(String[] args) {
+        Main main = new Main();
+    }
+
     public Main()
     {
         super(1920, 1080);
