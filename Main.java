@@ -80,7 +80,6 @@ public class Main extends EBAnwendung
     }
     
     public void clear(){
-        pen.hoch();
         this.hatBildschirm.loescheAlles();
         Utils.setColor(pen, 150, 150, 150);
         pen.bewegeBis(0, 0);
@@ -152,8 +151,11 @@ public class Main extends EBAnwendung
     
     @Override
     public void bearbeiteDoppelKlick(int x, int y){
+        pen.hoch();
+        active = false;
         clear();
         a_black.waehle();
+
     }
 
     @Override
