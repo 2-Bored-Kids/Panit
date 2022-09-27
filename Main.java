@@ -5,6 +5,8 @@ public class Main extends EBAnwendung
 {
     Buntstift pen;
 
+    boolean active = false;
+
     Etikett e_selection;
     Knopf b_mode_paint;
     Knopf b_mode_del;
@@ -20,10 +22,6 @@ public class Main extends EBAnwendung
     Radioknopf a_orange;
     Regler r_selection;
 
-    public static void main(String[] args) {
-        Main main = new Main();
-    }
-
     public Main()
     {
         super(1920, 1080);
@@ -31,6 +29,8 @@ public class Main extends EBAnwendung
         Utils.init();
 
         pen = new Buntstift();
+
+        this.hatBildschirm.setTitle("Panit");
 
         e_selection = new Etikett(20, 250, 200, 30, "Auswahl");
         e_selection.setzeAusrichtung(1);
@@ -43,6 +43,7 @@ public class Main extends EBAnwendung
         a_colors = new Radiogruppe();
         a_black = new Radioknopf(20, 330, 150, 20, "Schwarz");
         a_black.setzeBearbeiterGeklickt("a_blackGeklickt");
+        a_black.waehle();
         a_colors.fuegeEin(a_black);
         a_red = new Radioknopf(20, 350, 150, 20, "Rot");
         a_red.setzeBearbeiterGeklickt("a_redGeklickt");
@@ -73,78 +74,80 @@ public class Main extends EBAnwendung
 
     public void b_mode_paintGeklickt()
     {
-        //   Hier wird der Methodeninhalt eingefgt
+        pen.normal();
     }
 
     public void b_mode_delGeklickt()
     {
-        //   Hier wird der Methodeninhalt eingefgt
+        pen.radiere();
     }
 
     public void b_delAllGeklickt()
     {
-        //   Hier wird der Methodeninhalt eingefgt
+        this.hatBildschirm.loescheAlles();
     }
 
     public void a_blackGeklickt()
     {
-        //   Hier wird der Methodeninhalt eingefgt
+        Utils.setColor(pen, 0, 0, 0);
     }
 
     public void a_redGeklickt()
     {
-
+        Utils.setColor(pen, 180, 40, 40);
     }
 
     public void a_lightBlueGeklickt()
     {
-        //   Hier wird der Methodeninhalt eingefgt
+        Utils.setColor(pen, 56, 220, 255);
     }
 
     public void a_darkBlueGeklickt()
     {
-        //   Hier wird der Methodeninhalt eingefgt
+        Utils.setColor(pen, 56, 64, 255);
     }
 
     public void a_lightGreenGeklickt()
     {
-        //   Hier wird der Methodeninhalt eingefgt
+        Utils.setColor(pen, 80, 255, 56);
     }
 
     public void a_darkGreenGeklickt()
     {
-        //   Hier wird der Methodeninhalt eingefgt
+        Utils.setColor(pen, 16, 180, 34);
     }
 
     public void a_yellowGeklickt()
     {
-        //   Hier wird der Methodeninhalt eingefgt
+        Utils.setColor(pen, 255, 236, 20);
     }
 
     public void a_orangeGeklickt()
     {
-        //   Hier wird der Methodeninhalt eingefgt
+        Utils.setColor(pen, 255, 182, 20);
     }
 
     public void r_selectionGeaendert()
     {
-        //   Hier wird der Methodeninhalt eingefgt
+        pen.setzeLinienBreite(r_selection.wert());
     }
-
 
     @Override
     public void bearbeiteMausBewegt(int x, int y){
-        pen.bewegeBis(x, y);
+        if(active) {
+            pen.bewegeBis(x, y);
+            pen.zeichneKreis(pen.linienBreite()); 
+        }
     }
 
     @Override
     public void bearbeiteMausLos(int x, int y){
-        pen.hoch();
+        active = false;
     }
 
     @Override
     public void bearbeiteMausDruck(int x, int y){
-        pen.runter();
+        active = true;
     }
 }
 
