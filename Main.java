@@ -67,7 +67,7 @@ public class Main extends EBAnwendung
         a_orange = new Radioknopf(20, 470, 150, 20, "Orange");
         a_orange.setzeBearbeiterGeklickt("a_orangeGeklickt");
         a_colors.fuegeEin(a_orange);
-        r_selection = new Regler(20, 290, 200, 30, 5, 1, 30);
+        r_selection = new Regler(20, 290, 200, 30, 10, 1, 50);
         r_selection.setzeBearbeiterGeaendert("r_selectionGeaendert");
 
         pen.setzeLinienBreite(r_selection.wert());
@@ -81,6 +81,7 @@ public class Main extends EBAnwendung
     
     public void clear(){
         this.hatBildschirm.loescheAlles();
+        pen.normal();
         Utils.setColor(pen, 150, 150, 150);
         pen.bewegeBis(0, 0);
         pen.zeichneRechteck(300, 575);
