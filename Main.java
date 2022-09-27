@@ -1,14 +1,9 @@
 import sum.ereignis.*;
 import sum.komponenten.*;
-import sum.multimedia.*;
-import sum.werkzeuge.*;
-import sum.kern.Maus;
 
 public class Main extends EBAnwendung
 {
-    // Objekte
     Buntstift pen;
-    Maus cursor;
 
     Etikett Etikett1;
     Knopf b_mode_paint;
@@ -27,13 +22,11 @@ public class Main extends EBAnwendung
 
     public Main()
     {
-        // Initialisierung der Oberklasse
         super(1920, 1080);
 
-        Bildschirm.topFenster = this.hatBildschirm;
+        Utils.init();
 
         pen = new Buntstift();
-        cursor = new Maus();
 
         Etikett1 = new Etikett(20, 250, 200, 30, "Auswahl");
         Etikett1.setzeAusrichtung(1);
@@ -70,7 +63,7 @@ public class Main extends EBAnwendung
         a_colors.fuegeEin(a_orange);
         r_selection = new Regler(20, 290, 200, 30, 5, 1, 30);
         r_selection.setzeBearbeiterGeaendert("r_selectionGeaendert");
-        
+
         fuehreAus();
     }
 
@@ -96,7 +89,7 @@ public class Main extends EBAnwendung
 
     public void a_redGeklickt()
     {
-        
+
     }
 
     public void a_lightBlueGeklickt()
@@ -133,8 +126,8 @@ public class Main extends EBAnwendung
     {
         //   Hier wird der Methodeninhalt eingefgt
     }
-    
-    
+
+
     @Override
     public void bearbeiteMausBewegt(int x, int y){
         pen.bewegeBis(x, y);
@@ -150,3 +143,4 @@ public class Main extends EBAnwendung
         pen.runter();
     }
 }
+
