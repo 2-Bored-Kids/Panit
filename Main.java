@@ -159,7 +159,7 @@ public class Main extends EBAnwendung
     @Override
     public void bearbeiteMausBewegt(int x, int y){
 
-        boolean menu = x < 320 && y < 595;
+        boolean menu = x < 300 + pen.linienBreite() / 2 && y < 575 + pen.linienBreite() / 2;
 
         pen.bewegeBis(x, y);
         if(active && !menu) {
@@ -178,7 +178,7 @@ public class Main extends EBAnwendung
     @Override
     public void bearbeiteMausDruck(int x, int y){
 
-        boolean menu = x < 320 && y < 595;
+        boolean menu = x < 300 + pen.linienBreite() / 2  && y < 575 + pen.linienBreite() / 2;
         if(!menu){
             active = true;
         }
