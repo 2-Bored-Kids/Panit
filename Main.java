@@ -5,7 +5,7 @@ public class Main extends EBAnwendung
 {
     Buntstift pen;
 
-    Etikett Etikett1;
+    Etikett e_selection;
     Knopf b_mode_paint;
     Knopf b_mode_del;
     Knopf b_delAll;
@@ -32,8 +32,8 @@ public class Main extends EBAnwendung
 
         pen = new Buntstift();
 
-        Etikett1 = new Etikett(20, 250, 200, 30, "Auswahl");
-        Etikett1.setzeAusrichtung(1);
+        e_selection = new Etikett(20, 250, 200, 30, "Auswahl");
+        e_selection.setzeAusrichtung(1);
         b_mode_paint = new Knopf(20, 180, 200, 60, "Malen");
         b_mode_paint.setzeBearbeiterGeklickt("b_mode_paintGeklickt");
         b_mode_del = new Knopf(20, 100, 200, 60, "Loeschen");
