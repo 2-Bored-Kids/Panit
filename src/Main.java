@@ -6,7 +6,9 @@ public class Main extends EBAnwendung {
 
     boolean isDrawing = false;
 
-    public final static int MENU_X = 190, MENU_Y = 1080;
+    byte paintMode = 1;
+
+    public final static int MENU_X = 170, MENU_Y = 1080;
 
     public Main() {
         super(1920, 1080);
@@ -25,6 +27,7 @@ public class Main extends EBAnwendung {
         pen.setzeLinienBreite(r_linewidth.wert());
 
         fuehreAus();
+
     }
 
     public static void main(String[] args) {
@@ -40,7 +43,7 @@ public class Main extends EBAnwendung {
         Buntstift menuPen = new Buntstift();
 
         //Dunkles Grau
-        Utils.setColor(menuPen, 150, 150, 150);
+        Utils.setColor(menuPen, 100, 100, 100);
 
         menuPen.setzeFuellmuster(1);
 
@@ -62,11 +65,26 @@ public class Main extends EBAnwendung {
         boolean touchesMenuArea = x < MENU_X + pen.linienBreite() / 2;
 
         pen.bewegeBis(x, y);
-        if (isDrawing && !touchesMenuArea) {
-            pen.runter();
-            pen.zeichneKreis(pen.linienBreite() / 2);
-        } else {
-            pen.hoch();
+
+        switch(paintMode){
+            case 1:
+                pen.normal();
+                if (isDrawing && !touchesMenuArea) {
+                    pen.runter();
+                    pen.zeichneKreis(pen.linienBreite() / 2);
+                } else {
+                    pen.hoch();
+                }
+                break;
+            case 0:
+                pen.radiere();
+                if (isDrawing && !touchesMenuArea) {
+                    pen.runter();
+                    pen.zeichneKreis(pen.linienBreite() / 2);
+                } else {
+                    pen.hoch();
+                }
+                break;
         }
 
     }
@@ -74,22 +92,50 @@ public class Main extends EBAnwendung {
     @Override
     public void bearbeiteMausLos(int x, int y) {
         isDrawing = false;
+
+        if(paintMode == 3){
+            boolean touchesMenuArea = x < MENU_X + pen.linienBreite() / 2  && y < MENU_Y + pen.linienBreite() / 2;
+            if (!touchesMenuArea) {
+                drawLinie(startX, startY, x, y);
+            }
+        }
     }
+
+    int startX;
+    int startY;
 
     @Override
     public void bearbeiteMausDruck(int x, int y) {
         boolean touchesMenuArea = x < MENU_X + pen.linienBreite() / 2  && y < MENU_Y + pen.linienBreite() / 2;
         if (!touchesMenuArea) {
             isDrawing = true;
+            startX = x;
+            startY = y;
         }
     }
 
+    public void drawLinie(int sX, int sY, int eX, int eY){
+        pen.normal();
+        pen.hoch();
+        pen.bewegeBis(sX, sY);
+        pen.runter();
+        pen.zeichneKreis(pen.linienBreite() / 2);
+        pen.bewegeBis(eX, eY);
+        pen.zeichneKreis(pen.linienBreite() / 2);
+        pen.hoch();
+    }
+
     //Generiert durch BlueG
-    Etikett e_linewidth;
-    Knopf b_mode_paint;
-    Knopf b_mode_del;
+    Etikett e_lineWidth;
+    Etikett e_paintMode;
+    Radioknopf b_mode_del;
+    Radioknopf b_mode_paint;
+    Radioknopf b_mode_line;
     Knopf b_delAll;
+    Knopf b_save;
+    Knopf b_load;
     Radiogruppe a_colors;
+    Radiogruppe a_paintModes;
     Radioknopf a_black;
     Radioknopf a_red;
     Radioknopf a_lightBlue;
@@ -103,54 +149,78 @@ public class Main extends EBAnwendung {
 
     //Generiert durch BlueG
     void loadUI() {
-        e_linewidth = new Etikett(20, 250, 150, 30, "Linienbreite");
-        e_linewidth.setzeAusrichtung(1);
-        b_mode_paint = new Knopf(20, 180, 150, 60, "Malen");
-        b_mode_paint.setzeBearbeiterGeklickt("b_mode_paintGeklickt");
-        b_mode_del = new Knopf(20, 100, 150, 60, "Loeschen");
+
+        e_lineWidth = new Etikett(20, 255, 130, 30, "Linienbreite");
+        e_lineWidth.setzeAusrichtung(1);
+
+        e_paintMode = new Etikett(20, 125, 130, 30, "Modus");
+        e_paintMode.setzeAusrichtung(1);
+
+        b_mode_del = new Radioknopf(20, 190, 130, 30, "Loeschen");
         b_mode_del.setzeBearbeiterGeklickt("b_mode_delGeklickt");
-        b_delAll = new Knopf(20, 20, 150, 60, "Alles loeschen");
+        b_mode_paint = new Radioknopf(20, 160, 130, 30, "Malen");
+        b_mode_paint.setzeBearbeiterGeklickt("b_mode_paintGeklickt");
+        b_mode_line = new Radioknopf(20, 220, 130, 30, "Linie");
+        b_mode_line.setzeBearbeiterGeklickt("b_mode_lineGeklickt");
+        b_mode_paint.waehle();
+
+        a_paintModes = new Radiogruppe(); 
+        a_paintModes.fuegeEin(b_mode_paint);
+        a_paintModes.fuegeEin(b_mode_del);
+        a_paintModes.fuegeEin(b_mode_line);
+
+        b_save = new Knopf(20, 15, 130, 20, "Speichern");
+        b_save.setzeBearbeiterGeklickt("b_saveGeklickt");
+        b_load = new Knopf(20, 40, 130, 20, "Oeffnen");
+        b_load.setzeBearbeiterGeklickt("b_loadGeklickt");
+        b_delAll = new Knopf(20, 80, 130, 30, "Alles loeschen");
         b_delAll.setzeBearbeiterGeklickt("b_delAllGeklickt");
+
         a_colors = new Radiogruppe();
-        a_black = new Radioknopf(20, 330, 150, 20, "Schwarz");
+        a_black = new Radioknopf(20, 330, 130, 20, "Schwarz");
         a_black.setzeBearbeiterGeklickt("a_blackGeklickt");
         a_colors.fuegeEin(a_black);
         a_black.waehle();
-        a_red = new Radioknopf(20, 350, 150, 20, "Rot");
+        a_red = new Radioknopf(20, 350, 130, 20, "Rot");
         a_red.setzeBearbeiterGeklickt("a_redGeklickt");
         a_colors.fuegeEin(a_red);
-        a_lightBlue = new Radioknopf(20, 370, 150, 20, "Hellblau");
+        a_lightBlue = new Radioknopf(20, 370, 130, 20, "Hellblau");
         a_lightBlue.setzeBearbeiterGeklickt("a_lightBlueGeklickt");
         a_colors.fuegeEin(a_lightBlue);
-        a_darkBlue = new Radioknopf(20, 390, 150, 20, "Dunkelblau");
+        a_darkBlue = new Radioknopf(20, 390, 130, 20, "Dunkelblau");
         a_darkBlue.setzeBearbeiterGeklickt("a_darkBlueGeklickt");
         a_colors.fuegeEin(a_darkBlue);
-        a_lightGreen = new Radioknopf(20, 410, 150, 20, "Hellgruen");
+        a_lightGreen = new Radioknopf(20, 410, 130, 20, "Hellgruen");
         a_lightGreen.setzeBearbeiterGeklickt("a_lightGreenGeklickt");
         a_colors.fuegeEin(a_lightGreen);
-        a_darkGreen = new Radioknopf(20, 430, 150, 20, "Dunkelgruen");
+        a_darkGreen = new Radioknopf(20, 430, 130, 20, "Dunkelgruen");
         a_darkGreen.setzeBearbeiterGeklickt("a_darkGreenGeklickt");
         a_colors.fuegeEin(a_darkGreen);
-        a_yellow = new Radioknopf(20, 450, 150, 20, "Gelb");
+        a_yellow = new Radioknopf(20, 450, 130, 20, "Gelb");
         a_yellow.setzeBearbeiterGeklickt("a_yellowGeklickt");
         a_colors.fuegeEin(a_yellow);
-        a_orange = new Radioknopf(20, 470, 150, 20, "Orange");
+        a_orange = new Radioknopf(20, 470, 130, 20, "Orange");
         a_orange.setzeBearbeiterGeklickt("a_orangeGeklickt");
         a_colors.fuegeEin(a_orange);
-        a_brown = new Radioknopf(20, 490, 150, 20, "Braun");
+        a_brown = new Radioknopf(20, 490, 130, 20, "Braun");
         a_brown.setzeBearbeiterGeklickt("a_brownGeklickt");
         a_colors.fuegeEin(a_brown);
-        r_linewidth = new Regler(20, 290, 150, 30, 10, 1, 50);
+        r_linewidth = new Regler(20, 290, 130, 30, 10, 1, 50);
         r_linewidth.setzeBearbeiterGeaendert("r_linewidthGeaendert");
+
     }
 
     //UI Funktionen
     public void b_mode_paintGeklickt() {
-        pen.normal();
+        paintMode = 1;
     }
 
     public void b_mode_delGeklickt() {
-        pen.radiere();
+        paintMode = 0;
+    }
+
+    public void b_mode_lineGeklickt(){
+        paintMode = 3; 
     }
 
     public void b_delAllGeklickt() {
@@ -188,13 +258,22 @@ public class Main extends EBAnwendung {
     public void a_orangeGeklickt() {
         Utils.setColor(pen, 255, 182, 20);
     }
-    
+
     public void a_brownGeklickt(){
         Utils.setColor(pen, 100, 44, 44);
     }
 
     public void r_linewidthGeaendert() {
         pen.setzeLinienBreite(r_linewidth.wert() * 2);
+    }
+
+    public void b_saveGeklickt() {
+        Utils.saveImage(this.hatBildschirm, "save.png");
+    }
+
+    public void b_loadGeklickt() {
+        clearScreen();
+        Utils.loadImage(this.hatBildschirm, "save.png");
     }
 }
 
