@@ -1,6 +1,8 @@
 import sum.ereignis.*;
 import sum.komponenten.*;
 
+import java.io.File;
+
 public class Main extends EBAnwendung {
     Buntstift pen;
 
@@ -107,7 +109,10 @@ public class Main extends EBAnwendung {
     @Override
     public void bearbeiteMausDruck(int x, int y) {
         boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2  && y < Consts.MENU_Y + pen.linienBreite() / 2;
+
         if (!touchesMenuArea) {
+            pen.bewegeBis(x, y);
+
             if (paintMode == Consts.MODE_NORMAL || paintMode == Consts.MODE_ERASE) {
                 pen.runter();
             }
@@ -293,12 +298,25 @@ public class Main extends EBAnwendung {
     }
 
     public void b_saveGeklickt() {
-        Utils.saveImage(this.hatBildschirm, "save.png");
+        String filePath = Utils.pickSaveImage();
+
+        //TODO: get rid of this hack
+        try {
+            Thread.sleep(500);
+        } catch (Exception e) {}
+
+        if (filePath != "") {
+            Utils.saveImage(this.hatBildschirm, filePath);
+        }
     }
 
     public void b_loadGeklickt() {
-        clearScreen();
-        Utils.loadImage(this.hatBildschirm, "save.png");
+        File file = Utils.pickImage();
+
+        if (file != null) {
+            clearScreen();
+            Utils.loadImage(this.hatBildschirm, file.getAbsolutePath());
+        }
     }
 }
 

@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Robot;
 import java.awt.Rectangle;
 import javax.swing.JPanel;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -65,6 +67,35 @@ public class Utils {
     } catch (Exception e) {}
 
     panel.getGraphics().drawImage(image, Consts.MENU_X, 0, screen);
+  }
+
+  public static String pickSaveImage() {
+    JFileChooser chooser = new JFileChooser();
+    chooser.setDialogTitle("Save image");
+
+    int option = chooser.showSaveDialog(null);
+    if (option == JFileChooser.APPROVE_OPTION) {
+      String filePath = chooser.getSelectedFile().getAbsolutePath();
+
+      return filePath + (filePath.endsWith(".png") ? "" : ".png");
+    }
+
+    return "";
+  }
+
+  public static File pickImage() {
+    JFileChooser chooser = new JFileChooser();
+    chooser.setDialogTitle("Load image");
+
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
+    chooser.setFileFilter(filter);
+
+    int option = chooser.showOpenDialog(null);
+    if (option == JFileChooser.APPROVE_OPTION) {
+      return chooser.getSelectedFile();
+   }
+
+   return null;
   }
 }
 
