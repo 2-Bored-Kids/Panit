@@ -54,9 +54,8 @@ public class Main extends EBAnwendung {
     public void bearbeiteDoppelKlick(int x, int y) {
         pen.hoch();
         isDrawing = false;
+        
         clearScreen();
-        a_black.waehle();
-
     }
 
     @Override
