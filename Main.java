@@ -43,6 +43,8 @@ public class Main extends EBAnwendung {
         //Dark grey
         Utils.setColor(menuPen, 150, 150, 150);
 
+        menuPen.setzeFuellmuster(1);
+
         menuPen.bewegeBis(0, 0);
 
         menuPen.zeichneRechteck(300, 575);
