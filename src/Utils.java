@@ -4,6 +4,7 @@ import sum.ereignis.Bildschirm;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Robot;
+import java.awt.Rectangle;
 import javax.swing.JPanel;
 
 import java.io.File;
@@ -41,13 +42,17 @@ public class Utils {
     return null;
   }
 
+  //Crops the left side of the image
   public static void saveImage(Bildschirm screen, String filePath) {
-    //TODO: get rid of this hack
     JPanel panel = Utils.getPanel(screen);
-    BufferedImage image = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
+    BufferedImage image = new BufferedImage(panel.getWidth() - Main.MENU_X, panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+    Rectangle panelBoundingBox = new Rectangle(panel.getLocationOnScreen(), panel.getSize());
+    panelBoundingBox.x += Main.MENU_X;
+    panelBoundingBox.width -= Main.MENU_X;
 
     try {
-        image = new Robot().createScreenCapture(panel.bounds());
+        image = new Robot().createScreenCapture(panelBoundingBox);
 
         ImageIO.write(image, "png", new File(filePath));
     } catch (Exception e) {}
@@ -61,7 +66,7 @@ public class Utils {
       image = ImageIO.read(new File(filePath));
     } catch (Exception e) {}
 
-    panel.getGraphics().drawImage(image, 0, 0, screen);
+    panel.getGraphics().drawImage(image, Main.MENU_X, 0, screen);
   }
 }
 
