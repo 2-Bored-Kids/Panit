@@ -93,6 +93,12 @@ public class Main extends EBAnwendung {
                 drawLinie(startPressX, startPressY, x, y);
             }
         }
+        if(paintMode == Consts.MODE_RECTANGLE){
+            boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2  && y < Consts.MENU_Y + pen.linienBreite() / 2;
+            if (!touchesMenuArea) {
+                drawViereck(startPressX, startPressY, x, y);
+            }
+        }
     }
 
     @Override
@@ -117,6 +123,16 @@ public class Main extends EBAnwendung {
         pen.zeichneKreis(pen.linienBreite() / 2);
         pen.hoch();
     }
+    
+    public void drawViereck(int sX, int sY, int eX, int eY){
+        pen.normal();
+        pen.hoch();
+        pen.bewegeBis(sX, sY);
+        pen.zeichneRechteck(eX - sX, eY - sY);
+        pen.bewegeBis(eX, eY);
+        
+
+    }
 
     //Generiert durch BlueG
     Etikett e_lineWidth;
@@ -124,6 +140,7 @@ public class Main extends EBAnwendung {
     Radioknopf b_mode_del;
     Radioknopf b_mode_paint;
     Radioknopf b_mode_line;
+    Radioknopf b_mode_rectancle;
     Knopf b_delAll;
     Knopf b_save;
     Knopf b_load;
@@ -155,12 +172,15 @@ public class Main extends EBAnwendung {
         b_mode_paint.setzeBearbeiterGeklickt("b_mode_paintGeklickt");
         b_mode_line = new Radioknopf(20, 220, 130, 30, "Linie");
         b_mode_line.setzeBearbeiterGeklickt("b_mode_lineGeklickt");
+        b_mode_rectancle = new Radioknopf(20, 250, 130, 30, "Viereck");
+        b_mode_rectancle.setzeBearbeiterGeklickt("b_mode_rectancleGeklickt");
         b_mode_paint.waehle();
 
         a_paintModes = new Radiogruppe();
         a_paintModes.fuegeEin(b_mode_paint);
         a_paintModes.fuegeEin(b_mode_del);
         a_paintModes.fuegeEin(b_mode_line);
+        a_paintModes.fuegeEin(b_mode_rectancle);
 
         b_save = new Knopf(20, 15, 130, 20, "Speichern");
         b_save.setzeBearbeiterGeklickt("b_saveGeklickt");
@@ -214,6 +234,10 @@ public class Main extends EBAnwendung {
 
     public void b_mode_lineGeklickt(){
         paintMode = Consts.MODE_LINE;
+    }
+    
+    public void b_mode_rectancleGeklickt(){
+        paintMode = Consts.MODE_RECTANGLE;
     }
 
     public void b_delAllGeklickt() {
