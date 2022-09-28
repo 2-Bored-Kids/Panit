@@ -6,7 +6,7 @@ public class Main extends EBAnwendung {
 
     boolean isDrawing = false;
 
-    //final int menuX, menuY;
+    final int MENU_X = 300, MENU_Y = 575;
 
     public Main() {
         super(1920, 1080);
@@ -51,7 +51,7 @@ public class Main extends EBAnwendung {
 
     @Override
     public void bearbeiteMausBewegt(int x, int y) {
-        boolean menu = x < 300 + pen.linienBreite() / 2 && y < 575 + pen.linienBreite() / 2;
+        boolean menu = x < MENU_X + pen.linienBreite() / 2 && y < MENU_Y + pen.linienBreite() / 2;
 
         pen.bewegeBis(x, y);
         if(isDrawing && !menu) {
@@ -69,7 +69,7 @@ public class Main extends EBAnwendung {
 
     @Override
     public void bearbeiteMausDruck(int x, int y) {
-        boolean menu = x < 300 + pen.linienBreite() / 2  && y < 575 + pen.linienBreite() / 2;
+        boolean menu = x < MENU_X + pen.linienBreite() / 2  && y < MENU_Y + pen.linienBreite() / 2;
         if(!menu){
             isDrawing = true;
         }
