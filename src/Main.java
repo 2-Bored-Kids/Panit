@@ -61,17 +61,18 @@ public class Main extends EBAnwendung {
 
     @Override
     public void bearbeiteMausBewegt(int x, int y) {
-        boolean menu = x < MENU_X + pen.linienBreite() / 2 && y < MENU_Y + pen.linienBreite() / 2;
+        boolean touchesMenuArea = x < MENU_X + pen.linienBreite() / 2 && y < MENU_Y + pen.linienBreite() / 2;
 
         pen.bewegeBis(x, y);
-        if(isDrawing && !menu) {
+        if (isDrawing && !touchesMenuArea) {
             pen.runter();
             pen.zeichneKreis(pen.linienBreite() / 2);
-        }else{
+        } else {
             pen.hoch();
         }
 
     }
+    
     @Override
     public void bearbeiteMausLos(int x, int y) {
         isDrawing = false;
@@ -79,8 +80,8 @@ public class Main extends EBAnwendung {
 
     @Override
     public void bearbeiteMausDruck(int x, int y) {
-        boolean menu = x < MENU_X + pen.linienBreite() / 2  && y < MENU_Y + pen.linienBreite() / 2;
-        if(!menu){
+        boolean touchesMenuArea = x < MENU_X + pen.linienBreite() / 2  && y < MENU_Y + pen.linienBreite() / 2;
+        if (!touchesMenuArea) {
             isDrawing = true;
         }
     }
