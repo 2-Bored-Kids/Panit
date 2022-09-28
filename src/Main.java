@@ -4,11 +4,9 @@ import sum.komponenten.*;
 public class Main extends EBAnwendung {
     Buntstift pen;
 
-    boolean isDrawing = false;
+    byte paintMode = Consts.MODE_NORMAL;
 
-    byte paintMode = 1;
-
-    public final static int MENU_X = 170, MENU_Y = 1080;
+    int startPressX, startPressY;
 
     public Main() {
         super(1920, 1080);
@@ -49,68 +47,63 @@ public class Main extends EBAnwendung {
 
         menuPen.bewegeBis(0, 0);
 
-        menuPen.zeichneRechteck(MENU_X, MENU_Y);
+        menuPen.zeichneRechteck(Consts.MENU_X,Consts.MENU_Y);
     }
 
     @Override
     public void bearbeiteDoppelKlick(int x, int y) {
         pen.hoch();
-        isDrawing = false;
 
         clearScreen();
     }
 
     @Override
     public void bearbeiteMausBewegt(int x, int y) {
-        boolean touchesMenuArea = x < MENU_X + pen.linienBreite() / 2;
+        boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2;
 
         pen.bewegeBis(x, y);
 
         switch(paintMode){
-            case 1:
+            case Consts.MODE_NORMAL:
                 pen.normal();
-                if (isDrawing && !touchesMenuArea) {
-                    pen.runter();
-                    pen.zeichneKreis(pen.linienBreite() / 2);
-                } else {
-                    pen.hoch();
-                }
                 break;
-            case 0:
+            case Consts.MODE_ERASE:
                 pen.radiere();
-                if (isDrawing && !touchesMenuArea) {
-                    pen.runter();
-                    pen.zeichneKreis(pen.linienBreite() / 2);
-                } else {
-                    pen.hoch();
-                }
                 break;
+        }
+
+        if (paintMode == Consts.MODE_NORMAL || paintMode == Consts.MODE_ERASE) {
+            if (pen.istUnten() && !touchesMenuArea) {
+                pen.runter();
+                pen.zeichneKreis(pen.linienBreite() / 2);
+            } else {
+                pen.hoch();
+            }
         }
 
     }
 
     @Override
     public void bearbeiteMausLos(int x, int y) {
-        isDrawing = false;
+        pen.hoch();
 
-        if(paintMode == 3){
-            boolean touchesMenuArea = x < MENU_X + pen.linienBreite() / 2  && y < MENU_Y + pen.linienBreite() / 2;
+        if(paintMode == Consts.MODE_LINE){
+            boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2  && y < Consts.MENU_Y + pen.linienBreite() / 2;
             if (!touchesMenuArea) {
-                drawLinie(startX, startY, x, y);
+                drawLinie(startPressX, startPressY, x, y);
             }
         }
     }
 
-    int startX;
-    int startY;
-
     @Override
     public void bearbeiteMausDruck(int x, int y) {
-        boolean touchesMenuArea = x < MENU_X + pen.linienBreite() / 2  && y < MENU_Y + pen.linienBreite() / 2;
+        boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2  && y < Consts.MENU_Y + pen.linienBreite() / 2;
         if (!touchesMenuArea) {
-            isDrawing = true;
-            startX = x;
-            startY = y;
+            if (paintMode == Consts.MODE_NORMAL || paintMode == Consts.MODE_ERASE) {
+                pen.runter();
+            }
+            startPressX = x;
+            startPressY = y;
         }
     }
 
@@ -164,7 +157,7 @@ public class Main extends EBAnwendung {
         b_mode_line.setzeBearbeiterGeklickt("b_mode_lineGeklickt");
         b_mode_paint.waehle();
 
-        a_paintModes = new Radiogruppe(); 
+        a_paintModes = new Radiogruppe();
         a_paintModes.fuegeEin(b_mode_paint);
         a_paintModes.fuegeEin(b_mode_del);
         a_paintModes.fuegeEin(b_mode_line);
@@ -212,15 +205,15 @@ public class Main extends EBAnwendung {
 
     //UI Funktionen
     public void b_mode_paintGeklickt() {
-        paintMode = 1;
+        paintMode = Consts.MODE_NORMAL;
     }
 
     public void b_mode_delGeklickt() {
-        paintMode = 0;
+        paintMode = Consts.MODE_ERASE;
     }
 
     public void b_mode_lineGeklickt(){
-        paintMode = 3; 
+        paintMode = Consts.MODE_LINE;
     }
 
     public void b_delAllGeklickt() {
