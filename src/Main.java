@@ -63,8 +63,6 @@ public class Main extends EBAnwendung {
     public void bearbeiteMausBewegt(int x, int y) {
         boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2;
 
-        pen.bewegeBis(x, y);
-
         switch(paintMode){
             case Consts.MODE_NORMAL:
                 pen.normal();
@@ -75,11 +73,13 @@ public class Main extends EBAnwendung {
         }
 
         if (paintMode == Consts.MODE_NORMAL || paintMode == Consts.MODE_ERASE) {
-            if (pen.istUnten() && !touchesMenuArea) {
-                pen.runter();
-                pen.zeichneKreis(pen.linienBreite() / 2);
-            } else {
-                pen.hoch();
+            if (pen.istUnten()) {
+                if (!touchesMenuArea) {
+                    pen.bewegeBis(x, y);
+                    pen.zeichneKreis(pen.linienBreite() / 2);
+                } else {
+                    //pen.hoch();
+                }
             }
         }
 
