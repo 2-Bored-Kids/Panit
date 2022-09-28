@@ -150,7 +150,6 @@ public class Main extends EBAnwendung {
 
     public void b_delAllGeklickt() {
         clearScreen();
-        a_black.waehle();
     }
 
     public void a_blackGeklickt() {
