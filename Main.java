@@ -33,11 +33,19 @@ public class Main extends EBAnwendung {
 
     public void clearScreen() {
         this.hatBildschirm.loescheAlles();
-        pen.normal();
-        Utils.setColor(pen, 150, 150, 150);
-        pen.bewegeBis(0, 0);
-        pen.zeichneRechteck(300, 575);
-        Utils.setColor(pen, 0, 0, 0);
+
+        drawMenu();
+    }
+
+    public void drawMenu() {
+        Buntstift menuPen = new Buntstift();
+
+        //Dark grey
+        Utils.setColor(menuPen, 150, 150, 150);
+
+        menuPen.bewegeBis(0, 0);
+
+        menuPen.zeichneRechteck(300, 575);
     }
 
     @Override
