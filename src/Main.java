@@ -54,7 +54,7 @@ public class Main extends EBAnwendung {
     public void bearbeiteDoppelKlick(int x, int y) {
         pen.hoch();
         isDrawing = false;
-        
+
         clearScreen();
     }
 
