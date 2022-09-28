@@ -6,7 +6,7 @@ public class Main extends EBAnwendung {
 
     boolean isDrawing = false;
 
-    final int MENU_X = 300, MENU_Y = 575;
+    public final static int MENU_X = 300, MENU_Y = 575;
 
     public Main() {
         super(1920, 1080);
@@ -54,13 +54,13 @@ public class Main extends EBAnwendung {
     public void bearbeiteDoppelKlick(int x, int y) {
         pen.hoch();
         isDrawing = false;
-        
+
         clearScreen();
     }
 
     @Override
     public void bearbeiteMausBewegt(int x, int y) {
-        boolean touchesMenuArea = x < MENU_X + pen.linienBreite() / 2 && y < MENU_Y + pen.linienBreite() / 2;
+        boolean touchesMenuArea = x < MENU_X + pen.linienBreite() / 2;
 
         pen.bewegeBis(x, y);
         if (isDrawing && !touchesMenuArea) {
