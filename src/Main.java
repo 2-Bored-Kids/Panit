@@ -87,16 +87,19 @@ public class Main extends EBAnwendung {
     public void bearbeiteMausLos(int x, int y) {
         pen.hoch();
 
-        if(paintMode == Consts.MODE_LINE){
+        if (paintMode == Consts.MODE_LINE || paintMode == Consts.MODE_RECTANGLE) {
             boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2  && y < Consts.MENU_Y + pen.linienBreite() / 2;
+
             if (!touchesMenuArea) {
-                drawLinie(startPressX, startPressY, x, y);
-            }
-        }
-        if(paintMode == Consts.MODE_RECTANGLE){
-            boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2  && y < Consts.MENU_Y + pen.linienBreite() / 2;
-            if (!touchesMenuArea) {
-                drawViereck(startPressX, startPressY, x, y);
+                switch (paintMode) {
+                    case Consts.MODE_LINE:
+                        drawLinie(startPressX, startPressY, x, y);
+                    break;
+
+                    case Consts.MODE_RECTANGLE:
+                        drawViereck(startPressX, startPressY, x, y);
+                    break;
+                }
             }
         }
     }
@@ -123,15 +126,20 @@ public class Main extends EBAnwendung {
         pen.zeichneKreis(pen.linienBreite() / 2);
         pen.hoch();
     }
-    
+
     public void drawViereck(int sX, int sY, int eX, int eY){
         pen.normal();
         pen.hoch();
-        pen.bewegeBis(sX, sY);
-        pen.zeichneRechteck(eX - sX, eY - sY);
-        pen.bewegeBis(eX, eY);
-        
 
+        int minX = Math.min(sX, eX);
+        int maxX = Math.max(sX, eX);
+
+        int minY = Math.min(sY, eY);
+        int maxY = Math.max(sY, eY);
+
+        pen.bewegeBis(minX, minY);
+        pen.zeichneRechteck(maxX - minX, maxY - minY);
+        pen.bewegeBis(maxX, maxY);
     }
 
     //Generiert durch BlueG
@@ -140,7 +148,7 @@ public class Main extends EBAnwendung {
     Radioknopf b_mode_del;
     Radioknopf b_mode_paint;
     Radioknopf b_mode_line;
-    Radioknopf b_mode_rectancle;
+    Radioknopf b_mode_rectangle;
     Knopf b_delAll;
     Knopf b_save;
     Knopf b_load;
@@ -172,15 +180,15 @@ public class Main extends EBAnwendung {
         b_mode_paint.setzeBearbeiterGeklickt("b_mode_paintGeklickt");
         b_mode_line = new Radioknopf(20, 220, 130, 30, "Linie");
         b_mode_line.setzeBearbeiterGeklickt("b_mode_lineGeklickt");
-        b_mode_rectancle = new Radioknopf(20, 250, 130, 30, "Viereck");
-        b_mode_rectancle.setzeBearbeiterGeklickt("b_mode_rectancleGeklickt");
+        b_mode_rectangle = new Radioknopf(20, 250, 130, 30, "Viereck");
+        b_mode_rectangle.setzeBearbeiterGeklickt("b_mode_rectangleGeklickt");
         b_mode_paint.waehle();
 
         a_paintModes = new Radiogruppe();
         a_paintModes.fuegeEin(b_mode_paint);
         a_paintModes.fuegeEin(b_mode_del);
         a_paintModes.fuegeEin(b_mode_line);
-        a_paintModes.fuegeEin(b_mode_rectancle);
+        a_paintModes.fuegeEin(b_mode_rectangle);
 
         b_save = new Knopf(20, 15, 130, 20, "Speichern");
         b_save.setzeBearbeiterGeklickt("b_saveGeklickt");
@@ -235,8 +243,8 @@ public class Main extends EBAnwendung {
     public void b_mode_lineGeklickt(){
         paintMode = Consts.MODE_LINE;
     }
-    
-    public void b_mode_rectancleGeklickt(){
+
+    public void b_mode_rectangleGeklickt(){
         paintMode = Consts.MODE_RECTANGLE;
     }
 
