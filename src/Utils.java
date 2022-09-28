@@ -23,21 +23,19 @@ public class Utils {
 
       panelFeld = Bildschirm.class.getDeclaredField("hatPanel");
       panelFeld.setAccessible(true);
-    } catch (Exception exc) {}
+    } catch (Exception e) {}
   }
 
   public static void setColor(Buntstift stift, int r, int g, int b) {
     try {
         farbeFeld.set(stift, new Color(r, g, b));
-    } catch (Exception exc) {}
+    } catch (Exception e) {}
   }
 
   public static JPanel getPanel(Bildschirm screen) {
     try {
         return (JPanel)panelFeld.get(Bildschirm.topFenster);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    } catch (Exception e) {}
 
     return null;
   }
