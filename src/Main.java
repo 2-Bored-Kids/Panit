@@ -231,7 +231,7 @@ public class Main extends EBAnwendung {
         a_brown = new Radioknopf(20, 490, 130, 20, "Braun");
         a_brown.setzeBearbeiterGeklickt("a_brownGeklickt");
         a_colors.fuegeEin(a_brown);
-        r_linewidth = new Regler(20, 290, 130, 30, 10, 1, 50);
+        r_linewidth = new Regler(20, 290, 130, 30, 10, 1, 100);
         r_linewidth.setzeBearbeiterGeaendert("r_linewidthGeaendert");
 
     }
