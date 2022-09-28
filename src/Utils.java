@@ -43,11 +43,11 @@ public class Utils {
   //Crops the left side of the image
   public static void saveImage(Bildschirm screen, String filePath) {
     JPanel panel = Utils.getPanel(screen);
-    BufferedImage image = new BufferedImage(panel.getWidth() - Main.MENU_X, panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
+    BufferedImage image = new BufferedImage(panel.getWidth() - Consts.MENU_X, panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
     Rectangle panelBoundingBox = new Rectangle(panel.getLocationOnScreen(), panel.getSize());
-    panelBoundingBox.x += Main.MENU_X;
-    panelBoundingBox.width -= Main.MENU_X;
+    panelBoundingBox.x += Consts.MENU_X;
+    panelBoundingBox.width -= Consts.MENU_X;
 
     try {
         image = new Robot().createScreenCapture(panelBoundingBox);
@@ -64,7 +64,7 @@ public class Utils {
       image = ImageIO.read(new File(filePath));
     } catch (Exception e) {}
 
-    panel.getGraphics().drawImage(image, Main.MENU_X, 0, screen);
+    panel.getGraphics().drawImage(image, Consts.MENU_X, 0, screen);
   }
 }
 
