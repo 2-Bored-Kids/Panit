@@ -4,7 +4,7 @@ import sum.komponenten.*;
 public class Main extends EBAnwendung {
     Buntstift pen;
 
-    boolean active = false;
+    boolean isDrawing = false;
 
     //final int menuX, menuY;
 
@@ -43,7 +43,7 @@ public class Main extends EBAnwendung {
     @Override
     public void bearbeiteDoppelKlick(int x, int y) {
         pen.hoch();
-        active = false;
+        isDrawing = false;
         clearScreen();
         a_black.waehle();
 
@@ -54,7 +54,7 @@ public class Main extends EBAnwendung {
         boolean menu = x < 300 + pen.linienBreite() / 2 && y < 575 + pen.linienBreite() / 2;
 
         pen.bewegeBis(x, y);
-        if(active && !menu) {
+        if(isDrawing && !menu) {
             pen.runter();
             pen.zeichneKreis(pen.linienBreite() / 2);
         }else{
@@ -64,14 +64,14 @@ public class Main extends EBAnwendung {
     }
     @Override
     public void bearbeiteMausLos(int x, int y) {
-        active = false;
+        isDrawing = false;
     }
 
     @Override
     public void bearbeiteMausDruck(int x, int y) {
         boolean menu = x < 300 + pen.linienBreite() / 2  && y < 575 + pen.linienBreite() / 2;
         if(!menu){
-            active = true;
+            isDrawing = true;
         }
     }
 
