@@ -179,7 +179,7 @@ public class Main extends EBAnwendung {
         e_paintMode = new Etikett(20, 125, 130, 30, "Modus");
         e_paintMode.setzeAusrichtung(1);
 
-        b_mode_del = new Radioknopf(20, 190, 130, 30, "Loeschen");
+        b_mode_del = new Radioknopf(20, 190, 130, 30, "L\u00f6schen");
         b_mode_del.setzeBearbeiterGeklickt("b_mode_delGeklickt");
         b_mode_paint = new Radioknopf(20, 160, 130, 30, "Malen");
         b_mode_paint.setzeBearbeiterGeklickt("b_mode_paintGeklickt");
@@ -197,9 +197,9 @@ public class Main extends EBAnwendung {
 
         b_save = new Knopf(20, 15, 130, 20, "Speichern");
         b_save.setzeBearbeiterGeklickt("b_saveGeklickt");
-        b_load = new Knopf(20, 40, 130, 20, "Oeffnen");
+        b_load = new Knopf(20, 40, 130, 20, "\u00d6ffnen");
         b_load.setzeBearbeiterGeklickt("b_loadGeklickt");
-        b_delAll = new Knopf(20, 80, 130, 30, "Alles loeschen");
+        b_delAll = new Knopf(20, 80, 130, 30, "Alles l\u00f6schen");
         b_delAll.setzeBearbeiterGeklickt("b_delAllGeklickt");
 
         a_colors = new Radiogruppe();
@@ -216,10 +216,10 @@ public class Main extends EBAnwendung {
         a_darkBlue = new Radioknopf(20, 390, 130, 20, "Dunkelblau");
         a_darkBlue.setzeBearbeiterGeklickt("a_darkBlueGeklickt");
         a_colors.fuegeEin(a_darkBlue);
-        a_lightGreen = new Radioknopf(20, 410, 130, 20, "Hellgruen");
+        a_lightGreen = new Radioknopf(20, 410, 130, 20, "Hellgr\u00fcn");
         a_lightGreen.setzeBearbeiterGeklickt("a_lightGreenGeklickt");
         a_colors.fuegeEin(a_lightGreen);
-        a_darkGreen = new Radioknopf(20, 430, 130, 20, "Dunkelgruen");
+        a_darkGreen = new Radioknopf(20, 430, 130, 20, "Dunkelgr\u00fcn");
         a_darkGreen.setzeBearbeiterGeklickt("a_darkGreenGeklickt");
         a_colors.fuegeEin(a_darkGreen);
         a_yellow = new Radioknopf(20, 450, 130, 20, "Gelb");
