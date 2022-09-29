@@ -56,7 +56,7 @@ public class Main extends EBAnwendung {
     public void bearbeiteDoppelKlick(int x, int y) {
         pen.hoch();
 
-        clearScreen();
+        pen.zeichneKreis(pen.linienBreite());
     }
 
     @Override
@@ -77,12 +77,10 @@ public class Main extends EBAnwendung {
                 if (!touchesMenuArea) {
                     pen.bewegeBis(x, y);
                     pen.zeichneKreis(pen.linienBreite() / 2);
-                } else {
-                    //pen.hoch();
                 }
             }
-        }
 
+        }
     }
 
     @Override
@@ -96,11 +94,11 @@ public class Main extends EBAnwendung {
                 switch (paintMode) {
                     case Consts.MODE_LINE:
                         drawLinie(startPressX, startPressY, x, y);
-                    break;
+                        break;
 
                     case Consts.MODE_RECTANGLE:
                         drawViereck(startPressX, startPressY, x, y);
-                    break;
+                        break;
                 }
             }
         }
