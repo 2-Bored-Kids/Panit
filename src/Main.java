@@ -79,43 +79,45 @@ public class Main extends EBAnwendung {
                     pen.zeichneKreis(pen.linienBreite() / 2);
                 }
             }
-        } else if (paintMode == Consts.MODE_LINE && !touchesMenuArea) {
-            if (startPressX + startPressY == 0) {
+        } else if (!touchesMenuArea) {
+            if (paintMode == Consts.MODE_LINE) {
+                if (startPressX + startPressY == 0) {
+                    pen.bewegeBis(x, y);
+                    return;
+                }
+
+                pen.wechsle();
+                pen.runter();
+                pen.setzeFuellmuster(Consts.FILL);
+
+                pen.zeichneKreis(pen.linienBreite() / 2);
+                pen.bewegeBis(startPressX, startPressY);
+
                 pen.bewegeBis(x, y);
-                return;
-            }
+                pen.zeichneKreis(pen.linienBreite() / 2);
+                pen.setzeFuellmuster(fillMode);
 
-            pen.wechsle();
-            pen.runter();
-            pen.setzeFuellmuster(Consts.FILL);
+                pen.hoch();
+                pen.normal();
+            }else if (paintMode == Consts.MODE_RECTANGLE) {
+                if (startPressX + startPressY == 0) {
+                    pen.bewegeBis(x, y);
+                    return;
+                }
 
-            pen.zeichneKreis(pen.linienBreite() / 2);
-            pen.bewegeBis(startPressX, startPressY);
+                pen.bewegeBis(startPressX, startPressY);
+                pen.wechsle();
+                pen.runter();
 
-            pen.bewegeBis(x, y);
-            pen.zeichneKreis(pen.linienBreite() / 2);
-            pen.setzeFuellmuster(fillMode);
+                wechsleViereck(startPressX, startPressY, x, y);
+                wechsleViereck(startPressX, startPressY, x, y);
 
-            pen.hoch();
-            pen.normal();
-        }else if (paintMode == Consts.MODE_RECTANGLE && !touchesMenuArea) {
-            if (startPressX + startPressY == 0) {
+                pen.hoch();
+                pen.normal();
+                //TODO: fix menu collision
                 pen.bewegeBis(x, y);
-                return;
+    
             }
-
-            pen.bewegeBis(startPressX, startPressY);
-            pen.wechsle();
-            pen.runter();
-
-            wechsleViereck(startPressX, startPressY, x, y);
-            wechsleViereck(startPressX, startPressY, x, y);
-
-            pen.hoch();
-            pen.normal();
-            //TODO: fix menu collision
-            pen.bewegeBis(x, y);
-
         }
     }
 
