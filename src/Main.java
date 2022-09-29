@@ -91,10 +91,7 @@ public class Main extends EBAnwendung {
 
             pen.zeichneKreis(pen.linienBreite() / 2);
             pen.bewegeBis(startPressX, startPressY);
-            pen.zeichneKreis(pen.linienBreite() / 2);
-            pen.zeichneKreis(pen.linienBreite() / 2);
 
-            //TODO: fix menu collision
             pen.bewegeBis(x, y);
             pen.zeichneKreis(pen.linienBreite() / 2);
             pen.setzeFuellmuster(fillMode);
