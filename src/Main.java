@@ -101,22 +101,18 @@ public class Main extends EBAnwendung {
                 pen.normal();
             }else if (paintMode == Consts.MODE_RECTANGLE) {
                 if (startPressX + startPressY == 0) {
-                    pen.bewegeBis(x, y);
                     return;
                 }
 
-                pen.bewegeBis(startPressX, startPressY);
                 pen.wechsle();
-                pen.runter();
 
-                wechsleViereck(startPressX, startPressY, x, y);
-                wechsleViereck(startPressX, startPressY, x, y);
+                drawViereck(startPressX, startPressY, (int)pen.hPosition(), (int)pen.vPosition());
 
-                pen.hoch();
-                pen.normal();
-                //TODO: fix menu collision
+                drawViereck(startPressX, startPressY, x, y);
+
                 pen.bewegeBis(x, y);
-    
+
+                pen.normal();
             }
         }
     }
@@ -180,9 +176,6 @@ public class Main extends EBAnwendung {
     }
 
     public void drawViereck(int sX, int sY, int eX, int eY){
-        pen.normal();
-        pen.hoch();
-
         int minX = Math.min(sX, eX);
         int maxX = Math.max(sX, eX);
 
@@ -192,24 +185,6 @@ public class Main extends EBAnwendung {
         pen.bewegeBis(minX, minY);
         pen.zeichneRechteck(maxX - minX, maxY - minY);
         pen.bewegeBis(maxX, maxY);
-
-    }
-
-    public void wechsleViereck(int sX, int sY, int eX, int eY){
-
-        //int cSize = pen.linienBreite();
-        //pen.setzeLinienBreite(5);
-        pen.setzeFuellmuster(Consts.FILL);
-        pen.zeichneKreis(pen.linienBreite() / 2);
-        pen.bewegeBis(eX, sY);
-        pen.zeichneKreis(pen.linienBreite() / 2);
-        pen.bewegeBis(eX, eY);
-        pen.zeichneKreis(pen.linienBreite() / 2);
-        pen.bewegeBis(sX, eY);
-        pen.zeichneKreis(pen.linienBreite() / 2);
-        pen.bewegeBis(sX, sY);
-        pen.setzeFuellmuster(fillMode);
-        //pen.setzeLinienbreite(cSize);
 
     }
 
