@@ -136,7 +136,9 @@ public class Main extends EBAnwendung {
                         break;
 
                     case Consts.MODE_RECTANGLE:
-                        drawViereck(startPressX, startPressY, x, y);
+                        if (startPressX + startPressY != 0) {
+                            drawViereck(startPressX, startPressY, x, y);
+                        }
                         break;
                 }
             }
