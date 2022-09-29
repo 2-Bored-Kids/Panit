@@ -3,6 +3,8 @@ import sum.komponenten.*;
 
 import java.io.File;
 
+//TODO: mehr code kommentare
+
 public class Main extends EBAnwendung {
     Buntstift pen;
 
@@ -79,7 +81,21 @@ public class Main extends EBAnwendung {
                     pen.zeichneKreis(pen.linienBreite() / 2);
                 }
             }
+        } else if (paintMode == Consts.MODE_LINE && !touchesMenuArea) {
+            if (startPressX + startPressY == 0) {
+                pen.bewegeBis(x, y);
+            }
 
+            pen.wechsle();
+            pen.runter();
+
+            pen.bewegeBis(startPressX, startPressY);
+
+            //TODO: fix menu collision
+            pen.bewegeBis(x, y);
+
+            pen.hoch();
+            pen.normal();
         }
     }
 
@@ -93,7 +109,12 @@ public class Main extends EBAnwendung {
             if (!touchesMenuArea) {
                 switch (paintMode) {
                     case Consts.MODE_LINE:
-                        drawLinie(startPressX, startPressY, x, y);
+                        if (startPressX + startPressY != 0) {
+                            pen.wechsle();
+                            pen.bewegeBis(startPressX, startPressY);
+
+                            drawLinie(startPressX, startPressY, x, y);
+                        }
                         break;
 
                     case Consts.MODE_RECTANGLE:
@@ -102,6 +123,10 @@ public class Main extends EBAnwendung {
                 }
             }
         }
+
+        startPressX = 0;
+        startPressY = 0;
+
     }
 
     @Override
@@ -128,6 +153,9 @@ public class Main extends EBAnwendung {
         pen.bewegeBis(eX, eY);
         pen.zeichneKreis(pen.linienBreite() / 2);
         pen.hoch();
+        
+        startPressX = 0;
+        startPressY = 0;
     }
 
     public void drawViereck(int sX, int sY, int eX, int eY){
@@ -143,6 +171,8 @@ public class Main extends EBAnwendung {
         pen.bewegeBis(minX, minY);
         pen.zeichneRechteck(maxX - minX, maxY - minY);
         pen.bewegeBis(maxX, maxY);
+        
+        
     }
 
     //Generiert durch BlueG
@@ -171,10 +201,10 @@ public class Main extends EBAnwendung {
     //Generiert durch BlueG
     void loadUI() {
 
-        e_lineWidth = new Etikett(20, 255, 130, 30, "Linienbreite");
+        e_lineWidth = new Etikett(20, 305, 130, 30, "Pinselbreite");
         e_lineWidth.setzeAusrichtung(1);
 
-        e_paintMode = new Etikett(20, 125, 130, 30, "Modus");
+        e_paintMode = new Etikett(20, 125, 130, 30, "Pinselmodus");
         e_paintMode.setzeAusrichtung(1);
 
         b_mode_del = new Radioknopf(20, 190, 130, 30, "L\u00f6schen");
@@ -201,35 +231,35 @@ public class Main extends EBAnwendung {
         b_delAll.setzeBearbeiterGeklickt("b_delAllGeklickt");
 
         a_colors = new Radiogruppe();
-        a_black = new Radioknopf(20, 330, 130, 20, "Schwarz");
+        a_black = new Radioknopf(20, 380, 130, 20, "Schwarz");
         a_black.setzeBearbeiterGeklickt("a_blackGeklickt");
         a_colors.fuegeEin(a_black);
         a_black.waehle();
-        a_red = new Radioknopf(20, 350, 130, 20, "Rot");
+        a_red = new Radioknopf(20, 400, 130, 20, "Rot");
         a_red.setzeBearbeiterGeklickt("a_redGeklickt");
         a_colors.fuegeEin(a_red);
-        a_lightBlue = new Radioknopf(20, 370, 130, 20, "Hellblau");
+        a_lightBlue = new Radioknopf(20, 420, 130, 20, "Hellblau");
         a_lightBlue.setzeBearbeiterGeklickt("a_lightBlueGeklickt");
         a_colors.fuegeEin(a_lightBlue);
-        a_darkBlue = new Radioknopf(20, 390, 130, 20, "Dunkelblau");
+        a_darkBlue = new Radioknopf(20, 440, 130, 20, "Dunkelblau");
         a_darkBlue.setzeBearbeiterGeklickt("a_darkBlueGeklickt");
         a_colors.fuegeEin(a_darkBlue);
-        a_lightGreen = new Radioknopf(20, 410, 130, 20, "Hellgr\u00fcn");
+        a_lightGreen = new Radioknopf(20, 460, 130, 20, "Hellgr\u00fcn");
         a_lightGreen.setzeBearbeiterGeklickt("a_lightGreenGeklickt");
         a_colors.fuegeEin(a_lightGreen);
-        a_darkGreen = new Radioknopf(20, 430, 130, 20, "Dunkelgr\u00fcn");
+        a_darkGreen = new Radioknopf(20, 480, 130, 20, "Dunkelgr\u00fcn");
         a_darkGreen.setzeBearbeiterGeklickt("a_darkGreenGeklickt");
         a_colors.fuegeEin(a_darkGreen);
-        a_yellow = new Radioknopf(20, 450, 130, 20, "Gelb");
+        a_yellow = new Radioknopf(20, 500, 130, 20, "Gelb");
         a_yellow.setzeBearbeiterGeklickt("a_yellowGeklickt");
         a_colors.fuegeEin(a_yellow);
-        a_orange = new Radioknopf(20, 470, 130, 20, "Orange");
+        a_orange = new Radioknopf(20, 520, 130, 20, "Orange");
         a_orange.setzeBearbeiterGeklickt("a_orangeGeklickt");
         a_colors.fuegeEin(a_orange);
-        a_brown = new Radioknopf(20, 490, 130, 20, "Braun");
+        a_brown = new Radioknopf(20, 540, 130, 20, "Braun");
         a_brown.setzeBearbeiterGeklickt("a_brownGeklickt");
         a_colors.fuegeEin(a_brown);
-        r_linewidth = new Regler(20, 290, 130, 30, 10, 1, 50);
+        r_linewidth = new Regler(20, 340, 130, 30, 10, 1, 50);
         r_linewidth.setzeBearbeiterGeaendert("r_linewidthGeaendert");
 
     }
