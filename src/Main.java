@@ -178,9 +178,6 @@ public class Main extends EBAnwendung {
         pen.zeichneKreis(pen.linienBreite() / 2);
         pen.setzeFuellmuster(fillMode);
         pen.hoch();
-
-        startPressX = 0;
-        startPressY = 0;
     }
 
     public void drawViereck(int sX, int sY, int eX, int eY){
@@ -216,6 +213,7 @@ public class Main extends EBAnwendung {
         //pen.setzeLinienbreite(cSize);
 
     }
+
     //Generiert durch BlueG
     Etikett e_lineWidth;
     Etikett e_paintMode;
@@ -312,7 +310,7 @@ public class Main extends EBAnwendung {
     //UI Funktionen
 
     public void s_fillModeGeklickt(){
-        fillMode = s_fillMode.angeschaltet() ? 1 : 0;
+        fillMode = (byte)(s_fillMode.angeschaltet() ? 1 : 0);
         pen.setzeFuellMuster(fillMode);
     }
 
