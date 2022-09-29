@@ -8,7 +8,7 @@ import java.io.File;
 public class Main extends EBAnwendung {
     Buntstift pen;
 
-    byte paintMode = Consts.MODE_NORMAL, fillMode = 0;
+    byte paintMode = Consts.MODE_NORMAL, fillMode = Consts.NOFILL;
 
     int startPressX, startPressY;
 
@@ -47,7 +47,7 @@ public class Main extends EBAnwendung {
         //Dunkles Grau
         Utils.setColor(menuPen, 100, 100, 100);
 
-        menuPen.setzeFuellmuster(1);
+        menuPen.setzeFuellmuster(Consts.FILL);
 
         menuPen.bewegeBis(0, 0);
 
@@ -87,7 +87,7 @@ public class Main extends EBAnwendung {
 
             pen.wechsle();
             pen.runter();
-            pen.setzeFuellmuster(1);
+            pen.setzeFuellmuster(Consts.FILL);
 
             pen.zeichneKreis(pen.linienBreite() / 2);
             pen.bewegeBis(startPressX, startPressY);
@@ -172,7 +172,7 @@ public class Main extends EBAnwendung {
         pen.hoch();
         pen.bewegeBis(sX, sY);
         pen.runter();
-        pen.setzeFuellmuster(1);
+        pen.setzeFuellmuster(Consts.FILL);
         pen.zeichneKreis(pen.linienBreite() / 2);
         pen.bewegeBis(eX, eY);
         pen.zeichneKreis(pen.linienBreite() / 2);
@@ -203,7 +203,7 @@ public class Main extends EBAnwendung {
 
         //int cSize = pen.linienBreite();
         //pen.setzeLinienBreite(5);
-        pen.setzeFuellmuster(1);
+        pen.setzeFuellmuster(Consts.FILL);
         pen.zeichneKreis(pen.linienBreite() / 2);
         pen.bewegeBis(eX, sY);
         pen.zeichneKreis(pen.linienBreite() / 2);
@@ -312,11 +312,7 @@ public class Main extends EBAnwendung {
     //UI Funktionen
 
     public void s_fillModeGeklickt(){
-        if(s_fillMode.angeschaltet()){
-            fillMode = 1;
-        }else{
-            fillMode = 0;
-        }
+        fillMode = s_fillMode.angeschaltet() ? 1 : 0;
         pen.setzeFuellMuster(fillMode);
     }
 
