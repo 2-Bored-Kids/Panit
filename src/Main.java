@@ -3,6 +3,8 @@ import sum.komponenten.*;
 
 import java.io.File;
 
+//TODO: mehr code kommentare
+
 public class Main extends EBAnwendung {
     Buntstift pen;
 
@@ -79,7 +81,21 @@ public class Main extends EBAnwendung {
                     pen.zeichneKreis(pen.linienBreite() / 2);
                 }
             }
+        } else if (paintMode == Consts.MODE_LINE && !touchesMenuArea) {
+            if (startPressX + startPressY == 0) {
+                pen.bewegeBis(x, y);
+            }
 
+            pen.wechsle();
+            pen.runter();
+
+            pen.bewegeBis(startPressX, startPressY);
+
+            //TODO: fix menu collision
+            pen.bewegeBis(x, y);
+
+            pen.hoch();
+            pen.normal();
         }
     }
 
@@ -93,7 +109,12 @@ public class Main extends EBAnwendung {
             if (!touchesMenuArea) {
                 switch (paintMode) {
                     case Consts.MODE_LINE:
-                        drawLinie(startPressX, startPressY, x, y);
+                        if (startPressX + startPressY != 0) {
+                            pen.wechsle();
+                            pen.bewegeBis(startPressX, startPressY);
+
+                            drawLinie(startPressX, startPressY, x, y);
+                        }
                         break;
 
                     case Consts.MODE_RECTANGLE:
@@ -102,6 +123,10 @@ public class Main extends EBAnwendung {
                 }
             }
         }
+
+        startPressX = 0;
+        startPressY = 0;
+
     }
 
     @Override
