@@ -8,7 +8,7 @@ import java.io.File;
 public class Main extends EBAnwendung {
     Buntstift pen;
 
-    byte paintMode = Consts.MODE_NORMAL;
+    byte paintMode = Consts.MODE_NORMAL, fillMode = 0;
 
     int startPressX, startPressY;
 
@@ -18,7 +18,7 @@ public class Main extends EBAnwendung {
         Utils.init();
 
         pen = new Buntstift();
-        pen.setzeFuellmuster(1);
+        pen.setzeFuellmuster(fillMode);
 
         this.hatBildschirm.setTitle("Panit");
 
@@ -87,6 +87,7 @@ public class Main extends EBAnwendung {
 
             pen.wechsle();
             pen.runter();
+            pen.setzeFuellmuster(1);
 
             pen.zeichneKreis(pen.linienBreite() / 2);
             pen.bewegeBis(startPressX, startPressY);
@@ -96,6 +97,7 @@ public class Main extends EBAnwendung {
             //TODO: fix menu collision
             pen.bewegeBis(x, y);
             pen.zeichneKreis(pen.linienBreite() / 2);
+            pen.setzeFuellmuster(fillMode);
 
             pen.hoch();
             pen.normal();
@@ -170,9 +172,11 @@ public class Main extends EBAnwendung {
         pen.hoch();
         pen.bewegeBis(sX, sY);
         pen.runter();
+        pen.setzeFuellmuster(1);
         pen.zeichneKreis(pen.linienBreite() / 2);
         pen.bewegeBis(eX, eY);
         pen.zeichneKreis(pen.linienBreite() / 2);
+        pen.setzeFuellmuster(fillMode);
         pen.hoch();
 
         startPressX = 0;
@@ -197,13 +201,19 @@ public class Main extends EBAnwendung {
 
     public void wechsleViereck(int sX, int sY, int eX, int eY){
 
-        int cSize = pen.linienBreite();
-        pen.setzeLinienBreite(5);
+        //int cSize = pen.linienBreite();
+        //pen.setzeLinienBreite(5);
+        pen.setzeFuellmuster(1);
+        pen.zeichneKreis(pen.linienBreite() / 2);
         pen.bewegeBis(eX, sY);
+        pen.zeichneKreis(pen.linienBreite() / 2);
         pen.bewegeBis(eX, eY);
+        pen.zeichneKreis(pen.linienBreite() / 2);
         pen.bewegeBis(sX, eY);
+        pen.zeichneKreis(pen.linienBreite() / 2);
         pen.bewegeBis(sX, sY);
-        pen.setzeLinienbreite(cSize);
+        pen.setzeFuellmuster(fillMode);
+        //pen.setzeLinienbreite(cSize);
 
     }
     //Generiert durch BlueG
@@ -228,6 +238,7 @@ public class Main extends EBAnwendung {
     Radioknopf a_orange;
     Radioknopf a_brown;
     Regler r_linewidth;
+    Schalter s_fillMode;
 
     //Generiert durch BlueG
     void loadUI() {
@@ -244,8 +255,11 @@ public class Main extends EBAnwendung {
         b_mode_paint.setzeBearbeiterGeklickt("b_mode_paintGeklickt");
         b_mode_line = new Radioknopf(20, 220, 130, 30, "Linie");
         b_mode_line.setzeBearbeiterGeklickt("b_mode_lineGeklickt");
-        b_mode_rectangle = new Radioknopf(20, 250, 130, 30, "Viereck");
+        b_mode_rectangle = new Radioknopf(20, 250, /*130*/ 60, 30, "Viereck");
         b_mode_rectangle.setzeBearbeiterGeklickt("b_mode_rectangleGeklickt");
+        s_fillMode = new Schalter(85, 255, 55, 25, "F\u00fcllung");
+        s_fillMode.setzeBearbeiterGeklickt("s_fillModeGeklickt");
+
         b_mode_paint.waehle();
 
         a_paintModes = new Radiogruppe();
@@ -296,6 +310,16 @@ public class Main extends EBAnwendung {
     }
 
     //UI Funktionen
+
+    public void s_fillModeGeklickt(){
+        if(s_fillMode.angeschaltet()){
+            fillMode = 1;
+        }else{
+            fillMode = 0;
+        }
+        pen.setzeFuellMuster(fillMode);
+    }
+
     public void b_mode_paintGeklickt() {
         paintMode = Consts.MODE_NORMAL;
     }
