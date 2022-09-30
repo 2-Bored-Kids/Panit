@@ -36,7 +36,7 @@ public class Utils {
 
   public static JPanel getPanel(Bildschirm screen) {
     try {
-        return (JPanel)panelFeld.get(Bildschirm.topFenster);
+        return (JPanel)panelFeld.get(screen);
     } catch (Exception e) {}
 
     return null;
