@@ -1,0 +1,49 @@
+---
+name: "autorelease"
+
+on:
+  push:
+    branches: ["master", "main"]
+
+jobs:
+  release:
+    name: "Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Get latest commit hash"
+        id: hash
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+      - name: "Fetch SuM"
+        run: curl https://www.mg-werl.de/sum/SuMWin.zip --output sum.zip && unzip sum.zip -d SuM && find SuM/ -name \*.jar -exec cp {} SuM \;
+
+      - name: "Compile"
+        run: javac -cp SuM/\* ./src/*.java
+
+      - name: "Decompress SuM library"
+        run: unzip -o -d . 'SuM/*.jar'
+
+      - name: "Move all class files to a separate folder"
+        run: mkdir sum-src && find sum/ -name '*.class' -exec cp --parents \{\} sum-src \;
+
+      - name: "Create jar"
+        run: rm -rf sum && mv sum-src/* . && mv src/*.class . && jar cmf Manifest.mf Panit.jar *.class sum/ && chmod +x Panit.jar
+
+      - name: "Upload artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: Panit
+          path: Panit.jar
+
+      - name: "Release"
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Build for commit ${{ steps.hash.outputs.sha_short }}"
+          files: Panit.jar
+
