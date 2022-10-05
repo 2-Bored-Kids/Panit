@@ -1,19 +1,16 @@
-import sum.ereignis.Buntstift;
-import sum.ereignis.Bildschirm;
-
-import java.awt.image.BufferedImage;
 import java.awt.Color;
-import java.awt.Robot;
 import java.awt.Rectangle;
-import javax.swing.JPanel;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
+import java.awt.Robot;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import javax.imageio.ImageIO;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import sum.ereignis.Bildschirm;
+import sum.ereignis.Buntstift;
 
 public class Utils {
   private static Field farbeFeld, panelFeld;
@@ -25,46 +22,55 @@ public class Utils {
 
       panelFeld = Bildschirm.class.getDeclaredField("hatPanel");
       panelFeld.setAccessible(true);
-    } catch (Exception e) {}
+    } catch (Exception e) {
+    }
   }
 
   public static void setColor(Buntstift stift, int r, int g, int b) {
     try {
-        farbeFeld.set(stift, new Color(r, g, b));
-    } catch (Exception e) {}
+      farbeFeld.set(stift, new Color(r, g, b));
+    } catch (Exception e) {
+    }
   }
 
   public static JPanel getPanel(Bildschirm screen) {
     try {
-        return (JPanel)panelFeld.get(screen);
-    } catch (Exception e) {}
+      return (JPanel)panelFeld.get(screen);
+    } catch (Exception e) {
+    }
 
     return null;
   }
 
-  //Crops the left side of the image
+  // Crops the left side of the image
   public static void saveImage(Bildschirm screen, String filePath) {
     JPanel panel = Utils.getPanel(screen);
-    BufferedImage image = new BufferedImage(panel.getWidth() - Consts.MENU_X, panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
+    BufferedImage image = new BufferedImage(panel.getWidth() - Consts.MENU_X,
+					    panel.getHeight(),
+					    BufferedImage.TYPE_INT_ARGB);
 
-    Rectangle panelBoundingBox = new Rectangle(panel.getLocationOnScreen(), panel.getSize());
+    Rectangle panelBoundingBox =
+      new Rectangle(panel.getLocationOnScreen(), panel.getSize());
     panelBoundingBox.x += Consts.MENU_X;
     panelBoundingBox.width -= Consts.MENU_X;
 
     try {
-        image = new Robot().createScreenCapture(panelBoundingBox);
+      image = new Robot().createScreenCapture(panelBoundingBox);
 
-        ImageIO.write(image, "png", new File(filePath));
-    } catch (Exception e) {}
+      ImageIO.write(image, "png", new File(filePath));
+    } catch (Exception e) {
+    }
   }
 
   public static void loadImage(Bildschirm screen, String filePath) {
     JPanel panel = Utils.getPanel(screen);
 
-    BufferedImage image = new BufferedImage(panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
+    BufferedImage image = new BufferedImage(
+      panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
     try {
       image = ImageIO.read(new File(filePath));
-    } catch (Exception e) {}
+    } catch (Exception e) {
+    }
 
     panel.getGraphics().drawImage(image, Consts.MENU_X, 0, screen);
   }
@@ -87,15 +93,15 @@ public class Utils {
     JFileChooser chooser = new JFileChooser();
     chooser.setDialogTitle("Load image");
 
-    FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
+    FileNameExtensionFilter filter =
+      new FileNameExtensionFilter("PNG Images", "png");
     chooser.setFileFilter(filter);
 
     int option = chooser.showOpenDialog(null);
     if (option == JFileChooser.APPROVE_OPTION) {
       return chooser.getSelectedFile();
-   }
+    }
 
-   return null;
+    return null;
   }
 }
-
