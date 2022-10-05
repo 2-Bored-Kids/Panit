@@ -1,0 +1,21 @@
+---
+name: "autoformat"
+
+on:
+  push:
+    branches: ["master", "main"]
+
+jobs:
+  release:
+    name: "Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "Autoformat"
+        run:	find src/ -name '*.java' -exec clang-format -i -style=file {} \;
+
+      - name: "Push"
+        run: git commit -m "Autoformat" && git push
+
