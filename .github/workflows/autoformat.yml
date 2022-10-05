@@ -16,6 +16,9 @@ jobs:
       - name: "Autoformat"
         run:	find src/ -name '*.java' -exec clang-format -i -style=file {} \;
 
+      - name: "Set up git"
+        run: git config --global user.email "actions@github.com" && git config --global user.name "GitHub Actions"
+
       - name: "Push"
         run: git commit -m "Autoformat" && git push
 
