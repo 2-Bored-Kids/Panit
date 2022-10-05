@@ -64,7 +64,7 @@ public class Main extends EBAnwendung {
         boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2;
 
         if(paintMode == Consts.MODE_NORMAL){
-                pen.normal();
+            pen.normal();
 
         }
 
@@ -138,12 +138,6 @@ public class Main extends EBAnwendung {
                         break;
                 }
             }
-        }else if(paintMode == Consts.MODE_FILL){
-            byte cFillMode = fillMode;
-            pen.bewegeBis(x, y);
-            pen.setzeFuellmuster(1);
-            pen.zeichneKreis(20);
-            pen.setzeFuellMuster(cFillMode);
         }
 
         startPressX = 0;
@@ -160,10 +154,35 @@ public class Main extends EBAnwendung {
 
             if (paintMode == Consts.MODE_NORMAL) {
                 pen.runter();
+            }else if(paintMode == Consts.MODE_FILL){
+                byte cFillMode = fillMode;
+                pen.bewegeBis(x, y);
+                pen.setzeFuellmuster(1);
+                recursiveFill(x, y);
+                pen.setzeFuellMuster(cFillMode);
             }
             startPressX = x;
             startPressY = y;
         }
+    }
+
+    public void recursiveFill(double x, double y){
+        if(x > Consts.SCREEN_X || y > Consts.SCREEN_Y || x <= 0 || y <= 0){
+            return;
+        }
+        pen.runter();
+        pen.bewegeBis(x, y);
+        pen.zeichneKreis(1);
+        pen.bewegeBis(x+1, y+1);
+        recursiveFill(pen.hPosition(), pen.vPosition());
+        pen.bewegeBis(x+1, y+1);
+        recursiveFill(pen.hPosition(), pen.vPosition());
+        pen.bewegeBis(x+1, y+1);
+        recursiveFill(pen.hPosition(), pen.vPosition());
+        pen.bewegeBis(x+1, y+1);
+        recursiveFill(pen.hPosition(), pen.vPosition());
+        pen.bewegeBis(x+1, y+1);
+
     }
 
     public void drawLinie(int sX, int sY, int eX, int eY){
@@ -280,12 +299,11 @@ public class Main extends EBAnwendung {
         a_brown = new Radioknopf(20, 540, 130, 20, "Braun");
         a_brown.setzeBearbeiterGeklickt("a_brownGeklickt");
         a_colors.fuegeEin(a_brown);
-        a_white = new Radioknopf(20, 560, 130, 20, "Schwarz");
+        a_white = new Radioknopf(20, 560, 130, 20, "L\u00f6shen");
         a_white.setzeBearbeiterGeklickt("a_whiteGeklickt");
-        a_colors.fuegeEin(a_black);
+        a_colors.fuegeEin(a_white);
         r_linewidth = new Regler(20, 340, 130, 30, 10, 1, 100);
         r_linewidth.setzeBearbeiterGeaendert("r_linewidthGeaendert");
-
     }
 
     //UI Funktionen
@@ -298,11 +316,10 @@ public class Main extends EBAnwendung {
     public void b_mode_paintGeklickt() {
         paintMode = Consts.MODE_NORMAL;
     }
-    
+
     public void b_fillGeklickt() {
         paintMode = Consts.MODE_FILL;
     }
-
 
     public void b_mode_lineGeklickt(){
         paintMode = Consts.MODE_LINE;
@@ -351,7 +368,7 @@ public class Main extends EBAnwendung {
     public void a_brownGeklickt(){
         Utils.setColor(pen, 100, 44, 44);
     }
-    
+
     public void a_whiteGeklickt(){
         Utils.setColor(pen, 255, 255, 255);
     }
