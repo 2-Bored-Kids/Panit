@@ -138,6 +138,12 @@ public class Main extends EBAnwendung {
                         break;
                 }
             }
+        }else if(paintMode == Consts.MODE_FILL){
+            byte cFillMode = fillMode;
+            pen.bewegeBis(x, y);
+            pen.setzeFuellmuster(1);
+            pen.zeichneKreis(20);
+            pen.setzeFuellMuster(cFillMode);
         }
 
         startPressX = 0;
@@ -190,6 +196,7 @@ public class Main extends EBAnwendung {
     Etikett e_lineWidth;
     Etikett e_paintMode;
     Radioknopf b_mode_paint;
+    Radioknopf b_fill;
     Radioknopf b_mode_line;
     Radioknopf b_mode_rectangle;
     Knopf b_delAll;
@@ -216,10 +223,11 @@ public class Main extends EBAnwendung {
         e_lineWidth = new Etikett(20, 305, 130, 30, "Pinselbreite");
         e_lineWidth.setzeAusrichtung(1);
 
-        e_paintMode = new Etikett(20, 155, 130, 30, "Pinselmodus");
+        e_paintMode = new Etikett(20, 125, 130, 30, "Pinselmodus");
         e_paintMode.setzeAusrichtung(1);
-
-        b_mode_paint = new Radioknopf(20, 190, 130, 30, "Malen");
+        b_fill = new Radioknopf(20, 190, 130, 30, "F\u00fcllen");
+        b_fill.setzeBearbeiterGeklickt("b_fillGeklickt");
+        b_mode_paint = new Radioknopf(20, 160, 130, 30, "Malen");
         b_mode_paint.setzeBearbeiterGeklickt("b_mode_paintGeklickt");
         b_mode_line = new Radioknopf(20, 220, 130, 30, "Linie");
         b_mode_line.setzeBearbeiterGeklickt("b_mode_lineGeklickt");
@@ -234,6 +242,7 @@ public class Main extends EBAnwendung {
         a_paintModes.fuegeEin(b_mode_paint);
         a_paintModes.fuegeEin(b_mode_line);
         a_paintModes.fuegeEin(b_mode_rectangle);
+        a_paintModes.fuegeEin(b_fill);
 
         b_save = new Knopf(20, 15, 130, 20, "Speichern");
         b_save.setzeBearbeiterGeklickt("b_saveGeklickt");
@@ -271,9 +280,9 @@ public class Main extends EBAnwendung {
         a_brown = new Radioknopf(20, 540, 130, 20, "Braun");
         a_brown.setzeBearbeiterGeklickt("a_brownGeklickt");
         a_colors.fuegeEin(a_brown);
-        a_white = new Radioknopf(20, 560, 130, 20, "White");
+        a_white = new Radioknopf(20, 560, 130, 20, "Schwarz");
         a_white.setzeBearbeiterGeklickt("a_whiteGeklickt");
-        a_colors.fuegeEin(a_white);
+        a_colors.fuegeEin(a_black);
         r_linewidth = new Regler(20, 340, 130, 30, 10, 1, 100);
         r_linewidth.setzeBearbeiterGeaendert("r_linewidthGeaendert");
 
@@ -288,6 +297,10 @@ public class Main extends EBAnwendung {
 
     public void b_mode_paintGeklickt() {
         paintMode = Consts.MODE_NORMAL;
+    }
+    
+    public void b_fillGeklickt() {
+        paintMode = Consts.MODE_FILL;
     }
 
 
