@@ -63,16 +63,12 @@ public class Main extends EBAnwendung {
     public void bearbeiteMausBewegt(int x, int y) {
         boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2;
 
-        switch(paintMode){
-            case Consts.MODE_NORMAL:
+        if(paintMode == Consts.MODE_NORMAL){
                 pen.normal();
-                break;
-            case Consts.MODE_ERASE:
-                pen.radiere();
-                break;
+
         }
 
-        if (paintMode == Consts.MODE_NORMAL || paintMode == Consts.MODE_ERASE) {
+        if (paintMode == Consts.MODE_NORMAL) {
             if (pen.istUnten()) {
                 if (!touchesMenuArea) {
                     pen.bewegeBis(x, y);
@@ -156,7 +152,7 @@ public class Main extends EBAnwendung {
         if (!touchesMenuArea) {
             pen.bewegeBis(x, y);
 
-            if (paintMode == Consts.MODE_NORMAL || paintMode == Consts.MODE_ERASE) {
+            if (paintMode == Consts.MODE_NORMAL) {
                 pen.runter();
             }
             startPressX = x;
@@ -193,7 +189,6 @@ public class Main extends EBAnwendung {
     //Generiert durch BlueG
     Etikett e_lineWidth;
     Etikett e_paintMode;
-    Radioknopf b_mode_del;
     Radioknopf b_mode_paint;
     Radioknopf b_mode_line;
     Radioknopf b_mode_rectangle;
@@ -211,6 +206,7 @@ public class Main extends EBAnwendung {
     Radioknopf a_yellow;
     Radioknopf a_orange;
     Radioknopf a_brown;
+    Radioknopf a_white;
     Regler r_linewidth;
     Schalter s_fillMode;
 
@@ -220,16 +216,14 @@ public class Main extends EBAnwendung {
         e_lineWidth = new Etikett(20, 305, 130, 30, "Pinselbreite");
         e_lineWidth.setzeAusrichtung(1);
 
-        e_paintMode = new Etikett(20, 125, 130, 30, "Pinselmodus");
+        e_paintMode = new Etikett(20, 155, 130, 30, "Pinselmodus");
         e_paintMode.setzeAusrichtung(1);
 
-        b_mode_del = new Radioknopf(20, 190, 130, 30, "L\u00f6schen");
-        b_mode_del.setzeBearbeiterGeklickt("b_mode_delGeklickt");
-        b_mode_paint = new Radioknopf(20, 160, 130, 30, "Malen");
+        b_mode_paint = new Radioknopf(20, 190, 130, 30, "Malen");
         b_mode_paint.setzeBearbeiterGeklickt("b_mode_paintGeklickt");
         b_mode_line = new Radioknopf(20, 220, 130, 30, "Linie");
         b_mode_line.setzeBearbeiterGeklickt("b_mode_lineGeklickt");
-        b_mode_rectangle = new Radioknopf(20, 250, /*130*/ 60, 30, "Viereck");
+        b_mode_rectangle = new Radioknopf(20, 250, 60, 30, "Viereck");
         b_mode_rectangle.setzeBearbeiterGeklickt("b_mode_rectangleGeklickt");
         s_fillMode = new Schalter(85, 255, 55, 25, "F\u00fcllung");
         s_fillMode.setzeBearbeiterGeklickt("s_fillModeGeklickt");
@@ -238,7 +232,6 @@ public class Main extends EBAnwendung {
 
         a_paintModes = new Radiogruppe();
         a_paintModes.fuegeEin(b_mode_paint);
-        a_paintModes.fuegeEin(b_mode_del);
         a_paintModes.fuegeEin(b_mode_line);
         a_paintModes.fuegeEin(b_mode_rectangle);
 
@@ -278,6 +271,9 @@ public class Main extends EBAnwendung {
         a_brown = new Radioknopf(20, 540, 130, 20, "Braun");
         a_brown.setzeBearbeiterGeklickt("a_brownGeklickt");
         a_colors.fuegeEin(a_brown);
+        a_white = new Radioknopf(20, 560, 130, 20, "White");
+        a_white.setzeBearbeiterGeklickt("a_whiteGeklickt");
+        a_colors.fuegeEin(a_white);
         r_linewidth = new Regler(20, 340, 130, 30, 10, 1, 100);
         r_linewidth.setzeBearbeiterGeaendert("r_linewidthGeaendert");
 
@@ -294,9 +290,6 @@ public class Main extends EBAnwendung {
         paintMode = Consts.MODE_NORMAL;
     }
 
-    public void b_mode_delGeklickt() {
-        paintMode = Consts.MODE_ERASE;
-    }
 
     public void b_mode_lineGeklickt(){
         paintMode = Consts.MODE_LINE;
@@ -344,6 +337,10 @@ public class Main extends EBAnwendung {
 
     public void a_brownGeklickt(){
         Utils.setColor(pen, 100, 44, 44);
+    }
+    
+    public void a_whiteGeklickt(){
+        Utils.setColor(pen, 255, 255, 255);
     }
 
     public void r_linewidthGeaendert() {
