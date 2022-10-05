@@ -2,8 +2,9 @@
 name: "autorelease"
 
 on:
-  push:
-    branches: ["master", "main"]
+  - push:
+      branches: ["master", "main"]
+  - workflow_dispatch
 
 jobs:
   release:
