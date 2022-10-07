@@ -20,6 +20,7 @@ public class Main extends EBAnwendung {
     pen.setzeFuellmuster(fillMode);
 
     this.hatBildschirm.setTitle("Panit");
+    Utils.setIcon(this.hatBildschirm, "icon.png");
 
     clearScreen();
 
@@ -365,3 +366,4 @@ public class Main extends EBAnwendung {
     }
   }
 }
+

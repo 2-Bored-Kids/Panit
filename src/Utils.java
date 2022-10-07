@@ -8,6 +8,9 @@ import java.lang.reflect.Method;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import java.awt.Taskbar;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.Buntstift;
@@ -40,6 +43,17 @@ public class Utils {
     }
 
     return null;
+  }
+
+  public static void setIcon(Bildschirm screen, String filePath) {
+    JPanel panel = Utils.getPanel(screen);
+    JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(panel);
+
+    try {
+      BufferedImage icon = ImageIO.read(new File(filePath));
+      frame.setIconImage(icon);
+      Taskbar.getTaskbar().setIconImage(icon);
+    } catch (Exception e) {}
   }
 
   // Crops the left side of the image
@@ -105,3 +119,4 @@ public class Utils {
     return null;
   }
 }
+
