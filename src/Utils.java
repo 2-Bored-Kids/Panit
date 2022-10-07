@@ -46,7 +46,7 @@ public class Utils {
   }
 
   public static void setIcon(Bildschirm screen, String filePath) {
-    JPanel panel = Utils.getPanel(screen);
+    JPanel panel = getPanel(screen);
     JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(panel);
 
     try {
@@ -58,10 +58,7 @@ public class Utils {
 
   // Crops the left side of the image
   public static void saveImage(Bildschirm screen, String filePath) {
-    JPanel panel = Utils.getPanel(screen);
-    BufferedImage image = new BufferedImage(panel.getWidth() - Consts.MENU_X,
-					    panel.getHeight(),
-					    BufferedImage.TYPE_INT_ARGB);
+    JPanel panel = getPanel(screen);
 
     Rectangle panelBoundingBox =
       new Rectangle(panel.getLocationOnScreen(), panel.getSize());
@@ -69,15 +66,36 @@ public class Utils {
     panelBoundingBox.width -= Consts.MENU_X;
 
     try {
-      image = new Robot().createScreenCapture(panelBoundingBox);
-
-      ImageIO.write(image, "png", new File(filePath));
+      ImageIO.write(createSnapshot(getPanel(screen), panelBoundingBox), "png", new File(filePath));
     } catch (Exception e) {
     }
   }
 
+  public static BufferedImage createSnapshot(JPanel panel, Rectangle boundingBox) {
+    if (boundingBox == null) {
+      boundingBox = new Rectangle(panel.getLocationOnScreen(), panel.getSize());
+    }
+
+    try {
+      return new Robot().createScreenCapture(boundingBox);
+    } catch (Exception e) {
+    }
+
+    return null;
+  }
+
+  public static Color getColorAt(int x, int y, BufferedImage image) {
+   int color = image.getRGB(x, y);
+  int a = (color >> 24) & 255;
+   int r = (color >> 16) & 255;
+   int g = (color >> 8) & 255;
+  int b = color & 255;
+
+    return new Color(r, g ,b, a);
+  }
+
   public static void loadImage(Bildschirm screen, String filePath) {
-    JPanel panel = Utils.getPanel(screen);
+    JPanel panel = getPanel(screen);
 
     BufferedImage image = new BufferedImage(
       panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_ARGB);

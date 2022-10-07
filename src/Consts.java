@@ -7,4 +7,7 @@ public class Consts {
 			   MODE_RECTANGLE = 4;
 
   public final static byte NOFILL = 0, FILL = 1;
+
+  public final static int DEFAULT_WIDTH = 10;
 }
+
