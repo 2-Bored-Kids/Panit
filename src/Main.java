@@ -161,20 +161,22 @@ public class Main extends EBAnwendung {
       if (paintMode == Consts.MODE_NORMAL) {
         pen.runter();
       } else if (paintMode == Consts.MODE_FILL) {
-        pen.setzeLinienBreite(1);
-        pen.setzeFuellMuster(Consts.NOFILL);
+        Thread fillThread = new Thread() {
+          public void run() {
+            Buntstift fillPen = new Buntstift();
+            fillPen.setzeFarbe(new Color(Utils.getColor(pen).getRGB()));
+            bucketFill(x, y, fillPen);
+          }
+        };
 
-        bucketFill(x, y);
-
-        pen.setzeLinienBreite(UI.r_linewidth.wert() * 2);
-        pen.setzeFuellMuster(UI.s_fillMode.angeschaltet() ? 1 : 0);
+        fillThread.start();
       }
       startPressX = x;
       startPressY = y;
     }
   }
 
-  public void bucketFill(int x, int y) {
+  public void bucketFill(int x, int y, Buntstift fillPen) {
     try {
       BufferedImage snapshot =
         Utils.createSnapshot(Utils.getPanel(this.hatBildschirm), null);
@@ -203,12 +205,12 @@ public class Main extends EBAnwendung {
 
         if (!touchesMenu && !touchesBorders &&
             Utils.getColorAt(pos.x, pos.y, snapshot).equals(colorReplaced)) {
-          snapshot.setRGB(pos.x, pos.y, Utils.getColor(pen).getRGB());
+          snapshot.setRGB(pos.x, pos.y, Utils.getColor(fillPen).getRGB());
 
           // TODO: optimize this
 
-          pen.bewegeBis(pos.x, pos.y);
-          pen.zeichneKreis(0.5);
+          fillPen.bewegeBis(pos.x, pos.y);
+          fillPen.zeichneKreis(0.5);
 
           final int offsets[][] = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 
