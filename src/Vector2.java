@@ -6,4 +6,3 @@ public class Vector2 {
     y = Y;
   }
 }
-

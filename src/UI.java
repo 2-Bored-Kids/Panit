@@ -96,4 +96,3 @@ public class UI {
     r_linewidth.setzeBearbeiterGeaendert("r_linewidthGeaendert");
   }
 }
-

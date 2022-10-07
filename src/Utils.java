@@ -1,16 +1,16 @@
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Robot;
+import java.awt.Taskbar;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
-import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import java.awt.Taskbar;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.Buntstift;
@@ -62,7 +62,8 @@ public class Utils {
       BufferedImage icon = ImageIO.read(new File(filePath));
       frame.setIconImage(icon);
       Taskbar.getTaskbar().setIconImage(icon);
-    } catch (Exception e) {}
+    } catch (Exception e) {
+    }
   }
 
   // Crops the left side of the image
@@ -75,12 +76,15 @@ public class Utils {
     panelBoundingBox.width -= Consts.MENU_X;
 
     try {
-      ImageIO.write(createSnapshot(getPanel(screen), panelBoundingBox), "png", new File(filePath));
+      ImageIO.write(createSnapshot(getPanel(screen), panelBoundingBox),
+                    "png",
+                    new File(filePath));
     } catch (Exception e) {
     }
   }
 
-  public static BufferedImage createSnapshot(JPanel panel, Rectangle boundingBox) {
+  public static BufferedImage createSnapshot(JPanel panel,
+                                             Rectangle boundingBox) {
     if (boundingBox == null) {
       boundingBox = new Rectangle(panel.getLocationOnScreen(), panel.getSize());
     }
@@ -94,13 +98,13 @@ public class Utils {
   }
 
   public static Color getColorAt(int x, int y, BufferedImage image) {
-   int color = image.getRGB(x, y);
-  int a = (color >> 24) & 255;
-   int r = (color >> 16) & 255;
-   int g = (color >> 8) & 255;
-  int b = color & 255;
+    int color = image.getRGB(x, y);
+    int a = (color >> 24) & 255;
+    int r = (color >> 16) & 255;
+    int g = (color >> 8) & 255;
+    int b = color & 255;
 
-    return new Color(r, g ,b, a);
+    return new Color(r, g, b, a);
   }
 
   public static void loadImage(Bildschirm screen, String filePath) {
@@ -146,4 +150,3 @@ public class Utils {
     return null;
   }
 }
-

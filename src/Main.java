@@ -1,13 +1,13 @@
-import sum.ereignis.*;
-import java.io.File;
 import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.util.Queue;
-import java.util.LinkedList;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.LinkedList;
+import java.util.Queue;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import sum.ereignis.*;
 
 // TODO: mehr code kommentare
 
@@ -73,46 +73,46 @@ public class Main extends EBAnwendung {
 
     if (paintMode == Consts.MODE_NORMAL) {
       if (pen.istUnten()) {
-	if (!touchesMenuArea) {
-	  pen.bewegeBis(x, y);
-	  pen.zeichneKreis(pen.linienBreite() / 2);
-	}
+        if (!touchesMenuArea) {
+          pen.bewegeBis(x, y);
+          pen.zeichneKreis(pen.linienBreite() / 2);
+        }
       }
     } else if (!touchesMenuArea) {
       if (paintMode == Consts.MODE_LINE) {
-	if (startPressX + startPressY == 0) {
-	  pen.bewegeBis(x, y);
-	  return;
-	}
+        if (startPressX + startPressY == 0) {
+          pen.bewegeBis(x, y);
+          return;
+        }
 
-	pen.wechsle();
-	pen.runter();
-	pen.setzeFuellmuster(Consts.FILL);
+        pen.wechsle();
+        pen.runter();
+        pen.setzeFuellmuster(Consts.FILL);
 
-	pen.zeichneKreis(pen.linienBreite() / 2);
-	pen.bewegeBis(startPressX, startPressY);
+        pen.zeichneKreis(pen.linienBreite() / 2);
+        pen.bewegeBis(startPressX, startPressY);
 
-	pen.bewegeBis(x, y);
-	pen.zeichneKreis(pen.linienBreite() / 2);
-	pen.setzeFuellmuster(fillMode);
+        pen.bewegeBis(x, y);
+        pen.zeichneKreis(pen.linienBreite() / 2);
+        pen.setzeFuellmuster(fillMode);
 
-	pen.hoch();
-	pen.normal();
+        pen.hoch();
+        pen.normal();
       } else if (paintMode == Consts.MODE_RECTANGLE) {
-	if (startPressX + startPressY == 0) {
-	  return;
-	}
+        if (startPressX + startPressY == 0) {
+          return;
+        }
 
-	pen.wechsle();
+        pen.wechsle();
 
-	drawViereck(
-	  startPressX, startPressY, (int)pen.hPosition(), (int)pen.vPosition());
+        drawViereck(
+          startPressX, startPressY, (int)pen.hPosition(), (int)pen.vPosition());
 
-	drawViereck(startPressX, startPressY, x, y);
+        drawViereck(startPressX, startPressY, x, y);
 
-	pen.bewegeBis(x, y);
+        pen.bewegeBis(x, y);
 
-	pen.normal();
+        pen.normal();
       }
     }
   }
@@ -123,25 +123,25 @@ public class Main extends EBAnwendung {
 
     if (paintMode == Consts.MODE_LINE || paintMode == Consts.MODE_RECTANGLE) {
       boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2 &&
-				y < Consts.MENU_Y + pen.linienBreite() / 2;
+                                y < Consts.MENU_Y + pen.linienBreite() / 2;
 
       if (!touchesMenuArea) {
-	switch (paintMode) {
-	  case Consts.MODE_LINE:
-	    if (startPressX + startPressY != 0) {
-	      pen.wechsle();
-	      pen.bewegeBis(startPressX, startPressY);
+        switch (paintMode) {
+          case Consts.MODE_LINE:
+            if (startPressX + startPressY != 0) {
+              pen.wechsle();
+              pen.bewegeBis(startPressX, startPressY);
 
-	      drawLinie(startPressX, startPressY, x, y);
-	    }
-	    break;
+              drawLinie(startPressX, startPressY, x, y);
+            }
+            break;
 
-	  case Consts.MODE_RECTANGLE:
-	    if (startPressX + startPressY != 0) {
-	      drawViereck(startPressX, startPressY, x, y);
-	    }
-	    break;
-	}
+          case Consts.MODE_RECTANGLE:
+            if (startPressX + startPressY != 0) {
+              drawViereck(startPressX, startPressY, x, y);
+            }
+            break;
+        }
       }
     }
 
@@ -152,13 +152,13 @@ public class Main extends EBAnwendung {
   @Override
   public void bearbeiteMausDruck(int x, int y) {
     boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2 &&
-			      y < Consts.MENU_Y + pen.linienBreite() / 2;
+                              y < Consts.MENU_Y + pen.linienBreite() / 2;
 
     if (!touchesMenuArea) {
       pen.bewegeBis(x, y);
 
       if (paintMode == Consts.MODE_NORMAL) {
-	pen.runter();
+        pen.runter();
       } else if (paintMode == Consts.MODE_FILL) {
         pen.setzeLinienBreite(1);
 
@@ -171,45 +171,53 @@ public class Main extends EBAnwendung {
     }
   }
 
-      public void bucketFill(int x, int y) {
-        try{
-          BufferedImage snapshot = Utils.createSnapshot(Utils.getPanel(this.hatBildschirm), null);
+  public void bucketFill(int x, int y) {
+    try {
+      BufferedImage snapshot =
+        Utils.createSnapshot(Utils.getPanel(this.hatBildschirm), null);
 
-          Color colorReplaced = Utils.getColorAt(x, y, snapshot);
+      Color colorReplaced = Utils.getColorAt(x, y, snapshot);
 
-          JPanel panel = Utils.getPanel(this.hatBildschirm);
-          JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(panel);
+      JPanel panel = Utils.getPanel(this.hatBildschirm);
+      JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(panel);
 
-          int taskbarHeight = Toolkit.getDefaultToolkit().getScreenInsets(frame.getGraphicsConfiguration()).bottom + 2;
+      int taskbarHeight = Toolkit.getDefaultToolkit()
+                            .getScreenInsets(frame.getGraphicsConfiguration())
+                            .bottom +
+                          2;
 
-          Queue<Vector2> q = new LinkedList<Vector2>();
+      Queue<Vector2> q = new LinkedList<Vector2>();
 
-          q.add(new Vector2(x, y));
+      q.add(new Vector2(x, y));
 
-          while (!q.isEmpty()) {
-            Vector2 pos = q.poll();
+      while (!q.isEmpty()) {
+        Vector2 pos = q.poll();
 
-            boolean touchesMenu = (pos.x < Consts.MENU_X && pos.y < Consts.MENU_Y);
-            boolean touchesBorders = (pos.x >= Consts.SCREEN_X || pos.y >= Consts.SCREEN_Y - taskbarHeight || pos.x < 0 || pos.y < 0);
+        boolean touchesMenu = (pos.x < Consts.MENU_X && pos.y < Consts.MENU_Y);
+        boolean touchesBorders =
+          (pos.x >= Consts.SCREEN_X ||
+           pos.y >= Consts.SCREEN_Y - taskbarHeight || pos.x < 0 || pos.y < 0);
 
-            if (!touchesMenu && !touchesBorders && Utils.getColorAt(pos.x, pos.y, snapshot).equals(colorReplaced)) {
-              snapshot.setRGB(pos.x, pos.y, Utils.getColor(pen).getRGB());
+        if (!touchesMenu && !touchesBorders &&
+            Utils.getColorAt(pos.x, pos.y, snapshot).equals(colorReplaced)) {
+          snapshot.setRGB(pos.x, pos.y, Utils.getColor(pen).getRGB());
 
-              //TODO: optimize this
+          // TODO: optimize this
 
-              pen.bewegeBis(pos.x, pos.y);
-              pen.zeichneKreis(0.5);
+          pen.bewegeBis(pos.x, pos.y);
+          pen.zeichneKreis(0.5);
 
-              final int offsets[][] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+          final int offsets[][] = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 
-              for (int i = 0; i < offsets.length; i++) {
-                q.add(new Vector2(pos.x + offsets[i][0], pos.y + offsets[i][1]));
-              }
-            }
+          for (int i = 0; i < offsets.length; i++) {
+            q.add(new Vector2(pos.x + offsets[i][0], pos.y + offsets[i][1]));
           }
+        }
+      }
 
-        } catch(Exception e) {}
+    } catch (Exception e) {
     }
+  }
 
   public void drawLinie(int sX, int sY, int eX, int eY) {
     pen.normal();
@@ -299,4 +307,3 @@ public class Main extends EBAnwendung {
     }
   }
 }
-
