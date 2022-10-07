@@ -36,6 +36,15 @@ public class Utils {
     }
   }
 
+  public static Color getColor(Buntstift stift) {
+    try {
+      return (Color)farbeFeld.get(stift);
+    } catch (Exception e) {
+    }
+
+    return null;
+  }
+
   public static JPanel getPanel(Bildschirm screen) {
     try {
       return (JPanel)panelFeld.get(screen);

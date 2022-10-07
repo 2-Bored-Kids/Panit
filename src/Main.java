@@ -2,6 +2,12 @@ import sum.ereignis.*;
 import java.io.File;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.Queue;
+import java.util.LinkedList;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import java.awt.Toolkit;
 
 // TODO: mehr code kommentare
 
@@ -154,34 +160,56 @@ public class Main extends EBAnwendung {
       if (paintMode == Consts.MODE_NORMAL) {
 	pen.runter();
       } else if (paintMode == Consts.MODE_FILL) {
-	byte cFillMode = fillMode;
-	pen.bewegeBis(x, y);
-	pen.setzeFuellmuster(1);
-	recursiveFill(x, y);
-	pen.setzeFuellMuster(cFillMode);
+        pen.setzeLinienBreite(1);
+
+        bucketFill(x, y);
+
+        pen.setzeLinienBreite(UI.r_linewidth.wert() * 2);
       }
       startPressX = x;
       startPressY = y;
     }
   }
 
-  public void recursiveFill(double x, double y) {
-    if (x > Consts.SCREEN_X || y > Consts.SCREEN_Y || x <= 0 || y <= 0) {
-      return;
+      public void bucketFill(int x, int y) {
+        try{
+          BufferedImage snapshot = Utils.createSnapshot(Utils.getPanel(this.hatBildschirm), null);
+
+          Color colorReplaced = Utils.getColorAt(x, y, snapshot);
+
+          JPanel panel = Utils.getPanel(this.hatBildschirm);
+          JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(panel);
+
+          int taskbarHeight = Toolkit.getDefaultToolkit().getScreenInsets(frame.getGraphicsConfiguration()).bottom + 2;
+
+          Queue<Vector2> q = new LinkedList<Vector2>();
+
+          q.add(new Vector2(x, y));
+
+          while (!q.isEmpty()) {
+            Vector2 pos = q.poll();
+
+            boolean touchesMenu = (pos.x < Consts.MENU_X && pos.y < Consts.MENU_Y);
+            boolean touchesBorders = (pos.x >= Consts.SCREEN_X || pos.y >= Consts.SCREEN_Y - taskbarHeight || pos.x < 0 || pos.y < 0);
+
+            if (!touchesMenu && !touchesBorders && Utils.getColorAt(pos.x, pos.y, snapshot).equals(colorReplaced)) {
+              snapshot.setRGB(pos.x, pos.y, Utils.getColor(pen).getRGB());
+
+              //TODO: optimize this
+
+              pen.bewegeBis(pos.x, pos.y);
+              pen.zeichneKreis(0.5);
+
+              final int offsets[][] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+              for (int i = 0; i < offsets.length; i++) {
+                q.add(new Vector2(pos.x + offsets[i][0], pos.y + offsets[i][1]));
+              }
+            }
+          }
+
+        } catch(Exception e) {}
     }
-    pen.runter();
-    pen.bewegeBis(x, y);
-    pen.zeichneKreis(1);
-    pen.bewegeBis(x + 1, y + 1);
-    recursiveFill(pen.hPosition(), pen.vPosition());
-    pen.bewegeBis(x + 1, y + 1);
-    recursiveFill(pen.hPosition(), pen.vPosition());
-    pen.bewegeBis(x + 1, y + 1);
-    recursiveFill(pen.hPosition(), pen.vPosition());
-    pen.bewegeBis(x + 1, y + 1);
-    recursiveFill(pen.hPosition(), pen.vPosition());
-    pen.bewegeBis(x + 1, y + 1);
-  }
 
   public void drawLinie(int sX, int sY, int eX, int eY) {
     pen.normal();
