@@ -30,7 +30,7 @@ jobs:
         run: mkdir sum-src && find sum/ -name '*.class' -exec cp --parents \{\} sum-src \;
 
       - name: "Create jar"
-        run: rm -rf sum && mv sum-src/* . && mv src/*.class . && jar cf Panit.jar *.class sum/ && chmod +x Panit.jar
+        run: rm -rf sum && mv sum-src/* . && mv src/*.class . && jar cf Panit.jar *.class sum/ icon.png && chmod +x Panit.jar
 
       - name: "Update manifest"
         run: jar -uvfe Panit.jar Main

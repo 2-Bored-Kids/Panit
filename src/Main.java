@@ -27,6 +27,7 @@ public class Main extends EBAnwendung {
     pen.setzeFuellmuster(fillMode);
 
     this.hatBildschirm.setTitle("Panit");
+    Utils.setIcon(this.hatBildschirm, "icon.png");
 
     clearScreen();
 
@@ -35,8 +36,6 @@ public class Main extends EBAnwendung {
     pen.setzeLinienBreite(Consts.DEFAULT_WIDTH);
 
     fuehreAus();
-
-    Utils.setIcon(this.hatBildschirm, "icon.png");
   }
 
   public static void main(String[] args) { Main main = new Main(); }
