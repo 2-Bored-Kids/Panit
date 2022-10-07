@@ -14,6 +14,5 @@ ColumnLimit: 80
 ConstructorInitializerIndentWidth: 2
 ContinuationIndentWidth: 2
 NamespaceIndentation: None
-UseTab: Always
 ...
 
