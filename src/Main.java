@@ -27,7 +27,6 @@ public class Main extends EBAnwendung {
     pen.setzeFuellmuster(fillMode);
 
     this.hatBildschirm.setTitle("Panit");
-    Utils.setIcon(this.hatBildschirm, "icon.png");
 
     clearScreen();
 
@@ -36,6 +35,8 @@ public class Main extends EBAnwendung {
     pen.setzeLinienBreite(Consts.DEFAULT_WIDTH);
 
     fuehreAus();
+
+    Utils.setIcon(this.hatBildschirm, "icon.png");
   }
 
   public static void main(String[] args) { Main main = new Main(); }
@@ -161,10 +162,12 @@ public class Main extends EBAnwendung {
         pen.runter();
       } else if (paintMode == Consts.MODE_FILL) {
         pen.setzeLinienBreite(1);
+        pen.setzeFuellMuster(Consts.NOFILL);
 
         bucketFill(x, y);
 
         pen.setzeLinienBreite(UI.r_linewidth.wert() * 2);
+        pen.setzeFuellMuster(UI.s_fillMode.angeschaltet() ? 1 : 0);
       }
       startPressX = x;
       startPressY = y;
@@ -307,3 +310,4 @@ public class Main extends EBAnwendung {
     }
   }
 }
+
