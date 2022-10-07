@@ -310,4 +310,3 @@ public class Main extends EBAnwendung {
     }
   }
 }
-
