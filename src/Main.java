@@ -39,7 +39,7 @@ public class Main extends EBAnwendung {
 
     pen.setzeLinienBreite(Consts.DEFAULT_WIDTH);
 
-    //Utils.setIcon(this.hatBildschirm, "icon.png");
+    // Utils.setIcon(this.hatBildschirm, "icon.png");
   }
 
   public static void main(String[] args) { Main main = new Main(); }
@@ -162,21 +162,22 @@ public class Main extends EBAnwendung {
       if (paintMode == Consts.MODE_NORMAL) {
         pen.runter();
       } else if (paintMode == Consts.MODE_FILL) {
-      //TODO: threads dont stop properly
-      //TODO: use the hack from BetterPen for bufferedimage access and to fix the moving window issue
+        // TODO: threads dont stop properly
+        // TODO: use the hack from BetterPen for bufferedimage access and to fix
+        // the moving window issue
         class FillThread extends Thread {
           public Bildschirm screen;
         }
 
         FillThread fillThread = new FillThread() {
-            public void run() {
-              bucketFill(x, y, new Color(Utils.getColor(pen).getRGB()));
-            }
-          };
+          public void run() {
+            bucketFill(x, y, new Color(Utils.getColor(pen).getRGB()));
+          }
+        };
 
-          fillThread.screen = this.hatBildschirm;
+        fillThread.screen = this.hatBildschirm;
 
-          fillThread.start();
+        fillThread.start();
       }
       startPressX = x;
       startPressY = y;
@@ -316,4 +317,3 @@ public class Main extends EBAnwendung {
     }
   }
 }
-
