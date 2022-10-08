@@ -7,6 +7,7 @@ import java.util.Queue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import java.util.Random;
 import sum.ereignis.*;
 
 // TODO: mehr code kommentare
@@ -163,20 +164,17 @@ public class Main extends EBAnwendung {
       if (paintMode == Consts.MODE_NORMAL) {
         pen.runter();
       } else if (paintMode == Consts.MODE_FILL) {
-        pen.setzeLinienBreite(1);
-        pen.setzeFuellMuster(Consts.NOFILL);
-
+      //TODO: threads dont stop properly
+      //TODO: use the hack from BetterPen for bufferedimage access and to fix the moving window issue
         Thread fillThread = new Thread() {
-          @Override
-          public void run() {
-            bucketFill(x, y, Utils.getColor(pen));
-          }
-        };
+            public void run() {
+              Buntstift fillPen = new Buntstift();
+              fillPen.setzeFarbe(new Color(Utils.getColor(pen).getRGB()));
+              bucketFill(x, y, fillPen);
+            }
+          };
 
-        fillThread.start();
-
-        pen.setzeLinienBreite(UI.r_linewidth.wert() * 2);
-        pen.setzeFuellMuster(UI.s_fillMode.angeschaltet() ? 1 : 0);
+          fillThread.start();
       }
       startPressX = x;
       startPressY = y;
@@ -220,8 +218,6 @@ public class Main extends EBAnwendung {
         if (!touchesMenu && !touchesBorders &&
             Utils.getColorAt(pos.x, pos.y, snapshot).equals(colorReplaced)) {
           snapshot.setRGB(pos.x, pos.y, Utils.getColor(fillPen).getRGB());
-
-          // TODO: optimize this
 
           fillPen.bewegeBis(pos.x, pos.y);
           fillPen.zeichneKreis(0.5);
@@ -326,3 +322,4 @@ public class Main extends EBAnwendung {
     }
   }
 }
+
