@@ -12,14 +12,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import sum.ereignis.Bildschirm;
-import sum.ereignis.Buntstift;
 
 public class Utils {
   private static Field farbeFeld, panelFeld;
 
   public static void init() {
     try {
-      farbeFeld = Buntstift.class.getDeclaredField("zFarbe");
+      farbeFeld = BetterStift.class.getSuperclass().getDeclaredField("zFarbe");
       farbeFeld.setAccessible(true);
 
       panelFeld = Bildschirm.class.getDeclaredField("hatPanel");
@@ -28,21 +27,21 @@ public class Utils {
     }
   }
 
-  public static void setColor(Buntstift stift, int r, int g, int b) {
+  public static void setColor(BetterStift stift, int r, int g, int b) {
     try {
       farbeFeld.set(stift, new Color(r, g, b));
     } catch (Exception e) {
     }
   }
 
-  public static void setColor(Buntstift stift, Color color) {
+  public static void setColor(BetterStift stift, Color color) {
     try {
       farbeFeld.set(stift, color);
     } catch (Exception e) {
     }
   }
 
-  public static Color getColor(Buntstift stift) {
+  public static Color getColor(BetterStift stift) {
     try {
       return (Color)farbeFeld.get(stift);
     } catch (Exception e) {
@@ -156,3 +155,4 @@ public class Utils {
     return null;
   }
 }
+

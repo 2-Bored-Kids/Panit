@@ -13,7 +13,7 @@ import sum.ereignis.*;
 // TODO: mehr code kommentare
 
 public class Main extends EBAnwendung {
-  Buntstift pen;
+  BetterStift pen;
 
   byte paintMode = Consts.MODE_NORMAL, fillMode = Consts.NOFILL;
 
@@ -24,40 +24,30 @@ public class Main extends EBAnwendung {
 
     Utils.init();
 
-    pen = new Buntstift();
+    pen = new BetterStift(this.hatBildschirm);
     pen.setzeFuellmuster(fillMode);
 
     this.hatBildschirm.setTitle("Panit");
 
-    clearScreen();
+    fuehreAus();
+
+    Utils.getPanel(this.hatBildschirm).setBackground(new Color(100, 100, 100));
 
     UI.init();
 
+    clearScreen();
+
     pen.setzeLinienBreite(Consts.DEFAULT_WIDTH);
 
-    fuehreAus();
-
-    Utils.setIcon(this.hatBildschirm, "icon.png");
+    //Utils.setIcon(this.hatBildschirm, "icon.png");
   }
 
   public static void main(String[] args) { Main main = new Main(); }
 
   public void clearScreen() {
-    this.hatBildschirm.loescheAlles();
-    drawMenu();
-  }
+    pen.clear();
 
-  public void drawMenu() {
-    Buntstift menuPen = new Buntstift();
-
-    // Dunkles Grau
-    Utils.setColor(menuPen, 100, 100, 100);
-
-    menuPen.setzeFuellmuster(Consts.FILL);
-
-    menuPen.bewegeBis(0, 0);
-
-    menuPen.zeichneRechteck(Consts.MENU_X, Consts.MENU_Y);
+    pen.drawToScreen();
   }
 
   @Override
@@ -80,6 +70,8 @@ public class Main extends EBAnwendung {
           pen.bewegeBis(x, y);
           pen.zeichneKreis(pen.linienBreite() / 2);
           pen.setzeFuellmuster(fillMode);
+
+          pen.drawToScreen();
         }
       }
     } else if (!touchesMenuArea) {
@@ -102,6 +94,8 @@ public class Main extends EBAnwendung {
 
         pen.hoch();
         pen.normal();
+
+        pen.drawToScreen();
       } else if (paintMode == Consts.MODE_RECTANGLE) {
         if (startPressX + startPressY == 0) {
           return;
@@ -117,6 +111,8 @@ public class Main extends EBAnwendung {
         pen.bewegeBis(x, y);
 
         pen.normal();
+
+        pen.drawToScreen();
       }
     }
   }
@@ -137,12 +133,14 @@ public class Main extends EBAnwendung {
               pen.bewegeBis(startPressX, startPressY);
 
               drawLinie(startPressX, startPressY, x, y);
+              pen.drawToScreen();
             }
             break;
 
           case Consts.MODE_RECTANGLE:
             if (startPressX + startPressY != 0) {
               drawViereck(startPressX, startPressY, x, y);
+              pen.drawToScreen();
             }
             break;
         }
@@ -164,33 +162,29 @@ public class Main extends EBAnwendung {
       if (paintMode == Consts.MODE_NORMAL) {
         pen.runter();
       } else if (paintMode == Consts.MODE_FILL) {
-        // TODO: threads dont stop properly
-        // TODO: use the hack from BetterPen for bufferedimage access and to fix
-        // the moving window issue
-        Thread fillThread = new Thread() {
-          public void run() {
-            Buntstift fillPen = new Buntstift();
-            fillPen.setzeFarbe(new Color(Utils.getColor(pen).getRGB()));
-            bucketFill(x, y, fillPen);
-          }
-        };
+      //TODO: threads dont stop properly
+      //TODO: use the hack from BetterPen for bufferedimage access and to fix the moving window issue
+        class FillThread extends Thread {
+          public Bildschirm screen;
+        }
 
-        fillThread.start();
+        FillThread fillThread = new FillThread() {
+            public void run() {
+              bucketFill(x, y, new Color(Utils.getColor(pen).getRGB()));
+            }
+          };
+
+          fillThread.screen = this.hatBildschirm;
+
+          fillThread.start();
       }
       startPressX = x;
       startPressY = y;
     }
   }
 
-  public void bucketFill(int x, int y, Color penColor) {
+  public void bucketFill(int x, int y, Color fillColor) {
     try {
-
-      Buntstift fillPen = new Buntstift();
-
-      fillPen.setzeLinienBreite(1);
-      fillPen.setzeFuellMuster(Consts.NOFILL);
-      Utils.setColor(fillPen, penColor);
-
       BufferedImage snapshot =
         Utils.createSnapshot(Utils.getPanel(this.hatBildschirm), null);
 
@@ -217,11 +211,8 @@ public class Main extends EBAnwendung {
            pos.y >= Consts.SCREEN_Y - taskbarHeight || pos.x < 0 || pos.y < 0);
 
         if (!touchesMenu && !touchesBorders &&
-            Utils.getColorAt(pos.x, pos.y, snapshot).equals(colorReplaced)) {
-          snapshot.setRGB(pos.x, pos.y, Utils.getColor(fillPen).getRGB());
-
-          fillPen.bewegeBis(pos.x, pos.y);
-          fillPen.zeichneKreis(0.5);
+            pen.getBuffer().getRGB(pos.x, pos.y) == colorReplaced.getRGB()) {
+          pen.getBuffer().setRGB(pos.x, pos.y, fillColor.getRGB());
 
           final int offsets[][] = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 
@@ -230,6 +221,8 @@ public class Main extends EBAnwendung {
           }
         }
       }
+
+      pen.drawToScreen();
 
     } catch (Exception e) {
     }
@@ -323,3 +316,4 @@ public class Main extends EBAnwendung {
     }
   }
 }
+
