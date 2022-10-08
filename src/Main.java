@@ -166,8 +166,7 @@ public class Main extends EBAnwendung {
         pen.setzeLinienBreite(1);
         pen.setzeFuellMuster(Consts.NOFILL);
 
-        Thread fillThread = new Thread(){
-
+        Thread fillThread = new Thread() {
           @Override
           public void run() {
             bucketFill(x, y, Utils.getColor(pen));
@@ -187,14 +186,11 @@ public class Main extends EBAnwendung {
   public void bucketFill(int x, int y, Color penColor) {
     try {
 
-
-
       Buntstift fillPen = new Buntstift();
 
       fillPen.setzeLinienBreite(1);
       fillPen.setzeFuellMuster(Consts.NOFILL);
       Utils.setColor(fillPen, penColor);
-
 
       BufferedImage snapshot =
         Utils.createSnapshot(Utils.getPanel(this.hatBildschirm), null);
