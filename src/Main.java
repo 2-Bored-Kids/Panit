@@ -164,7 +164,15 @@ public class Main extends EBAnwendung {
         pen.setzeLinienBreite(1);
         pen.setzeFuellMuster(Consts.NOFILL);
 
-        bucketFill(x, y);
+        Thread fillThread = new Thread(){
+
+          @Override
+          public void run() {
+            bucketFill(x, y, Utils.getColor(pen));
+          }
+        };
+
+        fillThread.start();
 
         pen.setzeLinienBreite(UI.r_linewidth.wert() * 2);
         pen.setzeFuellMuster(UI.s_fillMode.angeschaltet() ? 1 : 0);
@@ -174,8 +182,18 @@ public class Main extends EBAnwendung {
     }
   }
 
-  public void bucketFill(int x, int y) {
+  public void bucketFill(int x, int y, Color penColor) {
     try {
+
+
+
+      Buntstift fillPen = new Buntstift();
+
+      fillPen.setzeLinienBreite(1);
+      fillPen.setzeFuellMuster(Consts.NOFILL);
+      Utils.setColor(fillPen, penColor);
+
+
       BufferedImage snapshot =
         Utils.createSnapshot(Utils.getPanel(this.hatBildschirm), null);
 
@@ -203,12 +221,12 @@ public class Main extends EBAnwendung {
 
         if (!touchesMenu && !touchesBorders &&
             Utils.getColorAt(pos.x, pos.y, snapshot).equals(colorReplaced)) {
-          snapshot.setRGB(pos.x, pos.y, Utils.getColor(pen).getRGB());
+          snapshot.setRGB(pos.x, pos.y, Utils.getColor(fillPen).getRGB());
 
           // TODO: optimize this
 
-          pen.bewegeBis(pos.x, pos.y);
-          pen.zeichneKreis(0.5);
+          fillPen.bewegeBis(pos.x, pos.y);
+          fillPen.zeichneKreis(0.5);
 
           final int offsets[][] = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 

@@ -36,6 +36,13 @@ public class Utils {
     }
   }
 
+  public static void setColor(Buntstift stift, Color color) {
+    try {
+      farbeFeld.set(stift, color);
+    } catch (Exception e) {
+    }
+  }
+
   public static Color getColor(Buntstift stift) {
     try {
       return (Color)farbeFeld.get(stift);
