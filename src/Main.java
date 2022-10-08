@@ -4,10 +4,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import java.util.Random;
 import sum.ereignis.*;
 
 // TODO: mehr code kommentare
@@ -164,18 +164,17 @@ public class Main extends EBAnwendung {
       if (paintMode == Consts.MODE_NORMAL) {
         pen.runter();
       } else if (paintMode == Consts.MODE_FILL) {
-        // TODO: threads dont stop properly
-        // TODO: use the hack from BetterPen for bufferedimage access and to fix
-        // the moving window issue
+      //TODO: threads dont stop properly
+      //TODO: use the hack from BetterPen for bufferedimage access and to fix the moving window issue
         Thread fillThread = new Thread() {
-          public void run() {
-            Buntstift fillPen = new Buntstift();
-            fillPen.setzeFarbe(new Color(Utils.getColor(pen).getRGB()));
-            bucketFill(x, y, fillPen);
-          }
-        };
+            public void run() {
+              Buntstift fillPen = new Buntstift();
+              fillPen.setzeFarbe(new Color(Utils.getColor(pen).getRGB()));
+              bucketFill(x, y, fillPen);
+            }
+          };
 
-        fillThread.start();
+          fillThread.start();
       }
       startPressX = x;
       startPressY = y;
@@ -323,3 +322,4 @@ public class Main extends EBAnwendung {
     }
   }
 }
+
