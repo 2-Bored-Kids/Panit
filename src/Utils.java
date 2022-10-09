@@ -14,12 +14,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import sum.ereignis.Bildschirm;
 
 public class Utils {
-  private static Field farbeFeld;
+  private static Field farbeFeld, panelFeld;
 
   public static void init() {
     try {
       farbeFeld = BetterStift.class.getSuperclass().getDeclaredField("zFarbe");
       farbeFeld.setAccessible(true);
+
+      panelFeld = Bildschirm.class.getDeclaredField("hatPanel");
+      panelFeld.setAccessible(true);
     } catch (Exception e) {
     }
   }
@@ -48,7 +51,12 @@ public class Utils {
   }
 
   public static JPanel getPanel(Bildschirm screen) {
-    return screen.privatPanel();
+    try {
+      return (JPanel)panelFeld.get(screen);
+    } catch (Exception e) {
+    }
+
+    return null;
   }
 
   public static void setIcon(Bildschirm screen, String filePath) {
