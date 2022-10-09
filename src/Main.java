@@ -121,7 +121,7 @@ public class Main extends EBAnwendung {
   public void bearbeiteMausLos(int x, int y) {
     pen.hoch();
 
-    if (paintMode == Consts.MODE_LINE || paintMode == Consts.MODE_RECTANGLE) {
+    if (paintMode == Consts.MODE_LINE || paintMode == Consts.MODE_RECTANGLE || paintMode == Consts.MODE_FILL) {
       boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2 &&
                                 y < Consts.MENU_Y + pen.linienBreite() / 2;
 
@@ -143,6 +143,22 @@ public class Main extends EBAnwendung {
               pen.drawToScreen();
             }
             break;
+
+          case Consts.MODE_FILL:
+          class FillThread extends Thread {
+            public Bildschirm screen;
+          }
+
+          FillThread fillThread = new FillThread() {
+            public void run() {
+              bucketFill(x, y, new Color(Utils.getColor(pen).getRGB()));
+            }
+          };
+
+          fillThread.screen = this.hatBildschirm;
+
+          fillThread.start();
+          break;
         }
       }
     }
@@ -161,24 +177,8 @@ public class Main extends EBAnwendung {
 
       if (paintMode == Consts.MODE_NORMAL) {
         pen.runter();
-      } else if (paintMode == Consts.MODE_FILL) {
-        // TODO: threads dont stop properly
-        // TODO: use the hack from BetterPen for bufferedimage access and to fix
-        // the moving window issue
-        class FillThread extends Thread {
-          public Bildschirm screen;
-        }
-
-        FillThread fillThread = new FillThread() {
-          public void run() {
-            bucketFill(x, y, new Color(Utils.getColor(pen).getRGB()));
-          }
-        };
-
-        fillThread.screen = this.hatBildschirm;
-
-        fillThread.start();
       }
+
       startPressX = x;
       startPressY = y;
     }
