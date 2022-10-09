@@ -21,9 +21,6 @@ public class BetterStift extends Buntstift {
     super();
 
     try {
-      Method panelGetter = Bildschirm.class.getDeclaredMethod("privatPanel");
-      panelGetter.setAccessible(true);
-
       Field dbGraphics = Bildschirm.class.getDeclaredField("dbGraphics");
       dbGraphics.setAccessible(true);
 
@@ -34,8 +31,7 @@ public class BetterStift extends Buntstift {
         screen.breite(), screen.hoehe(), BufferedImage.TYPE_INT_RGB);
 
       this.bufferGraphics = this.buffer.createGraphics();
-      this.screenGraphics =
-        this.get2DGraphics(((JPanel)panelGetter.invoke(screen)).getGraphics());
+      this.screenGraphics = this.get2DGraphics(screen.privatPanel().getGraphics());
 
       dbGraphics.set(screen, this.bufferGraphics);
       withDb.set(screen, true);
