@@ -120,7 +120,8 @@ public class Main extends EBAnwendung {
   public void bearbeiteMausLos(int x, int y) {
     pen.hoch();
 
-    if (paintMode == Consts.MODE_LINE || paintMode == Consts.MODE_RECTANGLE || paintMode == Consts.MODE_FILL) {
+    if (paintMode == Consts.MODE_LINE || paintMode == Consts.MODE_RECTANGLE ||
+        paintMode == Consts.MODE_FILL) {
       boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2 &&
                                 y < Consts.MENU_Y + pen.linienBreite() / 2;
 
@@ -144,20 +145,20 @@ public class Main extends EBAnwendung {
             break;
 
           case Consts.MODE_FILL:
-          class FillThread extends Thread {
-            public Bildschirm screen;
-          }
-
-          FillThread fillThread = new FillThread() {
-            public void run() {
-              bucketFill(x, y, new Color(Utils.getColor(pen).getRGB()));
+            class FillThread extends Thread {
+              public Bildschirm screen;
             }
-          };
 
-          fillThread.screen = this.hatBildschirm;
+            FillThread fillThread = new FillThread() {
+              public void run() {
+                bucketFill(x, y, new Color(Utils.getColor(pen).getRGB()));
+              }
+            };
 
-          fillThread.start();
-          break;
+            fillThread.screen = this.hatBildschirm;
+
+            fillThread.start();
+            break;
         }
       }
     }
@@ -297,7 +298,7 @@ public class Main extends EBAnwendung {
   public void b_saveGeklickt() {
     String filePath = Utils.pickSaveImage();
 
-    //Hack! Wait for the save menu to close
+    // Hack! Wait for the save menu to close
     try {
       Thread.sleep(500);
     } catch (Exception e) {
