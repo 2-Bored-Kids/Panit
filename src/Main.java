@@ -298,7 +298,7 @@ public class Main extends EBAnwendung {
   public void b_saveGeklickt() {
     String filePath = Utils.pickSaveImage();
 
-    // TODO: get rid of this hack
+    //Hack! Wait for the save menu to close
     try {
       Thread.sleep(500);
     } catch (Exception e) {
