@@ -257,7 +257,8 @@ public class Main extends EBAnwendung {
   // UI Funktionen
 
   public void s_fillModeGeklickt() {
-    pen.setzeFuellMuster(UI.s_fillMode.angeschaltet() ? 1 : 0);
+    fillMode = (byte)(UI.s_fillMode.angeschaltet() ? 1 : 0);
+    pen.setzeFuellmuster(fillMode);
   }
 
   public void b_mode_paintGeklickt() { paintMode = Consts.MODE_NORMAL; }
