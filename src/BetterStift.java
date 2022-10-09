@@ -58,7 +58,7 @@ public class BetterStift extends Buntstift {
                          this.buffer.getHeight()),
       Consts.MENU_X,
       0,
-      this.kenntPrivatschirm);
+      null);
   }
 
   public void clear() {
