@@ -31,8 +31,7 @@ public class BetterStift extends Buntstift {
         screen.breite(), screen.hoehe(), BufferedImage.TYPE_INT_RGB);
 
       this.bufferGraphics = this.buffer.createGraphics();
-      this.screenGraphics =
-        this.get2DGraphics(screen.privatPanel().getGraphics());
+      this.screenGraphics = this.get2DGraphics(screen.privatPanel().getGraphics());
 
       dbGraphics.set(screen, this.bufferGraphics);
       withDb.set(screen, true);
