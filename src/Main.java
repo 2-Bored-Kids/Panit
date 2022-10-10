@@ -28,11 +28,16 @@ public class Main extends EBAnwendung {
     pen.setzeFuellmuster(fillMode);
 
     this.hatBildschirm.setTitle("Panit");
+    this.hatBildschirm.setResizable(false);
     Utils.setIcon(this.hatBildschirm, "icon.png");
 
     fuehreAus();
 
-    Utils.getPanel(this.hatBildschirm).setBackground(new Color(100, 100, 100));
+    this.hatBildschirm.privatPanel().setBackground(new Color(100, 100, 100));
+
+    DrawingPanel drawingPanel = new DrawingPanel(this);
+    drawingPanel.setBounds(0, 0, Consts.SCREEN_X, Consts.SCREEN_Y);
+    getFrame().add(drawingPanel);
 
     UI.init();
 
