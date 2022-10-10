@@ -13,11 +13,11 @@ import sum.ereignis.*;
 // TODO: mehr code kommentare
 
 public class Main extends EBAnwendung {
-  BetterStift pen;
+  private BetterStift pen;
 
-  byte paintMode = Consts.MODE_NORMAL, fillMode = Consts.NOFILL;
+  private byte paintMode = Consts.MODE_NORMAL, fillMode = Consts.NOFILL;
 
-  int startPressX, startPressY;
+  private int startPressX, startPressY;
 
   public Main() {
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
