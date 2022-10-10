@@ -52,7 +52,14 @@ public class Utils {
     JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(panel);
 
     try {
-      BufferedImage icon = ImageIO.read(new File(filePath));
+      BufferedImage icon;
+
+      if (Utils.class.getClassLoader().getResource("Utils.class").toString().startsWith("jar:")) {
+        icon = ImageIO.read(Utils.class.getClassLoader().getResourceAsStream(filePath));
+      } else {
+        icon = ImageIO.read(new File(filePath));
+      }
+
       frame.setIconImage(icon);
       Taskbar.getTaskbar().setIconImage(icon);
     } catch (Exception e) {
