@@ -52,7 +52,7 @@ public class BetterStift extends Buntstift {
   public void drawToGraphics(Graphics g) {
     g.drawImage(buffer.getSubimage(Consts.MENU_X,
                                    0,
-                                   this.buffer.getWidth() - Consts.MENU_X,
+                                   this.buffer.getWidth() - Consts.MENU_X - 16,
                                    this.buffer.getHeight()),
                 Consts.MENU_X,
                 0,
