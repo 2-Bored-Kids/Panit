@@ -39,7 +39,7 @@ public class Main extends EBAnwendung {
     drawingPanel.setBounds(0, 0, Consts.SCREEN_X, Consts.SCREEN_Y);
     getFrame().add(drawingPanel);
 
-    getFrame().getContentPane().setBackground(new Color(100, 100, 100));
+    getFrame().setBackground(new Color(100, 100, 100));
 
     clearScreen();
 
