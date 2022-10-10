@@ -211,22 +211,26 @@ public class Main extends EBAnwendung {
 
       q.add(new Vector2(x, y));
 
+      final int offsets[][] = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+
       while (!q.isEmpty()) {
         Vector2 pos = q.poll();
 
-        boolean touchesMenu = (pos.x < Consts.MENU_X && pos.y < Consts.MENU_Y);
-        boolean touchesBorders =
-          (pos.x >= Consts.SCREEN_X ||
-           pos.y >= Consts.SCREEN_Y - taskbarHeight || pos.x < 0 || pos.y < 0);
+        for (int i = 0; i < offsets.length; i++) {
+          final int posX = pos.x + offsets[i][0];
+          final int posY = pos.y + offsets[i][1];
 
-        if (!touchesMenu && !touchesBorders &&
-            pen.getBuffer().getRGB(pos.x, pos.y) == colorReplaced.getRGB()) {
-          pen.getBuffer().setRGB(pos.x, pos.y, fillColor.getRGB());
+          boolean touchesMenu = (posX < Consts.MENU_X && posY < Consts.MENU_Y);
+          boolean touchesBorders =
+          (posX >= Consts.SCREEN_X ||
+           posY >= Consts.SCREEN_Y - taskbarHeight || posX < 0 || posY < 0);
 
-          final int offsets[][] = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+          if (!touchesMenu && !touchesBorders &&
+            pen.getBuffer().getRGB(posX, posY) == colorReplaced.getRGB()) {
 
-          for (int i = 0; i < offsets.length; i++) {
-            q.add(new Vector2(pos.x + offsets[i][0], pos.y + offsets[i][1]));
+            pen.getBuffer().setRGB(posX, posY, fillColor.getRGB());
+
+            q.add(new Vector2(posX, posY));
           }
         }
       }
