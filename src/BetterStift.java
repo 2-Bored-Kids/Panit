@@ -17,6 +17,8 @@ public class BetterStift extends Buntstift {
 
   private Graphics2D bufferGraphics, screenGraphics;
 
+  private int paintMode;
+
   public BetterStift() {
     super();
 
@@ -65,4 +67,12 @@ public class BetterStift extends Buntstift {
     this.bufferGraphics.fillRect(
       0, 0, this.buffer.getWidth(), this.buffer.getHeight());
   }
+
+  public int getPaintMode(){
+    return paintMode;
+  }
+  public void setPaintMode(int paintMode){
+    this.paintMode = paintMode;
+  }
+
 }

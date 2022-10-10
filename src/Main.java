@@ -3,10 +3,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import packets.DisconnectPacket;
+import packets.Packet;
 import sum.ereignis.*;
 
 // TODO: mehr code kommentare
@@ -17,6 +18,8 @@ public class Main extends EBAnwendung {
   private byte paintMode = Consts.MODE_NORMAL, fillMode = Consts.NOFILL;
 
   private int startPressX, startPressY;
+
+  public Transmitter transmitter = null;
 
   public Main() {
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
@@ -39,8 +42,8 @@ public class Main extends EBAnwendung {
     getFrame().add(drawingPanel);
 
     // We live in 2077
-    getFrame().setBackground(new Color(100, 100, 100));
-    getFrame().getContentPane().setBackground(new Color(100, 100, 100));
+    getFrame().setBackground(Colors.GREY);
+    getFrame().getContentPane().setBackground(Colors.GREY);
 
     clearScreen();
 
@@ -270,7 +273,36 @@ public class Main extends EBAnwendung {
       this.hatBildschirm.privatPanel());
   }
 
+  public void sendPacket(Packet packet) {
+    if (transmitter != null) {
+      transmitter.sende(packet.encode());
+    }
+
+  }
+
+  public void connectToServer() {
+    if (transmitter == null) {
+      String ip = Consts.DEFAULT_SERVER_IP;
+      int port = Consts.DEFAULT_SERVER_PORT;
+      transmitter = new Transmitter(this, ip, port, Consts.LOGGING);
+    }
+  }
+
+  public void disconnectFromServer(){
+    if (transmitter != null){
+      sendPacket(new DisconnectPacket());
+    }
+  }
+
   // UI Funktionen
+
+  public void b_joinGeklickt(){
+    connectToServer();
+  }
+
+  public void b_quitGeklickt() {
+    disconnectFromServer();
+  }
 
   public void s_fillModeGeklickt() {
     fillMode = (byte)(UI.s_fillMode.angeschaltet() ? 1 : 0);

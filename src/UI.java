@@ -1,10 +1,12 @@
 import sum.komponenten.*;
 
-// Generiert durch BlueG
-
 public class UI {
+
   public static Etikett e_lineWidth;
   public static Etikett e_paintMode;
+  public static Etikett e_status;
+  public static Etikett e_multiplayer;
+
   public static Radioknopf b_mode_paint;
   public static Radioknopf b_fill;
   public static Radioknopf b_mode_line;
@@ -12,6 +14,10 @@ public class UI {
   public static Knopf b_delAll;
   public static Knopf b_save;
   public static Knopf b_load;
+
+  public static Knopf b_join;
+  public static Knopf b_quit;
+
   public static Radiogruppe a_colors;
   public static Radiogruppe a_paintModes;
   public static Radioknopf a_black;
@@ -27,10 +33,14 @@ public class UI {
   public static Regler r_linewidth;
   public static Schalter s_fillMode;
 
-  // Generiert durch BlueG
   public static void init() {
+
     e_lineWidth = new Etikett(20, 305, 130, 30, "Pinselbreite");
     e_lineWidth.setzeAusrichtung(1);
+    e_status = new Etikett(20, 670, 130, 20, "Getrennt");
+    e_status.setzeAusrichtung(1);
+    e_multiplayer = new Etikett(20, 620, 130, 20, "-- Multiplayer --");
+    e_multiplayer.setzeAusrichtung(1);
 
     e_paintMode = new Etikett(20, 125, 130, 30, "Pinselmodus");
     e_paintMode.setzeAusrichtung(1);
@@ -92,7 +102,17 @@ public class UI {
     a_white = new Radioknopf(20, 560, 130, 20, "L\u00f6shen");
     a_white.setzeBearbeiterGeklickt("a_whiteGeklickt");
     a_colors.fuegeEin(a_white);
-    r_linewidth = new Regler(20, 340, 130, 30, Consts.DEFAULT_WIDTH, 1, 100);
+    r_linewidth = new Regler(20, 340, 130, 30, Consts.DEFAULT_WIDTH, 1, 50);
     r_linewidth.setzeBearbeiterGeaendert("r_linewidthGeaendert");
+
+
+
+    b_join = new Knopf(20, 650, 130, 20, "Verbinden");
+    b_join.setzeBearbeiterGeklickt("b_joinGeklickt");
+    b_quit = new Knopf(20, 650, 130, 20, "Trennen");
+    b_quit.setzeBearbeiterGeklickt("b_quitGeklickt");
+    b_quit.verstecke();
+
+
   }
 }
