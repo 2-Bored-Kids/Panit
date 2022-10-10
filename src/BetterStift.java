@@ -17,7 +17,7 @@ public class BetterStift extends Buntstift {
 
   private Graphics2D bufferGraphics, screenGraphics;
 
-  public BetterStift(Bildschirm screen) {
+  public BetterStift() {
     super();
 
     try {
@@ -28,17 +28,17 @@ public class BetterStift extends Buntstift {
       withDb.setAccessible(true);
 
       this.buffer = new BufferedImage(
-        screen.breite(), screen.hoehe(), BufferedImage.TYPE_INT_RGB);
+        Bildschirm.topFenster.breite(), Bildschirm.topFenster.hoehe(), BufferedImage.TYPE_INT_RGB);
 
       this.bufferGraphics = this.buffer.createGraphics();
       this.screenGraphics =
-        this.get2DGraphics(screen.privatPanel().getGraphics());
+        this.get2DGraphics(Bildschirm.topFenster.privatPanel().getGraphics());
 
-      dbGraphics.set(screen, this.bufferGraphics);
-      withDb.set(screen, true);
+      dbGraphics.set(Bildschirm.topFenster, this.bufferGraphics);
+      withDb.set(Bildschirm.topFenster, true);
 
       this.frame =
-        (JFrame)SwingUtilities.getWindowAncestor(screen.privatPanel());
+        (JFrame)SwingUtilities.getWindowAncestor(Bildschirm.topFenster.privatPanel());
 
     } catch (Exception e) {
       e.printStackTrace();

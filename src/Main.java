@@ -23,7 +23,7 @@ public class Main extends EBAnwendung {
 
     Utils.init();
 
-    pen = new BetterStift(this.hatBildschirm);
+    pen = new BetterStift();
     pen.setzeFuellmuster(fillMode);
 
     this.hatBildschirm.setTitle("Panit");
