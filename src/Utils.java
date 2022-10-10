@@ -54,8 +54,12 @@ public class Utils {
     try {
       BufferedImage icon;
 
-      if (Utils.class.getClassLoader().getResource("Utils.class").toString().startsWith("jar:")) {
-        icon = ImageIO.read(Utils.class.getClassLoader().getResourceAsStream(filePath));
+      if (Utils.class.getClassLoader()
+            .getResource("Utils.class")
+            .toString()
+            .startsWith("jar:")) {
+        icon = ImageIO.read(
+          Utils.class.getClassLoader().getResourceAsStream(filePath));
       } else {
         icon = ImageIO.read(new File(filePath));
       }
