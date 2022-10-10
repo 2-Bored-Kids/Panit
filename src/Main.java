@@ -287,9 +287,7 @@ public class Main extends EBAnwendung {
 
   public void b_delAllGeklickt() { clearScreen(); }
 
-  public static void pickColor(Color color) {
-    Utils.setColor(getPen(), color);
-  }
+  public static void pickColor(Color color) { Utils.setColor(getPen(), color); }
 
   public void r_linewidthGeaendert() {
     pen.setzeLinienBreite(UI.r_linewidth.wert() * 2);

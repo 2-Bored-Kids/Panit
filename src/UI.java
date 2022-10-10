@@ -66,13 +66,17 @@ public class UI {
     a_black.waehle();
     a_red = new ColorOption(20, 400, 130, 20, "Rot", Colors.RED);
     a_colors.fuegeEin(a_red);
-    a_lightBlue = new ColorOption(20, 420, 130, 20, "Hellblau", Colors.LIGHT_BLUE);
+    a_lightBlue =
+      new ColorOption(20, 420, 130, 20, "Hellblau", Colors.LIGHT_BLUE);
     a_colors.fuegeEin(a_lightBlue);
-    a_darkBlue = new ColorOption(20, 440, 130, 20, "Dunkelblau", Colors.DARK_BLUE);
+    a_darkBlue =
+      new ColorOption(20, 440, 130, 20, "Dunkelblau", Colors.DARK_BLUE);
     a_colors.fuegeEin(a_darkBlue);
-    a_lightGreen = new ColorOption(20, 460, 130, 20, "Hellgr\u00fcn", Colors.LIGHT_GREEN);
+    a_lightGreen =
+      new ColorOption(20, 460, 130, 20, "Hellgr\u00fcn", Colors.LIGHT_GREEN);
     a_colors.fuegeEin(a_lightGreen);
-    a_darkGreen = new ColorOption(20, 480, 130, 20, "Dunkelgr\u00fcn", Colors.DARK_GREEN);
+    a_darkGreen =
+      new ColorOption(20, 480, 130, 20, "Dunkelgr\u00fcn", Colors.DARK_GREEN);
     a_colors.fuegeEin(a_darkGreen);
     a_yellow = new ColorOption(20, 500, 130, 20, "Gelb", Colors.YELLOW);
     a_colors.fuegeEin(a_yellow);
