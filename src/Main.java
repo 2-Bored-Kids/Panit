@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
@@ -39,7 +38,9 @@ public class Main extends EBAnwendung {
     drawingPanel.setBounds(0, 0, Consts.SCREEN_X, Consts.SCREEN_Y);
     getFrame().add(drawingPanel);
 
+    //We live in 2077
     getFrame().setBackground(new Color(100, 100, 100));
+    getFrame().getContentPane().setBackground(new Color(100, 100, 100));
 
     clearScreen();
 
@@ -206,12 +207,6 @@ public class Main extends EBAnwendung {
         return;
       }
 
-      int taskbarHeight =
-        Toolkit.getDefaultToolkit()
-          .getScreenInsets(getFrame().getGraphicsConfiguration())
-          .bottom +
-        2;
-
       Queue<Vector2> q = new LinkedList<Vector2>();
 
       q.add(new Vector2(x, y));
@@ -228,7 +223,7 @@ public class Main extends EBAnwendung {
           boolean touchesMenu = (posX < Consts.MENU_X && posY < Consts.MENU_Y);
           boolean touchesBorders =
             (posX >= Consts.SCREEN_X ||
-             posY >= Consts.SCREEN_Y - taskbarHeight || posX < 0 || posY < 0);
+             posY >= Consts.SCREEN_Y || posX < 0 || posY < 0);
 
           if (!touchesMenu && !touchesBorders &&
               pen.getBuffer().getRGB(posX, posY) == colorReplaced.getRGB()) {
