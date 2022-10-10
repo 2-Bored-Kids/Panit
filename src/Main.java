@@ -181,6 +181,12 @@ public class Main extends EBAnwendung {
       pen.bewegeBis(x, y);
 
       if (paintMode == Consts.MODE_NORMAL) {
+        //4 lines of code to draw a circle, incredible
+        pen.setzeFuellmuster(Consts.FILL);
+        pen.zeichneKreis(pen.linienBreite() / 2);
+        pen.setzeFuellmuster(fillMode);
+        pen.drawToScreen();
+
         pen.runter();
       }
 
