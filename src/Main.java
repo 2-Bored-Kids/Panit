@@ -38,7 +38,7 @@ public class Main extends EBAnwendung {
     drawingPanel.setBounds(0, 0, Consts.SCREEN_X, Consts.SCREEN_Y);
     getFrame().add(drawingPanel);
 
-    //We live in 2077
+    // We live in 2077
     getFrame().setBackground(new Color(100, 100, 100));
     getFrame().getContentPane().setBackground(new Color(100, 100, 100));
 
@@ -222,8 +222,8 @@ public class Main extends EBAnwendung {
 
           boolean touchesMenu = (posX < Consts.MENU_X && posY < Consts.MENU_Y);
           boolean touchesBorders =
-            (posX >= Consts.SCREEN_X ||
-             posY >= Consts.SCREEN_Y || posX < 0 || posY < 0);
+            (posX >= Consts.SCREEN_X || posY >= Consts.SCREEN_Y || posX < 0 ||
+             posY < 0);
 
           if (!touchesMenu && !touchesBorders &&
               pen.getBuffer().getRGB(posX, posY) == colorReplaced.getRGB()) {

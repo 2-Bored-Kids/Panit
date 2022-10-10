@@ -1,5 +1,5 @@
 public class Consts {
-    public final static int SCREEN_X = 1600, SCREEN_Y = 900;
+  public final static int SCREEN_X = 1600, SCREEN_Y = 900;
 
   public final static int MENU_X = 170, MENU_Y = SCREEN_Y;
 
