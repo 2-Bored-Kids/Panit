@@ -33,13 +33,13 @@ public class Main extends EBAnwendung {
 
     fuehreAus();
 
-    this.hatBildschirm.privatPanel().setBackground(new Color(100, 100, 100));
+    UI.init();
 
-    DrawingPanel drawingPanel = new DrawingPanel(this);
+    DrawingPanel drawingPanel = new DrawingPanel(this, getFrame());
     drawingPanel.setBounds(0, 0, Consts.SCREEN_X, Consts.SCREEN_Y);
     getFrame().add(drawingPanel);
 
-    UI.init();
+    getFrame().getContentPane().setBackground(new Color(100, 100, 100));
 
     clearScreen();
 
@@ -202,6 +202,10 @@ public class Main extends EBAnwendung {
 
       Color colorReplaced = Utils.getColorAt(x, y, snapshot);
 
+      if (fillColor.getRGB() == colorReplaced.getRGB()) {
+        return;
+      }
+
       int taskbarHeight =
         Toolkit.getDefaultToolkit()
           .getScreenInsets(getFrame().getGraphicsConfiguration())
@@ -235,9 +239,6 @@ public class Main extends EBAnwendung {
           }
         }
       }
-
-      pen.drawToScreen();
-
     } catch (Exception e) {
     }
   }
