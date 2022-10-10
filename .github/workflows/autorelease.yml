@@ -20,6 +20,9 @@ jobs:
       - name: "Fetch SuM"
         run: curl https://www.mg-werl.de/sum/SuMWin.zip --output sum.zip && unzip sum.zip -d SuM && find SuM/ -name \*.jar -exec cp {} SuM \;
 
+      - name: "Delete bloat"
+        run: rm SuM/SuMAkzeptor.jar SuM/SuMGenerator.jar SuM/SuMTransduktor.jar
+
       - name: "Compile"
         run: javac -cp SuM/\* ./src/*.java
 
