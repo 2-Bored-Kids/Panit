@@ -27,8 +27,9 @@ public class BetterStift extends Buntstift {
       Field withDb = Bildschirm.class.getDeclaredField("zMitDoubleBuffering");
       withDb.setAccessible(true);
 
-      this.buffer = new BufferedImage(
-        Bildschirm.topFenster.breite(), Bildschirm.topFenster.hoehe(), BufferedImage.TYPE_INT_RGB);
+      this.buffer = new BufferedImage(Bildschirm.topFenster.breite(),
+                                      Bildschirm.topFenster.hoehe(),
+                                      BufferedImage.TYPE_INT_RGB);
 
       this.bufferGraphics = this.buffer.createGraphics();
       this.screenGraphics =
@@ -37,8 +38,8 @@ public class BetterStift extends Buntstift {
       dbGraphics.set(Bildschirm.topFenster, this.bufferGraphics);
       withDb.set(Bildschirm.topFenster, true);
 
-      this.frame =
-        (JFrame)SwingUtilities.getWindowAncestor(Bildschirm.topFenster.privatPanel());
+      this.frame = (JFrame)SwingUtilities.getWindowAncestor(
+        Bildschirm.topFenster.privatPanel());
 
     } catch (Exception e) {
       e.printStackTrace();
