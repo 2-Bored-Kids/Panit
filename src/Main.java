@@ -127,7 +127,7 @@ public class Main extends EBAnwendung {
     pen.hoch();
 
     if (paintMode == Consts.MODE_LINE || paintMode == Consts.MODE_RECTANGLE ||
-        paintMode == Consts.MODE_FILL) {
+        paintMode == Consts.MODE_BUCKETFILL) {
       boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2 &&
                                 y < Consts.MENU_Y + pen.linienBreite() / 2;
 
@@ -150,7 +150,7 @@ public class Main extends EBAnwendung {
             }
             break;
 
-          case Consts.MODE_FILL:
+          case Consts.MODE_BUCKETFILL:
             class FillThread extends Thread {
               public Bildschirm screen;
             }
@@ -279,7 +279,7 @@ public class Main extends EBAnwendung {
 
   public void b_mode_paintGeklickt() { paintMode = Consts.MODE_NORMAL; }
 
-  public void b_fillGeklickt() { paintMode = Consts.MODE_FILL; }
+  public void b_fillGeklickt() { paintMode = Consts.MODE_BUCKETFILL; }
 
   public void b_mode_lineGeklickt() { paintMode = Consts.MODE_LINE; }
 
