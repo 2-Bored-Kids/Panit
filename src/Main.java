@@ -12,7 +12,7 @@ import sum.ereignis.*;
 // TODO: mehr code kommentare
 
 public class Main extends EBAnwendung {
-  private BetterStift pen;
+  private static BetterStift pen;
 
   private byte paintMode = Consts.MODE_NORMAL, fillMode = Consts.NOFILL;
 
@@ -263,7 +263,7 @@ public class Main extends EBAnwendung {
     pen.bewegeBis(maxX, maxY);
   }
 
-  public BetterStift getPen() { return pen; }
+  public static BetterStift getPen() { return pen; }
 
   public JFrame getFrame() {
     return (JFrame)SwingUtilities.getWindowAncestor(
@@ -287,25 +287,9 @@ public class Main extends EBAnwendung {
 
   public void b_delAllGeklickt() { clearScreen(); }
 
-  public void a_blackGeklickt() { Utils.setColor(pen, 0, 0, 0); }
-
-  public void a_redGeklickt() { Utils.setColor(pen, 180, 20, 20); }
-
-  public void a_lightBlueGeklickt() { Utils.setColor(pen, 0, 190, 255); }
-
-  public void a_darkBlueGeklickt() { Utils.setColor(pen, 0, 72, 192); }
-
-  public void a_lightGreenGeklickt() { Utils.setColor(pen, 0, 230, 0); }
-
-  public void a_darkGreenGeklickt() { Utils.setColor(pen, 16, 180, 34); }
-
-  public void a_yellowGeklickt() { Utils.setColor(pen, 255, 236, 20); }
-
-  public void a_orangeGeklickt() { Utils.setColor(pen, 255, 182, 20); }
-
-  public void a_brownGeklickt() { Utils.setColor(pen, 100, 44, 44); }
-
-  public void a_whiteGeklickt() { Utils.setColor(pen, 255, 255, 255); }
+  public static void pickColor(Color color) {
+    Utils.setColor(getPen(), color);
+  }
 
   public void r_linewidthGeaendert() {
     pen.setzeLinienBreite(UI.r_linewidth.wert() * 2);
