@@ -181,7 +181,7 @@ public class Main extends EBAnwendung {
       pen.bewegeBis(x, y);
 
       if (paintMode == Consts.MODE_NORMAL) {
-        //4 lines of code to draw a circle, incredible
+        // 4 lines of code to draw a circle, incredible
         pen.setzeFuellmuster(Consts.FILL);
         pen.zeichneKreis(pen.linienBreite() / 2);
         pen.setzeFuellmuster(fillMode);
@@ -202,10 +202,11 @@ public class Main extends EBAnwendung {
 
       Color colorReplaced = Utils.getColorAt(x, y, snapshot);
 
-      int taskbarHeight = Toolkit.getDefaultToolkit()
-                            .getScreenInsets(getFrame().getGraphicsConfiguration())
-                            .bottom +
-                          2;
+      int taskbarHeight =
+        Toolkit.getDefaultToolkit()
+          .getScreenInsets(getFrame().getGraphicsConfiguration())
+          .bottom +
+        2;
 
       Queue<Vector2> q = new LinkedList<Vector2>();
 
@@ -222,11 +223,11 @@ public class Main extends EBAnwendung {
 
           boolean touchesMenu = (posX < Consts.MENU_X && posY < Consts.MENU_Y);
           boolean touchesBorders =
-          (posX >= Consts.SCREEN_X ||
-           posY >= Consts.SCREEN_Y - taskbarHeight || posX < 0 || posY < 0);
+            (posX >= Consts.SCREEN_X ||
+             posY >= Consts.SCREEN_Y - taskbarHeight || posX < 0 || posY < 0);
 
           if (!touchesMenu && !touchesBorders &&
-            pen.getBuffer().getRGB(posX, posY) == colorReplaced.getRGB()) {
+              pen.getBuffer().getRGB(posX, posY) == colorReplaced.getRGB()) {
 
             pen.getBuffer().setRGB(posX, posY, fillColor.getRGB());
 
@@ -266,12 +267,11 @@ public class Main extends EBAnwendung {
     pen.bewegeBis(maxX, maxY);
   }
 
-  public BetterStift getPen() {
-    return pen;
-  }
+  public BetterStift getPen() { return pen; }
 
   public JFrame getFrame() {
-    return (JFrame)SwingUtilities.getWindowAncestor(this.hatBildschirm.privatPanel());
+    return (JFrame)SwingUtilities.getWindowAncestor(
+      this.hatBildschirm.privatPanel());
   }
 
   // UI Funktionen

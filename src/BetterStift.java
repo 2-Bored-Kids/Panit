@@ -47,19 +47,16 @@ public class BetterStift extends Buntstift {
 
   public BufferedImage getBuffer() { return this.buffer; }
 
-  public void drawToScreen() {
-    drawToGraphics(this.screenGraphics);
-  }
+  public void drawToScreen() { drawToGraphics(this.screenGraphics); }
 
   public void drawToGraphics(Graphics g) {
-    g.drawImage(
-      buffer.getSubimage(Consts.MENU_X,
-                         0,
-                         this.buffer.getWidth() - Consts.MENU_X,
-                         this.buffer.getHeight()),
-      Consts.MENU_X,
-      0,
-      this.kenntPrivatschirm);
+    g.drawImage(buffer.getSubimage(Consts.MENU_X,
+                                   0,
+                                   this.buffer.getWidth() - Consts.MENU_X,
+                                   this.buffer.getHeight()),
+                Consts.MENU_X,
+                0,
+                this.kenntPrivatschirm);
   }
 
   public void clear() {
