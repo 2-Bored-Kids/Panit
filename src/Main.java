@@ -47,7 +47,7 @@ public class Main extends EBAnwendung {
     pen.setzeLinienBreite(Consts.DEFAULT_WIDTH);
   }
 
-  public static void main(String[] args) { Main main = new Main(); }
+  public static void main(String[] args) { new Main(); }
 
   public void clearScreen() {
     pen.clear();
