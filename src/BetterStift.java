@@ -21,9 +21,6 @@ public class BetterStift extends Buntstift {
     super();
 
     try {
-      Method panelGetter = Bildschirm.class.getDeclaredMethod("privatPanel");
-      panelGetter.setAccessible(true);
-
       Field dbGraphics = Bildschirm.class.getDeclaredField("dbGraphics");
       dbGraphics.setAccessible(true);
 
@@ -35,13 +32,13 @@ public class BetterStift extends Buntstift {
 
       this.bufferGraphics = this.buffer.createGraphics();
       this.screenGraphics =
-        this.get2DGraphics(((JPanel)panelGetter.invoke(screen)).getGraphics());
+        this.get2DGraphics(screen.privatPanel().getGraphics());
 
       dbGraphics.set(screen, this.bufferGraphics);
       withDb.set(screen, true);
 
       this.frame =
-        (JFrame)SwingUtilities.getWindowAncestor(Utils.getPanel(screen));
+        (JFrame)SwingUtilities.getWindowAncestor(screen.privatPanel());
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -51,14 +48,18 @@ public class BetterStift extends Buntstift {
   public BufferedImage getBuffer() { return this.buffer; }
 
   public void drawToScreen() {
-    this.screenGraphics.drawImage(
+    drawToGraphics(this.screenGraphics);
+  }
+
+  public void drawToGraphics(Graphics g) {
+    g.drawImage(
       buffer.getSubimage(Consts.MENU_X,
                          0,
                          this.buffer.getWidth() - Consts.MENU_X,
                          this.buffer.getHeight()),
       Consts.MENU_X,
       0,
-      null);
+      this.kenntPrivatschirm);
   }
 
   public void clear() {

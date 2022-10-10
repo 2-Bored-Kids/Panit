@@ -187,15 +187,12 @@ public class Main extends EBAnwendung {
   public void bucketFill(int x, int y, Color fillColor) {
     try {
       BufferedImage snapshot =
-        Utils.createSnapshot(Utils.getPanel(this.hatBildschirm), null);
+        Utils.createSnapshot(this.hatBildschirm.privatPanel(), null);
 
       Color colorReplaced = Utils.getColorAt(x, y, snapshot);
 
-      JPanel panel = Utils.getPanel(this.hatBildschirm);
-      JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(panel);
-
       int taskbarHeight = Toolkit.getDefaultToolkit()
-                            .getScreenInsets(frame.getGraphicsConfiguration())
+                            .getScreenInsets(getFrame().getGraphicsConfiguration())
                             .bottom +
                           2;
 
@@ -252,6 +249,14 @@ public class Main extends EBAnwendung {
     pen.bewegeBis(minX, minY);
     pen.zeichneRechteck(maxX - minX, maxY - minY);
     pen.bewegeBis(maxX, maxY);
+  }
+
+  public BetterStift getPen() {
+    return pen;
+  }
+
+  public JFrame getFrame() {
+    return (JFrame)SwingUtilities.getWindowAncestor(this.hatBildschirm.privatPanel());
   }
 
   // UI Funktionen

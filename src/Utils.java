@@ -14,15 +14,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import sum.ereignis.Bildschirm;
 
 public class Utils {
-  private static Field farbeFeld, panelFeld;
+  private static Field farbeFeld;
 
   public static void init() {
     try {
       farbeFeld = BetterStift.class.getSuperclass().getDeclaredField("zFarbe");
       farbeFeld.setAccessible(true);
-
-      panelFeld = Bildschirm.class.getDeclaredField("hatPanel");
-      panelFeld.setAccessible(true);
     } catch (Exception e) {
     }
   }
@@ -50,17 +47,8 @@ public class Utils {
     return null;
   }
 
-  public static JPanel getPanel(Bildschirm screen) {
-    try {
-      return (JPanel)panelFeld.get(screen);
-    } catch (Exception e) {
-    }
-
-    return null;
-  }
-
   public static void setIcon(Bildschirm screen, String filePath) {
-    JPanel panel = getPanel(screen);
+    JPanel panel = screen.privatPanel();
     JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(panel);
 
     try {
@@ -73,7 +61,7 @@ public class Utils {
 
   // Crops the left side of the image
   public static void saveImage(Bildschirm screen, String filePath) {
-    JPanel panel = getPanel(screen);
+    JPanel panel = screen.privatPanel();
 
     Rectangle panelBoundingBox =
       new Rectangle(panel.getLocationOnScreen(), panel.getSize());
@@ -81,7 +69,7 @@ public class Utils {
     panelBoundingBox.width -= Consts.MENU_X;
 
     try {
-      ImageIO.write(createSnapshot(getPanel(screen), panelBoundingBox),
+      ImageIO.write(createSnapshot(screen.privatPanel(), panelBoundingBox),
                     "png",
                     new File(filePath));
     } catch (Exception e) {
@@ -113,7 +101,7 @@ public class Utils {
   }
 
   public static void loadImage(Bildschirm screen, String filePath) {
-    JPanel panel = getPanel(screen);
+    JPanel panel = screen.privatPanel();
 
     BufferedImage image = new BufferedImage(
       panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
