@@ -30,6 +30,7 @@ public class Transmitter extends Clientverbindung {
         switch (Integer.parseInt(packet[0])) {
             case PacketIds.JOIN:
                 userPens.put(id, new BetterStift(main.image));
+                main.sendPacket(new PenSettingsPacket(id, main.getPen(), main.getPen().getFillMode(), Utils.getColor(main.getPen()), main.getPen().getPaintMode()));
                 System.out.println("User connected: " + id);
                 break;
             case PacketIds.QUIT:
@@ -70,6 +71,24 @@ public class Transmitter extends Clientverbindung {
                 ModePacket mode = new ModePacket(packet);
                 userPens.get(id).setPaintMode(mode.MODE);
                 break;
+            case PacketIds.SETTING:
+                PenSettingsPacket setPk = new PenSettingsPacket(packet);
+
+                BetterStift pen = new BetterStift(main.image);
+
+                pen.bewegeBis(setPk.PEN.hPosition(), setPk.PEN.vPosition());
+                if (setPk.PEN.istUnten()) {
+                    pen.runter();
+                }
+
+                pen.setzeFarbe(Utils.getColor(setPk.PEN));
+                pen.setPaintMode(setPk.PAINT_MODE);
+                pen.setzeFuellMuster(setPk.FILL_MODE);
+                pen.setzeLinienbreite(setPk.PEN.linienBreite());
+
+                userPens.put(id, pen);
+
+                break;
             default:
                 System.out.println("Unknown packet: " + packet[0] + " | User: " + id);
                 break;
@@ -85,7 +104,6 @@ public class Transmitter extends Clientverbindung {
 
         main.transmitter = null;
 
-        main.getPen().setToDefault();
         main.clearScreen();
     }
 }

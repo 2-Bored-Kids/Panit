@@ -25,8 +25,6 @@ public class PenTasks {
           connectPen.setzeFuellmuster(Consts.FILL);
           connectPen.zeichneKreis(connectPen.linienBreite() / 2);
           connectPen.setzeFuellmuster(fillMode);
-
-          connectPen.drawToScreen();
       }
     } else if (startPressX + startPressY != 0) {
     if (paintMode == Consts.MODE_LINE) {
@@ -43,8 +41,6 @@ public class PenTasks {
 
       connectPen.hoch();
       connectPen.normal();
-
-      connectPen.drawToScreen();
     } else if (paintMode == Consts.MODE_RECTANGLE) {
       connectPen.wechsle();
 
@@ -56,8 +52,6 @@ public class PenTasks {
       connectPen.bewegeBis(x, y);
 
       connectPen.normal();
-
-      connectPen.drawToScreen();
     }
     } else {
         connectPen.bewegeBis(x, y);
@@ -72,15 +66,12 @@ public class PenTasks {
                 connectPen.setFillMode(Consts.FILL);
                 connectPen.zeichneKreis(connectPen.linienBreite() / 2);
                 connectPen.setFillMode(connectPen.getFillMode());
-                connectPen.drawToScreen();
 
                 connectPen.runter();
             }
 
             connectPen.setStartPressX(x);
             connectPen.setStartPressY(y);
-        } else {
-            System.out.println(x);
         }
     }
 
@@ -102,14 +93,12 @@ public class PenTasks {
                             connectPen.bewegeBis(startPressX, startPressY);
 
                             drawLinie(connectPen, startPressX, startPressY, x, y);
-                            connectPen.drawToScreen();
                         }
                         break;
 
                     case Consts.MODE_RECTANGLE:
                         if (startPressX + startPressY != 0) {
                             PenTasks.drawViereck(connectPen, startPressX, startPressY, x, y);
-                            connectPen.drawToScreen();
                         }
                         break;
 

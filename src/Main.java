@@ -99,22 +99,23 @@ public class Main extends EBAnwendung {
 
   public void connectToServer() {
     if (transmitter == null) {
-      String ip = Consts.DEFAULT_SERVER_IP;
-      int port = Consts.DEFAULT_SERVER_PORT;
+      String[] parameters = UI.t_id.inhaltAlsText().split(PacketIds.SEPARATOR);
 
-      transmitter = new Transmitter(this, ip, port, false);
+      try {
+        transmitter = new Transmitter(this, parameters[0], Integer.parseInt(parameters[1]), false);
+      } catch(Exception e) {}
 
-      if (!transmitter.isConnected()) {
-        transmitter.gibFrei();
+      if (transmitter == null || !transmitter.isConnected()) {
         transmitter = null;
 
-        pen.setToDefault();
-        clearScreen();
+        return;
       }
+
+      clearScreen();
     }
   }
 
-  //TODO: fix multiple lines at once, send configs on join, sync picture, handle connections, read port and ip from textfield
+  //TODO: fix multiple lines at once, sync picture, handle connections
 
   public void disconnectFromServer(){
     if (transmitter != null){
@@ -123,7 +124,6 @@ public class Main extends EBAnwendung {
       transmitter.gibFrei();
       transmitter = null;
 
-      pen.setToDefault();
       clearScreen();
     }
   }
