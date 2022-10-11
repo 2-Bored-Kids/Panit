@@ -4,7 +4,6 @@ import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import panit.server.packets.*;
 import sum.ereignis.*;
 
 // TODO: mehr code kommentare
