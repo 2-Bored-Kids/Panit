@@ -11,21 +11,23 @@ import sum.ereignis.*;
 
 public class Main extends EBAnwendung {
   private static BetterStift pen;
+  private static Main instance;
 
   public Transmitter transmitter = null;
 
   public BufferedImage image = new BufferedImage(Bildschirm.topFenster.breite(),
           Bildschirm.topFenster.hoehe(),
-          BufferedImage.TYPE_INT_RGB);;
+          BufferedImage.TYPE_INT_RGB);
 
   public Main() {
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
 
+    instance = this;
+
     Utils.init();
 
     pen = new BetterStift(image);
-    pen.setPaintMode(Consts.DEFAULT_PAINTMODE);
-    pen.setFillMode(Consts.DEFAULT_FILLMODE);
+    pen.setToDefault();
 
     this.hatBildschirm.setTitle("Panit");
     this.hatBildschirm.setResizable(false);
@@ -44,21 +46,19 @@ public class Main extends EBAnwendung {
     getFrame().getContentPane().setBackground(Colors.GREY);
 
     clearScreen();
-
-    pen.setzeLinienBreite(Consts.DEFAULT_WIDTH);
   }
 
   public static void main(String[] args) { new Main(); }
 
   public void clearScreen() {
     pen.clear();
+
     pen.drawToScreen();
   }
 
   @Override
   public void bearbeiteDoppelKlick(int x, int y) {
-    pen.hoch();
-    sendPacket(new HochPacket());
+    bearbeiteMausLos(x, y);
   }
 
   @Override
@@ -79,7 +79,6 @@ public class Main extends EBAnwendung {
     sendPacket(new RunterPacket());
   }
 
-
   public static BetterStift getPen() {
     return pen;
   }
@@ -93,20 +92,20 @@ public class Main extends EBAnwendung {
     if (transmitter != null) {
       transmitter.sende(packet.encode());
     }
-
   }
 
   public void connectToServer() {
     if (transmitter == null) {
       String ip = Consts.DEFAULT_SERVER_IP;
       int port = Consts.DEFAULT_SERVER_PORT;
-      transmitter = new Transmitter(this, ip, port, Consts.LOGGING);
+      transmitter = new Transmitter(this, ip, port, false);
     }
   }
 
   public void disconnectFromServer(){
     if (transmitter != null){
       sendPacket(new DisconnectPacket());
+      transmitter = null;
     }
   }
 
@@ -126,8 +125,8 @@ public class Main extends EBAnwendung {
   }
 
   public void b_fillGeklickt() {
-    pen.setPaintMode(Consts.MODE_FILL);
-    sendPacket(new ModePacket(Consts.MODE_FILL));
+    pen.setPaintMode(Consts.MODE_BUCKETFILL);
+    sendPacket(new ModePacket(Consts.MODE_BUCKETFILL));
   }
 
   public void b_mode_lineGeklickt() {
@@ -147,6 +146,7 @@ public class Main extends EBAnwendung {
 
   public static void pickColor(Color color) {
     pen.setzeFarbe(color);
+    instance.sendPacket(new ColorPacket(color));
   }
 
   public void r_linewidthGeaendert() {

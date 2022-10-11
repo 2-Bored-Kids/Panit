@@ -19,7 +19,7 @@ public class BetterStift extends Buntstift {
 
   private byte paintMode, fillMode;
 
-  private int startPressX = 0, startPressY = 0;
+  private int startPressX, startPressY;
 
   public BetterStift(BufferedImage bufferedImage) {
     super();
@@ -98,11 +98,11 @@ public class BetterStift extends Buntstift {
     return startPressY;
   }
 
-  public void setStartPressX(int startPressX) {
+  public void setStartPressX(int newStartPressX) {
     this.startPressX = startPressX;
   }
 
-  public void setStartPressY(int startPressY) {
+  public void setStartPressY(int newStartPressY) {
     this.startPressY = startPressY;
   }
   public byte getFillMode(){

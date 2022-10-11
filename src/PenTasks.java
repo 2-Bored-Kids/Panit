@@ -12,12 +12,8 @@ public class PenTasks {
         byte fillMode = connectPen.getFillMode();
         int startPressX = connectPen.getStartPressX();
         int startPressY = connectPen.getStartPressY();
-            boolean touchesMenuArea = x < Consts.MENU_X + connectPen.linienBreite() / 2;
-    boolean touchesBorders =
-      (x >= Consts.SCREEN_X || y >= Consts.SCREEN_Y || x < 0 || y < 0);
 
-    if (paintMode != Consts.MODE_NORMAL &&
-        (touchesMenuArea || touchesBorders)) {
+    if (paintMode != Consts.MODE_NORMAL && paintMode != Consts.MODE_BUCKETFILL && !Utils.isInBounds(x, y, connectPen.linienBreite() / 2)) {
        stiftHoch(connectPen, (int)connectPen.hPosition(), (int)connectPen.vPosition());
       return;
     }
@@ -25,21 +21,15 @@ public class PenTasks {
     if (paintMode == Consts.MODE_NORMAL) {
         connectPen.bewegeBis(x, y);
       if (connectPen.istUnten()) {
-        if (!touchesMenuArea) {
           connectPen.normal();
           connectPen.setzeFuellmuster(Consts.FILL);
           connectPen.zeichneKreis(connectPen.linienBreite() / 2);
           connectPen.setzeFuellmuster(fillMode);
 
           connectPen.drawToScreen();
-        }
       }
-    } else if (paintMode == Consts.MODE_LINE) {
-      if (startPressX + startPressY == 0) {
-        connectPen.bewegeBis(x, y);
-        return;
-      }
-
+    } else if (startPressX + startPressY != 0) {
+    if (paintMode == Consts.MODE_LINE) {
       connectPen.wechsle();
       connectPen.runter();
       connectPen.setzeFuellmuster(Consts.FILL);
@@ -56,10 +46,6 @@ public class PenTasks {
 
       connectPen.drawToScreen();
     } else if (paintMode == Consts.MODE_RECTANGLE) {
-      if (startPressX + startPressY == 0) {
-        return;
-      }
-
       connectPen.wechsle();
 
       drawViereck(
@@ -73,13 +59,13 @@ public class PenTasks {
 
       connectPen.drawToScreen();
     }
+    } else {
+        connectPen.bewegeBis(x, y);
+    }
     }
 
     public static void stiftRunter(BetterStift connectPen, int x, int y) {
-        boolean touchesMenuArea = x < Consts.MENU_X + connectPen.linienBreite() / 2 &&
-                y < Consts.MENU_Y + connectPen.linienBreite() / 2;
-
-        if (!touchesMenuArea) {
+        if (Utils.isInBounds(x, y, connectPen.linienBreite() / 2)) {
             connectPen.bewegeBis(x, y);
 
             if (connectPen.getPaintMode() == Consts.MODE_NORMAL) {
@@ -103,11 +89,9 @@ public class PenTasks {
         connectPen.hoch();
 
         if (paintMode == Consts.MODE_LINE || paintMode == Consts.MODE_RECTANGLE ||
-                paintMode == Consts.MODE_FILL) {
-            boolean touchesMenuArea = x < Consts.MENU_X + connectPen.linienBreite() / 2 &&
-                    y < Consts.MENU_Y + connectPen.linienBreite() / 2;
+                paintMode == Consts.MODE_BUCKETFILL) {
 
-            if (!touchesMenuArea) {
+            if (Utils.isInBounds(x, y, connectPen.linienBreite() / 2)) {
                 switch (paintMode) {
                     case Consts.MODE_LINE:
                         if (startPressX + startPressY != 0) {
@@ -126,7 +110,7 @@ public class PenTasks {
                         }
                         break;
 
-                    case Consts.MODE_FILL:
+                    case Consts.MODE_BUCKETFILL:
 
                         Thread fillThread = new Thread() {
                             public void run() {
@@ -168,12 +152,7 @@ public class PenTasks {
                     final int posX = pos.x + offsets[i][0];
                     final int posY = pos.y + offsets[i][1];
 
-                    boolean touchesMenu = (posX < Consts.MENU_X && posY < Consts.MENU_Y);
-                    boolean touchesBorders =
-                            (posX >= Consts.SCREEN_X || posY >= Consts.SCREEN_Y || posX < 0 ||
-                                    posY < 0);
-
-                    if (!touchesMenu && !touchesBorders &&
+                    if (Utils.isInBounds(posX, posY, 0) &&
                             connectPen.getBuffer().getRGB(posX, posY) == colorReplaced.getRGB()) {
 
                         connectPen.getBuffer().setRGB(posX, posY, fillColor.getRGB());

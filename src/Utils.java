@@ -47,6 +47,10 @@ public class Utils {
     return null;
   }
 
+  public static boolean isInBounds(int x, int y, int radius) {
+    return !(x < (Consts.MENU_X + radius)) && !(x >= Consts.SCREEN_X || y >= Consts.SCREEN_Y || x < 0 || y < 0);
+  }
+
   public static void setIcon(Bildschirm screen, String filePath) {
     JPanel panel = screen.privatPanel();
     JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(panel);

@@ -101,8 +101,8 @@ public class UI {
 
     e_multiplayer = new Etikett(20, 625, 130, 30, "-- Multiplayer --");
     e_multiplayer.setzeAusrichtung(1);
-    t_id = new Textfeld(20, 655, 130, 20, "Adresse : Port");
-    t_id.setzeHinweis("Adresse : Port");
+    t_id = new Textfeld(20, 655, 130, 20, Consts.DEFAULT_SERVER_IP + ":" + Consts.DEFAULT_SERVER_PORT);
+    t_id.setzeHinweis("ip:port");
     b_join = new Knopf(20, 690, 130, 20, "Verbinden");
     b_join.setzeBearbeiterGeklickt("b_joinGeklickt");
     b_quit = new Knopf(20, 690, 130, 20, "Trennen");

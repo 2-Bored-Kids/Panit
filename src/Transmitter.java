@@ -9,76 +9,73 @@ import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import static packets.PacketIds.*;
+import packets.PacketIds;
 
 public class Transmitter extends Clientverbindung {
     Main main;
 
     HashMap<String, BetterStift> userPens = new HashMap<>();
 
-    public Transmitter(Main client, String server, int port, boolean mitProtokoll) {
-        super(server, port, mitProtokoll);
+    public Transmitter(Main client, String server, int port, boolean logging) {
+        super(server, port, logging);
         main = client;
     }
 
     @Override
     public void bearbeiteNachricht(String message) {
+        String[] packet = message.split(PacketIds.SEPARATOR);
 
-
-
-        String[] packet = message.split(SEPARATOR);
-
-        String id = packet[0] + SEPARATOR + packet[1];
-
+        //Get the id+port header
+        String id = packet[0] + PacketIds.SEPARATOR + packet[1];
+        //And remove it
         packet = Arrays.copyOfRange(packet, 2, packet.length);
 
-
         switch (Integer.parseInt(packet[0])) {
-            case JOIN:
+            case PacketIds.JOIN:
                 userPens.put(id, new BetterStift(main.image));
                 break;
-            case QUIT:
+            case PacketIds.QUIT:
                 userPens.remove(id);
                 break;
-            case CONNECT:
+            case PacketIds.CONNECT:
                 UI.b_join.verstecke();
                 UI.b_quit.zeige();
                 UI.e_status.setzeInhalt("Verbunden");
                 break;
-            case DISCONNECT:
+            case PacketIds.DISCONNECT:
                 UI.b_join.zeige();
                 UI.b_quit.verstecke();
                 UI.e_status.setzeInhalt("Getrennt");
                 this.gibFrei();
                 break;
-            case RUNTER:
+            case PacketIds.RUNTER:
                 PenTasks.stiftRunter(userPens.get(id), (int)userPens.get(id).hPosition(), (int)userPens.get(id).vPosition());
                 break;
-            case HOCH:
+            case PacketIds.HOCH:
                 PenTasks.stiftHoch(userPens.get(id), (int)userPens.get(id).hPosition(), (int)userPens.get(id).vPosition());
                 break;
-            case MOVE:
+            case PacketIds.MOVE:
                 MovePacket move = new MovePacket(packet);
                 PenTasks.stiftBewegt(userPens.get(id), move.X, move.Y);
                 break;
-            case WIDTH:
+            case PacketIds.WIDTH:
                 userPens.get(id).setzeLinienbreite(Integer.parseInt(packet[1]));
                 userPens.get(id).drawToScreen();
                 break;
-            case CLEAR:
+            case PacketIds.CLEAR:
                 userPens.get(id).clear();
                 userPens.get(id).drawToScreen();
                 break;
-            case COLOR:
+            case PacketIds.COLOR:
                 ColorPacket color = new ColorPacket(packet);
                 Utils.setColor(userPens.get(id), new Color(color.R, color.G, color.B));
                 break;
-            case MODE:
+            case PacketIds.MODE:
                 ModePacket mode = new ModePacket(packet);
                 userPens.get(id).setPaintMode(mode.MODE);
                 break;
             default:
-                System.out.println(message);
+                System.out.println("Unknown packet: " + packet[0] + " | User: " + id);
                 break;
         }
     }
@@ -87,5 +84,7 @@ public class Transmitter extends Clientverbindung {
         UI.b_join.zeige();
         UI.b_quit.verstecke();
         UI.e_status.setzeInhalt("Getrennt");
+
+        main.transmitter = null;
     }
 }
