@@ -10,7 +10,7 @@ public class Consts {
 
   public final static byte NOFILL = 0, FILL = 1;
 
-  public final static String DEFAULT_SERVER_IP = "46.82.94.63";
+  public final static String DEFAULT_SERVER_IP = "localhost";
   public final static int DEFAULT_SERVER_PORT = 1243;
 
   public final static int DEFAULT_WIDTH = 10;

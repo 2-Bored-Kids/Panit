@@ -114,7 +114,7 @@ public class Main extends EBAnwendung {
     }
   }
 
-  //TODO: fix multiple lines at once, send configs on join, sync picture, handle connections
+  //TODO: fix multiple lines at once, send configs on join, sync picture, handle connections, read port and ip from textfield
 
   public void disconnectFromServer(){
     if (transmitter != null){

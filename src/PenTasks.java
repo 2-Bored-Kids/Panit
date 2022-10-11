@@ -79,6 +79,8 @@ public class PenTasks {
 
             connectPen.setStartPressX(x);
             connectPen.setStartPressY(y);
+        } else {
+            System.out.println(x);
         }
     }
 
@@ -86,6 +88,7 @@ public class PenTasks {
         byte paintMode = connectPen.getPaintMode();
         int startPressX = connectPen.getStartPressX();
         int startPressY = connectPen.getStartPressY();
+
         connectPen.hoch();
 
         if (paintMode == Consts.MODE_LINE || paintMode == Consts.MODE_RECTANGLE ||

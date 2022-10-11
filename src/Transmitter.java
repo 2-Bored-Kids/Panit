@@ -91,7 +91,10 @@ public class Transmitter extends Clientverbindung {
         UI.b_quit.verstecke();
         UI.e_status.setzeInhalt("Getrennt");
 
-        main.transmitter = null;
         main.transmitter.gibFrei();
+        main.transmitter = null;
+
+        main.getPen().setToDefault();
+        main.clearScreen();
     }
 }
