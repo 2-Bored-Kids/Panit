@@ -63,14 +63,20 @@ public class Main extends EBAnwendung {
   @Override
   public void bearbeiteMausBewegt(int x, int y) {
     boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2;
+    boolean touchesBorders =
+            (x >= Consts.SCREEN_X || y >= Consts.SCREEN_Y || x < 0 ||
+             y < 0);
 
-    if (paintMode == Consts.MODE_NORMAL) {
-      pen.normal();
+    if (touchesMenuArea || touchesBorders) {
+      bearbeiteMausLos((int)pen.hPosition(), (int)pen.vPosition());
+      return;
     }
 
     if (paintMode == Consts.MODE_NORMAL) {
       if (pen.istUnten()) {
         if (!touchesMenuArea) {
+          pen.normal();
+
           pen.setzeFuellmuster(Consts.FILL);
           pen.bewegeBis(x, y);
           pen.zeichneKreis(pen.linienBreite() / 2);
@@ -79,8 +85,7 @@ public class Main extends EBAnwendung {
           pen.drawToScreen();
         }
       }
-    } else if (!touchesMenuArea) {
-      if (paintMode == Consts.MODE_LINE) {
+    } else if (paintMode == Consts.MODE_LINE) {
         if (startPressX + startPressY == 0) {
           pen.bewegeBis(x, y);
           return;
@@ -120,7 +125,6 @@ public class Main extends EBAnwendung {
         pen.drawToScreen();
       }
     }
-  }
 
   @Override
   public void bearbeiteMausLos(int x, int y) {
