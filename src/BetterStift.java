@@ -99,11 +99,11 @@ public class BetterStift extends Buntstift {
   }
 
   public void setStartPressX(int newStartPressX) {
-    this.startPressX = startPressX;
+    this.startPressX = newStartPressX;
   }
 
   public void setStartPressY(int newStartPressY) {
-    this.startPressY = startPressY;
+    this.startPressY = newStartPressY;
   }
   public byte getFillMode(){
     return fillMode;

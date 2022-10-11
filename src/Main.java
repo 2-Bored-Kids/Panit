@@ -98,7 +98,15 @@ public class Main extends EBAnwendung {
     if (transmitter == null) {
       String ip = Consts.DEFAULT_SERVER_IP;
       int port = Consts.DEFAULT_SERVER_PORT;
+
       transmitter = new Transmitter(this, ip, port, false);
+
+      if (!transmitter.isConnected()) {
+        transmitter = null;
+
+        pen.setToDefault();
+        clearScreen();
+      }
     }
   }
 
@@ -106,6 +114,9 @@ public class Main extends EBAnwendung {
     if (transmitter != null){
       sendPacket(new DisconnectPacket());
       transmitter = null;
+
+      pen.setToDefault();
+      clearScreen();
     }
   }
 

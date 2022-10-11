@@ -21,6 +21,10 @@ public class Transmitter extends Clientverbindung {
         main = client;
     }
 
+    public boolean isConnected() {
+        return zVerbindungAktiv;
+    }
+
     @Override
     public void bearbeiteNachricht(String message) {
         String[] packet = message.split(PacketIds.SEPARATOR);
