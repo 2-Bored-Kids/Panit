@@ -66,7 +66,8 @@ public class Main extends EBAnwendung {
     boolean touchesBorders =
       (x >= Consts.SCREEN_X || y >= Consts.SCREEN_Y || x < 0 || y < 0);
 
-    if (paintMode != Consts.MODE_NORMAL && (touchesMenuArea || touchesBorders)) {
+    if (paintMode != Consts.MODE_NORMAL &&
+        (touchesMenuArea || touchesBorders)) {
       bearbeiteMausLos((int)pen.hPosition(), (int)pen.vPosition());
       return;
     }
