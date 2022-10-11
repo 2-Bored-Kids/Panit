@@ -178,6 +178,8 @@ public class PenTasks {
     }
 
     public static void drawLinie(BetterStift connectPen, int sX, int sY, int eX, int eY) {
+        byte oldMode = connectPen.getFillMode();
+
         connectPen.normal();
         connectPen.hoch();
         connectPen.bewegeBis(sX, sY);
@@ -186,7 +188,7 @@ public class PenTasks {
         connectPen.zeichneKreis(connectPen.linienBreite() / 2);
         connectPen.bewegeBis(eX, eY);
         connectPen.zeichneKreis(connectPen.linienBreite() / 2);
-        connectPen.setFillMode(connectPen.getFillMode());
+        connectPen.setFillMode(oldMode);
         connectPen.hoch();
     }
 }
