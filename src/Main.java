@@ -1,8 +1,6 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.LinkedList;
-import java.util.Queue;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -16,12 +14,16 @@ public class Main extends EBAnwendung {
 
   public Transmitter transmitter = null;
 
+  public BufferedImage image = new BufferedImage(Bildschirm.topFenster.breite(),
+          Bildschirm.topFenster.hoehe(),
+          BufferedImage.TYPE_INT_RGB);;
+
   public Main() {
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
 
     Utils.init();
 
-    pen = new BetterStift();
+    pen = new BetterStift(image);
     pen.setPaintMode(Consts.DEFAULT_PAINTMODE);
     pen.setFillMode(Consts.DEFAULT_FILLMODE);
 
@@ -56,23 +58,24 @@ public class Main extends EBAnwendung {
   @Override
   public void bearbeiteDoppelKlick(int x, int y) {
     pen.hoch();
+    sendPacket(new HochPacket());
   }
 
   @Override
   public void bearbeiteMausBewegt(int x, int y) {
-    penTasks.stiftBewegt(pen, x, y);
+    PenTasks.stiftBewegt(pen, x, y);
     sendPacket(new MovePacket(x, y));
   }
 
   @Override
   public void bearbeiteMausLos(int x, int y) {
-    penTasks.stiftHoch(pen, x, y);
+    PenTasks.stiftHoch(pen, x, y);
     sendPacket(new HochPacket());
   }
 
   @Override
   public void bearbeiteMausDruck(int x, int y) {
-    penTasks.stiftRunter(pen, x, y);
+    PenTasks.stiftRunter(pen, x, y);
     sendPacket(new RunterPacket());
   }
 
@@ -113,24 +116,43 @@ public class Main extends EBAnwendung {
 
   public void b_quitGeklickt() { disconnectFromServer(); }
 
-  public void s_fillModeGeklickt() { pen.setFillMode((byte)(UI.s_fillMode.angeschaltet() ? 1 : 0)); }
+  public void s_fillModeGeklickt() {
+    pen.setFillMode((byte)(UI.s_fillMode.angeschaltet() ? 1 : 0));
+  }
 
-  public void b_mode_paintGeklickt() { pen.setPaintMode(Consts.MODE_NORMAL); }
+  public void b_mode_paintGeklickt() {
+    pen.setPaintMode(Consts.MODE_NORMAL);
+    sendPacket(new ModePacket(Consts.MODE_NORMAL));
+  }
 
-  public void b_fillGeklickt() { pen.setPaintMode(Consts.MODE_BUCKETFILL); }
+  public void b_fillGeklickt() {
+    pen.setPaintMode(Consts.MODE_FILL);
+    sendPacket(new ModePacket(Consts.MODE_FILL));
+  }
 
-  public void b_mode_lineGeklickt() { pen.setPaintMode(Consts.MODE_LINE); }
+  public void b_mode_lineGeklickt() {
+    pen.setPaintMode(Consts.MODE_LINE);
+    sendPacket(new ModePacket(Consts.MODE_LINE));
+  }
 
-  public void b_mode_rectangleGeklickt() { pen.setPaintMode(Consts.MODE_RECTANGLE); }
+  public void b_mode_rectangleGeklickt() {
+    pen.setPaintMode(Consts.MODE_RECTANGLE);
+    sendPacket(new ModePacket(Consts.MODE_RECTANGLE));
+  }
 
   public void b_delAllGeklickt() {
     clearScreen();
     sendPacket(new ClearPacket());
   }
 
-  public static void pickColor(Color color) { pen.setzeFarbe(color);}
+  public static void pickColor(Color color) {
+    pen.setzeFarbe(color);
+  }
 
-  public void r_linewidthGeaendert() { pen.setzeLinienBreite(UI.r_linewidth.wert() * 2); }
+  public void r_linewidthGeaendert() {
+    pen.setzeLinienBreite(UI.r_linewidth.wert() * 2);
+    sendPacket(new WidthPacket(UI.r_linewidth.wert() * 2));
+  }
 
   public void b_saveGeklickt() {
     String filePath = Utils.pickSaveImage();

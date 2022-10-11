@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class connectPenTasks {
+public class PenTasks {
 
     public static void stiftBewegt(BetterStift connectPen, int x, int y) {
         byte paintMode = connectPen.getPaintMode();
@@ -18,17 +18,16 @@ public class connectPenTasks {
 
     if (paintMode != Consts.MODE_NORMAL &&
         (touchesMenuArea || touchesBorders)) {
-      bearbeiteMausLos((int)connectPen.hPosition(), (int)connectPen.vPosition());
+       stiftHoch(connectPen, (int)connectPen.hPosition(), (int)connectPen.vPosition());
       return;
     }
 
     if (paintMode == Consts.MODE_NORMAL) {
+        connectPen.bewegeBis(x, y);
       if (connectPen.istUnten()) {
         if (!touchesMenuArea) {
           connectPen.normal();
-
           connectPen.setzeFuellmuster(Consts.FILL);
-          connectPen.bewegeBis(x, y);
           connectPen.zeichneKreis(connectPen.linienBreite() / 2);
           connectPen.setzeFuellmuster(fillMode);
 
@@ -64,9 +63,9 @@ public class connectPenTasks {
       connectPen.wechsle();
 
       drawViereck(
-        startPressX, startPressY, (int)connectPen.hPosition(), (int)connectPen.vPosition());
+        connectPen, startPressX, startPressY, (int)connectPen.hPosition(), (int)connectPen.vPosition());
 
-      drawViereck(startPressX, startPressY, x, y);
+      drawViereck(connectPen, startPressX, startPressY, x, y);
 
       connectPen.bewegeBis(x, y);
 
@@ -104,7 +103,7 @@ public class connectPenTasks {
         connectPen.hoch();
 
         if (paintMode == Consts.MODE_LINE || paintMode == Consts.MODE_RECTANGLE ||
-                paintMode == Consts.MODE_BUCKETFILL) {
+                paintMode == Consts.MODE_FILL) {
             boolean touchesMenuArea = x < Consts.MENU_X + connectPen.linienBreite() / 2 &&
                     y < Consts.MENU_Y + connectPen.linienBreite() / 2;
 
@@ -122,12 +121,12 @@ public class connectPenTasks {
 
                     case Consts.MODE_RECTANGLE:
                         if (startPressX + startPressY != 0) {
-                            connectPenTasks.drawViereck(connectPen, startPressX, startPressY, x, y);
+                            PenTasks.drawViereck(connectPen, startPressX, startPressY, x, y);
                             connectPen.drawToScreen();
                         }
                         break;
 
-                    case Consts.MODE_BUCKETFILL:
+                    case Consts.MODE_FILL:
 
                         Thread fillThread = new Thread() {
                             public void run() {

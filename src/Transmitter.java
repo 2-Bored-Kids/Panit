@@ -1,7 +1,11 @@
+import packets.ColorPacket;
+import packets.ModePacket;
 import packets.MovePacket;
+import sum.ereignis.Bildschirm;
 import sum.netz.*;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -10,14 +14,7 @@ import static packets.PacketIds.*;
 public class Transmitter extends Clientverbindung {
     Main main;
 
-    byte paintMode = Consts.DEFAULT_PAINTMODE;
-
-    byte fillMode = Consts.DEFAULT_FILLMODE;
-
     HashMap<String, BetterStift> userPens = new HashMap<>();
-
-    int startPressX = 0;
-    int startPressY = 0;
 
     public Transmitter(Main client, String server, int port, boolean mitProtokoll) {
         super(server, port, mitProtokoll);
@@ -38,13 +35,7 @@ public class Transmitter extends Clientverbindung {
 
         switch (Integer.parseInt(packet[0])) {
             case JOIN:
-                userPens.put(id, new BetterStift());
-                BetterStift userPen = userPens.get(id);
-                userPen.setFillMode(Consts.DEFAULT_FILLMODE);
-                userPen.setzeLinienBreite(Consts.DEFAULT_WIDTH);
-                userPen.setPaintMode(Consts.DEFAULT_PAINTMODE);
-                userPen.setzeFarbe(Consts.DEFAULT_COLOR);
-                System.out.println(userPens);
+                userPens.put(id, new BetterStift(main.image));
                 break;
             case QUIT:
                 userPens.remove(id);
@@ -61,16 +52,14 @@ public class Transmitter extends Clientverbindung {
                 this.gibFrei();
                 break;
             case RUNTER:
-                penTasks.stiftRunter(userPens.get(id), (int)userPens.get(id).hPosition(), (int)userPens.get(id).vPosition());
+                PenTasks.stiftRunter(userPens.get(id), (int)userPens.get(id).hPosition(), (int)userPens.get(id).vPosition());
                 break;
             case HOCH:
-                penTasks.stiftHoch(userPens.get(id), (int)userPens.get(id).hPosition(), (int)userPens.get(id).vPosition());
+                PenTasks.stiftHoch(userPens.get(id), (int)userPens.get(id).hPosition(), (int)userPens.get(id).vPosition());
                 break;
             case MOVE:
                 MovePacket move = new MovePacket(packet);
-                int x = move.X;
-                int y = move.Y;
-                penTasks.stiftBewegt(userPens.get(id), x, y);
+                PenTasks.stiftBewegt(userPens.get(id), move.X, move.Y);
                 break;
             case WIDTH:
                 userPens.get(id).setzeLinienbreite(Integer.parseInt(packet[1]));
@@ -78,21 +67,20 @@ public class Transmitter extends Clientverbindung {
                 break;
             case CLEAR:
                 userPens.get(id).clear();
+                userPens.get(id).drawToScreen();
                 break;
             case COLOR:
-                int r = Integer.parseInt(packet[1]);
-                int g = Integer.parseInt(packet[2]);
-                int b = Integer.parseInt(packet[3]);
-                Utils.setColor(userPens.get(id), new Color(r, g, b));
+                ColorPacket color = new ColorPacket(packet);
+                Utils.setColor(userPens.get(id), new Color(color.R, color.G, color.B));
                 break;
             case MODE:
-                paintMode = Byte.parseByte(packet[1]);
+                ModePacket mode = new ModePacket(packet);
+                userPens.get(id).setPaintMode(mode.MODE);
                 break;
             default:
                 System.out.println(message);
                 break;
         }
-
     }
 
     public void bearbeiteVerbindungsverlust() {

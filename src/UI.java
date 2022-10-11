@@ -96,7 +96,7 @@ public class UI {
     a_colors.fuegeEin(a_brown);
     a_white = new ColorOption(20, 560, 130, 20, "L\u00f6shen", Colors.WHITE);
     a_colors.fuegeEin(a_white);
-    r_linewidth = new Regler(20, 340, 130, 30, Consts.DEFAULT_WIDTH, 1, 50);
+    r_linewidth = new Regler(20, 340, 130, 30, Consts.DEFAULT_WIDTH / 2, 1, 50);
     r_linewidth.setzeBearbeiterGeaendert("r_linewidthGeaendert");
 
 
