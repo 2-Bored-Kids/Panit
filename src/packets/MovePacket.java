@@ -2,7 +2,7 @@ package packets;
 
 public class MovePacket extends Packet {
 
-    int X, Y;
+    public int X, Y;
 
 
     public MovePacket(int x, int y) {
@@ -12,10 +12,13 @@ public class MovePacket extends Packet {
     }
 
     public MovePacket(String str){
+        this(decode(str));
+    }
+
+    public MovePacket(String[] str){
         super(PacketIds.MOVE);
-        String[] move = decode(str);
-        this.X = Integer.parseInt(move[1]);
-        this.Y = Integer.parseInt(move[2]);
+        this.X = Integer.parseInt(str[1]);
+        this.Y = Integer.parseInt(str[2]);
     }
 
     @Override

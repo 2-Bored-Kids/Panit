@@ -19,7 +19,7 @@ public class Packet {
         return ID + "";
     }
 
-    public String[] decode(String packet){
+    public static String[] decode(String packet){
         return packet.split(PacketIds.SEPARATOR);
     }
 

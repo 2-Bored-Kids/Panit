@@ -13,12 +13,15 @@ public class ColorPacket extends Packet {
         this.B = color.getBlue();
     }
 
-    public ColorPacket(String str){
+    public ColorPacket(String[] str){
         super(PacketIds.COLOR);
-        String[] color = decode(str);
-        this.R = Integer.parseInt(color[1]);
-        this.G = Integer.parseInt(color[2]);
-        this.B = Integer.parseInt(color[3]);
+        this.R = Integer.parseInt(str[1]);
+        this.G = Integer.parseInt(str[2]);
+        this.B = Integer.parseInt(str[3]);
+    }
+
+    public ColorPacket(String str){
+        this(decode(str));
     }
 
     @Override

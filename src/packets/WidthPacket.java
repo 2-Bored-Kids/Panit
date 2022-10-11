@@ -9,10 +9,13 @@ public class WidthPacket extends Packet {
         this.WIDTH = width;
     }
 
-    public WidthPacket(String str){
+    public WidthPacket(String[] str){
         super(PacketIds.WIDTH);
-        String[] width = decode(str);
-        this.WIDTH = Integer.parseInt(width[1]);
+        this.WIDTH = Integer.parseInt(str[1]);
+    }
+
+    public WidthPacket(String str){
+        this(decode(str));
     }
 
     @Override

@@ -1,4 +1,4 @@
-import jdk.jshell.execution.Util;
+import packets.MovePacket;
 import sum.netz.*;
 
 import java.awt.*;
@@ -35,13 +35,16 @@ public class Transmitter extends Clientverbindung {
 
         packet = Arrays.copyOfRange(packet, 2, packet.length);
 
+
         switch (Integer.parseInt(packet[0])) {
             case JOIN:
-                BetterStift userPen = userPens.put(id, new BetterStift());
-                userPen.setzeFuellmuster(Consts.DEFAULT_FILLMODE);
+                userPens.put(id, new BetterStift());
+                BetterStift userPen = userPens.get(id);
+                userPen.setFillMode(Consts.DEFAULT_FILLMODE);
                 userPen.setzeLinienBreite(Consts.DEFAULT_WIDTH);
                 userPen.setPaintMode(Consts.DEFAULT_PAINTMODE);
                 userPen.setzeFarbe(Consts.DEFAULT_COLOR);
+                System.out.println(userPens);
                 break;
             case QUIT:
                 userPens.remove(id);
@@ -57,29 +60,31 @@ public class Transmitter extends Clientverbindung {
                 UI.e_status.setzeInhalt("Getrennt");
                 this.gibFrei();
                 break;
-            /*case RUNTER:
-                penEvents.stiftRunter(pencil, (int) pencil.hPosition(), (int) pencil.vPosition(), paintMode, startPressX, startPressY, main);
+            case RUNTER:
+                penTasks.stiftRunter(userPens.get(id), (int)userPens.get(id).hPosition(), (int)userPens.get(id).vPosition());
                 break;
             case HOCH:
-                penEvents.stiftHoch(pencil, (int) pencil.hPosition(), (int) pencil.vPosition(), paintMode, startPressX, startPressY, Consts.FILL, main);
+                penTasks.stiftHoch(userPens.get(id), (int)userPens.get(id).hPosition(), (int)userPens.get(id).vPosition());
                 break;
             case MOVE:
-                int x = Integer.parseInt(packet[1]);
-                int y = Integer.parseInt(packet[2]);
-                penEvents.stiftBewegt(pencil, x, y, paintMode, startPressX, startPressY, Consts.FILL, main);
+                MovePacket move = new MovePacket(packet);
+                int x = move.X;
+                int y = move.Y;
+                penTasks.stiftBewegt(userPens.get(id), x, y);
                 break;
             case WIDTH:
-                pencil.setzeLinienbreite(Integer.parseInt(packet[1]));
+                userPens.get(id).setzeLinienbreite(Integer.parseInt(packet[1]));
+                userPens.get(id).drawToScreen();
                 break;
             case CLEAR:
-                menuEvents.clearScreen(main.hatBildschirm);
+                userPens.get(id).clear();
                 break;
             case COLOR:
                 int r = Integer.parseInt(packet[1]);
                 int g = Integer.parseInt(packet[2]);
                 int b = Integer.parseInt(packet[3]);
-                Utils.setColor(pencil, new Color(r, g, b));
-                break;*/
+                Utils.setColor(userPens.get(id), new Color(r, g, b));
+                break;
             case MODE:
                 paintMode = Byte.parseByte(packet[1]);
                 break;

@@ -6,18 +6,13 @@ import java.util.Queue;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import packets.DisconnectPacket;
-import packets.Packet;
+import packets.*;
 import sum.ereignis.*;
 
 // TODO: mehr code kommentare
 
 public class Main extends EBAnwendung {
   private static BetterStift pen;
-
-  private byte paintMode = Consts.MODE_NORMAL, fillMode = Consts.NOFILL;
-
-  private int startPressX, startPressY;
 
   public Transmitter transmitter = null;
 
@@ -27,7 +22,8 @@ public class Main extends EBAnwendung {
     Utils.init();
 
     pen = new BetterStift();
-    pen.setzeFuellmuster(fillMode);
+    pen.setPaintMode(Consts.DEFAULT_PAINTMODE);
+    pen.setFillMode(Consts.DEFAULT_FILLMODE);
 
     this.hatBildschirm.setTitle("Panit");
     this.hatBildschirm.setResizable(false);
@@ -54,7 +50,6 @@ public class Main extends EBAnwendung {
 
   public void clearScreen() {
     pen.clear();
-
     pen.drawToScreen();
   }
 
@@ -65,208 +60,26 @@ public class Main extends EBAnwendung {
 
   @Override
   public void bearbeiteMausBewegt(int x, int y) {
-    boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2;
-
-    if (paintMode == Consts.MODE_NORMAL) {
-      pen.normal();
-    }
-
-    if (paintMode == Consts.MODE_NORMAL) {
-      if (pen.istUnten()) {
-        if (!touchesMenuArea) {
-          pen.setzeFuellmuster(Consts.FILL);
-          pen.bewegeBis(x, y);
-          pen.zeichneKreis(pen.linienBreite() / 2);
-          pen.setzeFuellmuster(fillMode);
-
-          pen.drawToScreen();
-        }
-      }
-    } else if (!touchesMenuArea) {
-      if (paintMode == Consts.MODE_LINE) {
-        if (startPressX + startPressY == 0) {
-          pen.bewegeBis(x, y);
-          return;
-        }
-
-        pen.wechsle();
-        pen.runter();
-        pen.setzeFuellmuster(Consts.FILL);
-
-        pen.zeichneKreis(pen.linienBreite() / 2);
-        pen.bewegeBis(startPressX, startPressY);
-
-        pen.bewegeBis(x, y);
-        pen.zeichneKreis(pen.linienBreite() / 2);
-        pen.setzeFuellmuster(fillMode);
-
-        pen.hoch();
-        pen.normal();
-
-        pen.drawToScreen();
-      } else if (paintMode == Consts.MODE_RECTANGLE) {
-        if (startPressX + startPressY == 0) {
-          return;
-        }
-
-        pen.wechsle();
-
-        drawViereck(
-          startPressX, startPressY, (int)pen.hPosition(), (int)pen.vPosition());
-
-        drawViereck(startPressX, startPressY, x, y);
-
-        pen.bewegeBis(x, y);
-
-        pen.normal();
-
-        pen.drawToScreen();
-      }
-    }
+    penTasks.stiftBewegt(pen, x, y);
+    sendPacket(new MovePacket(x, y));
   }
 
   @Override
   public void bearbeiteMausLos(int x, int y) {
-    pen.hoch();
-
-    if (paintMode == Consts.MODE_LINE || paintMode == Consts.MODE_RECTANGLE ||
-        paintMode == Consts.MODE_BUCKETFILL) {
-      boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2 &&
-                                y < Consts.MENU_Y + pen.linienBreite() / 2;
-
-      if (!touchesMenuArea) {
-        switch (paintMode) {
-          case Consts.MODE_LINE:
-            if (startPressX + startPressY != 0) {
-              pen.wechsle();
-              pen.bewegeBis(startPressX, startPressY);
-
-              drawLinie(startPressX, startPressY, x, y);
-              pen.drawToScreen();
-            }
-            break;
-
-          case Consts.MODE_RECTANGLE:
-            if (startPressX + startPressY != 0) {
-              drawViereck(startPressX, startPressY, x, y);
-              pen.drawToScreen();
-            }
-            break;
-
-          case Consts.MODE_BUCKETFILL:
-            class FillThread extends Thread {
-              public Bildschirm screen;
-            }
-
-            FillThread fillThread = new FillThread() {
-              public void run() {
-                bucketFill(x, y, new Color(Utils.getColor(pen).getRGB()));
-              }
-            };
-
-            fillThread.screen = this.hatBildschirm;
-
-            fillThread.start();
-            break;
-        }
-      }
-    }
-
-    startPressX = 0;
-    startPressY = 0;
+    penTasks.stiftHoch(pen, x, y);
+    sendPacket(new HochPacket());
   }
 
   @Override
   public void bearbeiteMausDruck(int x, int y) {
-    boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2 &&
-                              y < Consts.MENU_Y + pen.linienBreite() / 2;
-
-    if (!touchesMenuArea) {
-      pen.bewegeBis(x, y);
-
-      if (paintMode == Consts.MODE_NORMAL) {
-        // 4 lines of code to draw a circle, incredible
-        pen.setzeFuellmuster(Consts.FILL);
-        pen.zeichneKreis(pen.linienBreite() / 2);
-        pen.setzeFuellmuster(fillMode);
-        pen.drawToScreen();
-
-        pen.runter();
-      }
-
-      startPressX = x;
-      startPressY = y;
-    }
+    penTasks.stiftRunter(pen, x, y);
+    sendPacket(new RunterPacket());
   }
 
-  public void bucketFill(int x, int y, Color fillColor) {
-    try {
-      BufferedImage snapshot =
-        Utils.createSnapshot(this.hatBildschirm.privatPanel(), null);
 
-      Color colorReplaced = Utils.getColorAt(x, y, snapshot);
-
-      if (fillColor.getRGB() == colorReplaced.getRGB()) {
-        return;
-      }
-
-      Queue<Vector2> q = new LinkedList<Vector2>();
-
-      q.add(new Vector2(x, y));
-
-      final int offsets[][] = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
-
-      while (!q.isEmpty()) {
-        Vector2 pos = q.poll();
-
-        for (int i = 0; i < offsets.length; i++) {
-          final int posX = pos.x + offsets[i][0];
-          final int posY = pos.y + offsets[i][1];
-
-          boolean touchesMenu = (posX < Consts.MENU_X && posY < Consts.MENU_Y);
-          boolean touchesBorders =
-            (posX >= Consts.SCREEN_X || posY >= Consts.SCREEN_Y || posX < 0 ||
-             posY < 0);
-
-          if (!touchesMenu && !touchesBorders &&
-              pen.getBuffer().getRGB(posX, posY) == colorReplaced.getRGB()) {
-
-            pen.getBuffer().setRGB(posX, posY, fillColor.getRGB());
-
-            q.add(new Vector2(posX, posY));
-          }
-        }
-      }
-    } catch (Exception e) {
-    }
+  public static BetterStift getPen() {
+    return pen;
   }
-
-  public void drawLinie(int sX, int sY, int eX, int eY) {
-    pen.normal();
-    pen.hoch();
-    pen.bewegeBis(sX, sY);
-    pen.runter();
-    pen.setzeFuellmuster(Consts.FILL);
-    pen.zeichneKreis(pen.linienBreite() / 2);
-    pen.bewegeBis(eX, eY);
-    pen.zeichneKreis(pen.linienBreite() / 2);
-    pen.setzeFuellmuster(fillMode);
-    pen.hoch();
-  }
-
-  public void drawViereck(int sX, int sY, int eX, int eY) {
-    int minX = Math.min(sX, eX);
-    int maxX = Math.max(sX, eX);
-
-    int minY = Math.min(sY, eY);
-    int maxY = Math.max(sY, eY);
-
-    pen.bewegeBis(minX, minY);
-    pen.zeichneRechteck(maxX - minX, maxY - minY);
-    pen.bewegeBis(maxX, maxY);
-  }
-
-  public static BetterStift getPen() { return pen; }
 
   public JFrame getFrame() {
     return (JFrame)SwingUtilities.getWindowAncestor(
@@ -296,34 +109,28 @@ public class Main extends EBAnwendung {
 
   // UI Funktionen
 
-  public void b_joinGeklickt(){
-    connectToServer();
+  public void b_joinGeklickt(){ connectToServer(); }
+
+  public void b_quitGeklickt() { disconnectFromServer(); }
+
+  public void s_fillModeGeklickt() { pen.setFillMode((byte)(UI.s_fillMode.angeschaltet() ? 1 : 0)); }
+
+  public void b_mode_paintGeklickt() { pen.setPaintMode(Consts.MODE_NORMAL); }
+
+  public void b_fillGeklickt() { pen.setPaintMode(Consts.MODE_BUCKETFILL); }
+
+  public void b_mode_lineGeklickt() { pen.setPaintMode(Consts.MODE_LINE); }
+
+  public void b_mode_rectangleGeklickt() { pen.setPaintMode(Consts.MODE_RECTANGLE); }
+
+  public void b_delAllGeklickt() {
+    clearScreen();
+    sendPacket(new ClearPacket());
   }
 
-  public void b_quitGeklickt() {
-    disconnectFromServer();
-  }
+  public static void pickColor(Color color) { pen.setzeFarbe(color);}
 
-  public void s_fillModeGeklickt() {
-    fillMode = (byte)(UI.s_fillMode.angeschaltet() ? 1 : 0);
-    pen.setzeFuellmuster(fillMode);
-  }
-
-  public void b_mode_paintGeklickt() { paintMode = Consts.MODE_NORMAL; }
-
-  public void b_fillGeklickt() { paintMode = Consts.MODE_BUCKETFILL; }
-
-  public void b_mode_lineGeklickt() { paintMode = Consts.MODE_LINE; }
-
-  public void b_mode_rectangleGeklickt() { paintMode = Consts.MODE_RECTANGLE; }
-
-  public void b_delAllGeklickt() { clearScreen(); }
-
-  public static void pickColor(Color color) { Utils.setColor(getPen(), color); }
-
-  public void r_linewidthGeaendert() {
-    pen.setzeLinienBreite(UI.r_linewidth.wert() * 2);
-  }
+  public void r_linewidthGeaendert() { pen.setzeLinienBreite(UI.r_linewidth.wert() * 2); }
 
   public void b_saveGeklickt() {
     String filePath = Utils.pickSaveImage();

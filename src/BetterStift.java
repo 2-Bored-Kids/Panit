@@ -17,7 +17,9 @@ public class BetterStift extends Buntstift {
 
   private Graphics2D bufferGraphics, screenGraphics;
 
-  private int paintMode;
+  private byte paintMode, fillMode;
+
+  private int startPressX = 0, startPressY = 0;
 
   public BetterStift() {
     super();
@@ -68,11 +70,33 @@ public class BetterStift extends Buntstift {
       0, 0, this.buffer.getWidth(), this.buffer.getHeight());
   }
 
-  public int getPaintMode(){
+  public byte getPaintMode(){
     return paintMode;
   }
-  public void setPaintMode(int paintMode){
+  public void setPaintMode(byte paintMode){
     this.paintMode = paintMode;
   }
 
+  public int getStartPressX() {
+    return startPressX;
+  }
+
+  public int getStartPressY() {
+    return startPressY;
+  }
+
+  public void setStartPressX(int startPressX) {
+    this.startPressX = startPressX;
+  }
+
+  public void setStartPressY(int startPressY) {
+    this.startPressY = startPressY;
+  }
+  public byte getFillMode(){
+    return fillMode;
+  }
+  public void setFillMode(byte fillMode){
+    this.fillMode = fillMode;
+    this.setzeFuellmuster(fillMode);
+  }
 }
