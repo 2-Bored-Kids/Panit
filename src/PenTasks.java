@@ -148,9 +148,9 @@ public class PenTasks {
             while (!q.isEmpty()) {
                 Vector2 pos = q.poll();
 
-                for (int i = 0; i < offsets.length; i++) {
-                    final int posX = pos.x + offsets[i][0];
-                    final int posY = pos.y + offsets[i][1];
+                for (int offset[] : offsets) {
+                    final int posX = pos.x + offset[0];
+                    final int posY = pos.y + offset[1];
 
                     if (Utils.isInBounds(posX, posY, 0) &&
                             connectPen.getBuffer().getRGB(posX, posY) == colorReplaced.getRGB()) {

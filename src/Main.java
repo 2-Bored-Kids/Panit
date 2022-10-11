@@ -64,7 +64,10 @@ public class Main extends EBAnwendung {
   @Override
   public void bearbeiteMausBewegt(int x, int y) {
     PenTasks.stiftBewegt(pen, x, y);
-    sendPacket(new MovePacket(x, y));
+
+    if (pen.getStartPressX() + pen.getStartPressY() != 0) {
+      sendPacket(new MovePacket(x, y));
+    }
   }
 
   @Override
@@ -102,6 +105,7 @@ public class Main extends EBAnwendung {
       transmitter = new Transmitter(this, ip, port, false);
 
       if (!transmitter.isConnected()) {
+        transmitter.gibFrei();
         transmitter = null;
 
         pen.setToDefault();
@@ -110,13 +114,26 @@ public class Main extends EBAnwendung {
     }
   }
 
+  //TODO: fix multiple lines at once, send configs on join, sync picture, handle connections
+
   public void disconnectFromServer(){
     if (transmitter != null){
       sendPacket(new DisconnectPacket());
+
+      transmitter.gibFrei();
       transmitter = null;
 
       pen.setToDefault();
       clearScreen();
+    }
+  }
+
+  @Override
+  public void beenden() {
+    super.beenden();
+
+    if (transmitter != null) {
+      transmitter.gibFrei();
     }
   }
 

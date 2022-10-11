@@ -37,9 +37,11 @@ public class Transmitter extends Clientverbindung {
         switch (Integer.parseInt(packet[0])) {
             case PacketIds.JOIN:
                 userPens.put(id, new BetterStift(main.image));
+                System.out.println("User connected: " + id);
                 break;
             case PacketIds.QUIT:
                 userPens.remove(id);
+                System.out.println("User disconnected: " + id);
                 break;
             case PacketIds.CONNECT:
                 UI.b_join.verstecke();
@@ -90,5 +92,6 @@ public class Transmitter extends Clientverbindung {
         UI.e_status.setzeInhalt("Getrennt");
 
         main.transmitter = null;
+        main.transmitter.gibFrei();
     }
 }
