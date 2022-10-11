@@ -131,6 +131,15 @@ public class PenTasks {
         connectPen.setStartPressY(0);
     }
 
+    private static class Vector2 {
+        public int x, y;
+
+        public Vector2(int X, int Y) {
+            x = X;
+            y = Y;
+        }
+    }
+
     public static void bucketFill(BetterStift connectPen, int x, int y, Color fillColor) {
         try {
             BufferedImage snapshot =

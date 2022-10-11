@@ -56,7 +56,7 @@ public class BetterStift extends Buntstift {
             BufferedImage.TYPE_INT_RGB));
   }
 
-  public void setToDefault(){
+  public void setToDefault() {
     this.setFillMode(Consts.DEFAULT_FILLMODE);
     this.setzeLinienBreite(Consts.DEFAULT_WIDTH);
     this.setPaintMode(Consts.DEFAULT_PAINTMODE);

@@ -1,6 +1,3 @@
-import packets.ColorPacket;
-import packets.ModePacket;
-import packets.MovePacket;
 import sum.ereignis.Bildschirm;
 import sum.netz.*;
 
@@ -9,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import packets.PacketIds;
+import panit.server.packets.*;
 
 public class Transmitter extends Clientverbindung {
     Main main;
@@ -55,7 +52,8 @@ public class Transmitter extends Clientverbindung {
                 this.gibFrei();
                 break;
             case PacketIds.RUNTER:
-                PenTasks.stiftRunter(userPens.get(id), (int)userPens.get(id).hPosition(), (int)userPens.get(id).vPosition());
+                RunterPacket rnPk = new RunterPacket(packet);
+                PenTasks.stiftRunter(userPens.get(id), rnPk.X, rnPk.Y);
                 break;
             case PacketIds.HOCH:
                 PenTasks.stiftHoch(userPens.get(id), (int)userPens.get(id).hPosition(), (int)userPens.get(id).vPosition());
@@ -91,7 +89,10 @@ public class Transmitter extends Clientverbindung {
         UI.b_quit.verstecke();
         UI.e_status.setzeInhalt("Getrennt");
 
-        main.transmitter.gibFrei();
+        if (main.transmitter != null) {
+            main.transmitter.gibFrei();
+        }
+
         main.transmitter = null;
 
         main.getPen().setToDefault();

@@ -4,7 +4,7 @@ import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import packets.*;
+import panit.server.packets.*;
 import sum.ereignis.*;
 
 // TODO: mehr code kommentare
@@ -79,7 +79,7 @@ public class Main extends EBAnwendung {
   @Override
   public void bearbeiteMausDruck(int x, int y) {
     PenTasks.stiftRunter(pen, x, y);
-    sendPacket(new RunterPacket());
+    sendPacket(new RunterPacket(x, y));
   }
 
   public static BetterStift getPen() {
