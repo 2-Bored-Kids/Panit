@@ -64,8 +64,7 @@ public class Main extends EBAnwendung {
   public void bearbeiteMausBewegt(int x, int y) {
     boolean touchesMenuArea = x < Consts.MENU_X + pen.linienBreite() / 2;
     boolean touchesBorders =
-            (x >= Consts.SCREEN_X || y >= Consts.SCREEN_Y || x < 0 ||
-             y < 0);
+      (x >= Consts.SCREEN_X || y >= Consts.SCREEN_Y || x < 0 || y < 0);
 
     if (touchesMenuArea || touchesBorders) {
       bearbeiteMausLos((int)pen.hPosition(), (int)pen.vPosition());
@@ -86,45 +85,45 @@ public class Main extends EBAnwendung {
         }
       }
     } else if (paintMode == Consts.MODE_LINE) {
-        if (startPressX + startPressY == 0) {
-          pen.bewegeBis(x, y);
-          return;
-        }
-
-        pen.wechsle();
-        pen.runter();
-        pen.setzeFuellmuster(Consts.FILL);
-
-        pen.zeichneKreis(pen.linienBreite() / 2);
-        pen.bewegeBis(startPressX, startPressY);
-
+      if (startPressX + startPressY == 0) {
         pen.bewegeBis(x, y);
-        pen.zeichneKreis(pen.linienBreite() / 2);
-        pen.setzeFuellmuster(fillMode);
-
-        pen.hoch();
-        pen.normal();
-
-        pen.drawToScreen();
-      } else if (paintMode == Consts.MODE_RECTANGLE) {
-        if (startPressX + startPressY == 0) {
-          return;
-        }
-
-        pen.wechsle();
-
-        drawViereck(
-          startPressX, startPressY, (int)pen.hPosition(), (int)pen.vPosition());
-
-        drawViereck(startPressX, startPressY, x, y);
-
-        pen.bewegeBis(x, y);
-
-        pen.normal();
-
-        pen.drawToScreen();
+        return;
       }
+
+      pen.wechsle();
+      pen.runter();
+      pen.setzeFuellmuster(Consts.FILL);
+
+      pen.zeichneKreis(pen.linienBreite() / 2);
+      pen.bewegeBis(startPressX, startPressY);
+
+      pen.bewegeBis(x, y);
+      pen.zeichneKreis(pen.linienBreite() / 2);
+      pen.setzeFuellmuster(fillMode);
+
+      pen.hoch();
+      pen.normal();
+
+      pen.drawToScreen();
+    } else if (paintMode == Consts.MODE_RECTANGLE) {
+      if (startPressX + startPressY == 0) {
+        return;
+      }
+
+      pen.wechsle();
+
+      drawViereck(
+        startPressX, startPressY, (int)pen.hPosition(), (int)pen.vPosition());
+
+      drawViereck(startPressX, startPressY, x, y);
+
+      pen.bewegeBis(x, y);
+
+      pen.normal();
+
+      pen.drawToScreen();
     }
+  }
 
   @Override
   public void bearbeiteMausLos(int x, int y) {
