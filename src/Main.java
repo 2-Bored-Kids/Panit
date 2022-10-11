@@ -1,16 +1,18 @@
-import java.awt.Color;
+import sum.ereignis.Bildschirm;
+import sum.ereignis.EBAnwendung;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
-import sum.ereignis.*;
 
 // TODO: mehr code kommentare
 
 public class Main extends EBAnwendung {
   private static BetterStift pen;
   private static Main instance;
+
+  public PanitServer server = null;
 
   public Transmitter transmitter = null;
 
@@ -138,9 +140,26 @@ public class Main extends EBAnwendung {
 
   // UI Funktionen
 
-  public void b_joinGeklickt(){ connectToServer(); }
-
-  public void b_quitGeklickt() { disconnectFromServer(); }
+  public void b_serverGeklickt(){
+    if (server == null){
+      try{
+        server = new PanitServer((int) UI.t_server_port.inhaltAlsZahl());
+        UI.b_server.setzeInhalt("Trennen");
+      }catch (Exception ignored){}
+    }else {
+      disconnectFromServer();
+      server.gibFrei();
+      server = null;
+      UI.b_server.setzeInhalt("Verbinden");
+    }
+  }
+  public void b_connectionGeklickt(){
+    if (transmitter == null){
+      connectToServer();
+    }else {
+      disconnectFromServer();
+    }
+  }
 
   public void s_fillModeGeklickt() {
     pen.setFillMode((byte)(UI.s_fillMode.angeschaltet() ? 1 : 0));

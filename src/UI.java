@@ -33,9 +33,11 @@ public class UI {
 
   public static Etikett e_multiplayer;
   public static Textfeld t_id;
-  public static Knopf b_join;
-  public static Knopf b_quit;
-  public static Etikett e_status;
+  public static Knopf b_connection;
+
+  public static Etikett e_server;
+  public static Textfeld t_server_port;
+  public static Knopf b_server;
 
   public static void init() {
 
@@ -103,12 +105,15 @@ public class UI {
     e_multiplayer.setzeAusrichtung(1);
     t_id = new Textfeld(20, 655, 130, 20, Consts.DEFAULT_SERVER_IP + ":" + Consts.DEFAULT_SERVER_PORT);
     t_id.setzeHinweis("ip:port");
-    b_join = new Knopf(20, 690, 130, 20, "Verbinden");
-    b_join.setzeBearbeiterGeklickt("b_joinGeklickt");
-    b_quit = new Knopf(20, 690, 130, 20, "Trennen");
-    b_quit.setzeBearbeiterGeklickt("b_quitGeklickt");
-    b_quit.verstecke();
-    e_status = new Etikett(20, 725, 130, 20, "Getrennt");
-    e_status.setzeAusrichtung(1);
+    b_connection = new Knopf(20, 690, 130, 20, "Verbinden");
+    b_connection.setzeBearbeiterGeklickt("b_connectionGeklickt");
+
+    e_server = new Etikett(20, 710, 130, 30, "-- Server --");
+    e_server.setzeAusrichtung(1);
+    t_server_port = new Textfeld(20, 740, 130, 20, Integer.toString(Consts.DEFAULT_SERVER_PORT));
+    t_server_port.setzeHinweis("Port");
+    b_server = new Knopf(20, 775, 130, 20, "Starten");
+    b_server.setzeBearbeiterGeklickt("b_serverGeklickt");
+
   }
 }

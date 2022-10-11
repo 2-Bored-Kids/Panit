@@ -1,8 +1,6 @@
-import sum.ereignis.Bildschirm;
-import sum.netz.*;
+import sum.netz.Clientverbindung;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -39,14 +37,10 @@ public class Transmitter extends Clientverbindung {
                 System.out.println("User disconnected: " + id);
                 break;
             case PacketIds.CONNECT:
-                UI.b_join.verstecke();
-                UI.b_quit.zeige();
-                UI.e_status.setzeInhalt("Verbunden");
+                UI.b_connection.setzeInhalt("Trennen");
                 break;
             case PacketIds.DISCONNECT:
-                UI.b_join.zeige();
-                UI.b_quit.verstecke();
-                UI.e_status.setzeInhalt("Getrennt");
+                UI.b_connection.setzeInhalt("Verbinden");
                 this.gibFrei();
                 break;
             case PacketIds.RUNTER:
@@ -83,9 +77,7 @@ public class Transmitter extends Clientverbindung {
     }
 
     public void bearbeiteVerbindungsverlust() {
-        UI.b_join.zeige();
-        UI.b_quit.verstecke();
-        UI.e_status.setzeInhalt("Getrennt");
+        UI.b_connection.setzeInhalt("Verbinden");
 
         if (main.transmitter != null) {
             main.transmitter.gibFrei();
