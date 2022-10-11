@@ -53,7 +53,6 @@ public class Main extends EBAnwendung {
 
   public void clearScreen() {
     pen.clear();
-
     pen.drawToScreen();
   }
 
@@ -132,12 +131,10 @@ public class Main extends EBAnwendung {
   @Override
   public void beenden() {
     super.beenden();
-
     if (transmitter != null) {
       transmitter.gibFrei();
     }
   }
-
   // UI Funktionen
 
   public void b_serverGeklickt(){
