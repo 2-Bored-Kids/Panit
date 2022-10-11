@@ -140,8 +140,8 @@ public class PenTasks {
             }
         }
 
-        connectPen.setStartPressX(x);
-        connectPen.setStartPressY(y);
+        connectPen.setStartPressX(0);
+        connectPen.setStartPressY(0);
     }
 
     public static void bucketFill(BetterStift connectPen, int x, int y, Color fillColor) {
