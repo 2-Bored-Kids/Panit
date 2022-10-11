@@ -121,7 +121,8 @@ public class Utils {
     } catch (Exception e) {
     }
 
-    panel.getGraphics().drawImage(image, Consts.MENU_X, 0, screen);
+    Main.getPen().getBuffer().getGraphics().drawImage(
+      image, Consts.MENU_X, 0, screen);
   }
 
   public static String pickSaveImage() {

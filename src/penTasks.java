@@ -5,73 +5,75 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class penTasks {
+public class connectPenTasks {
 
     public static void stiftBewegt(BetterStift connectPen, int x, int y) {
         byte paintMode = connectPen.getPaintMode();
         byte fillMode = connectPen.getFillMode();
         int startPressX = connectPen.getStartPressX();
         int startPressY = connectPen.getStartPressY();
-        boolean touchesMenuArea = x < Consts.MENU_X + connectPen.linienBreite() / 2;
+            boolean touchesMenuArea = x < Consts.MENU_X + connectPen.linienBreite() / 2;
+    boolean touchesBorders =
+      (x >= Consts.SCREEN_X || y >= Consts.SCREEN_Y || x < 0 || y < 0);
 
-        if (paintMode == Consts.MODE_NORMAL) {
-            connectPen.normal();
+    if (paintMode != Consts.MODE_NORMAL &&
+        (touchesMenuArea || touchesBorders)) {
+      bearbeiteMausLos((int)connectPen.hPosition(), (int)connectPen.vPosition());
+      return;
+    }
+
+    if (paintMode == Consts.MODE_NORMAL) {
+      if (connectPen.istUnten()) {
+        if (!touchesMenuArea) {
+          connectPen.normal();
+
+          connectPen.setzeFuellmuster(Consts.FILL);
+          connectPen.bewegeBis(x, y);
+          connectPen.zeichneKreis(connectPen.linienBreite() / 2);
+          connectPen.setzeFuellmuster(fillMode);
+
+          connectPen.drawToScreen();
         }
+      }
+    } else if (paintMode == Consts.MODE_LINE) {
+      if (startPressX + startPressY == 0) {
+        connectPen.bewegeBis(x, y);
+        return;
+      }
 
+      connectPen.wechsle();
+      connectPen.runter();
+      connectPen.setzeFuellmuster(Consts.FILL);
 
-        if (paintMode == Consts.MODE_NORMAL) {
-            if (connectPen.istUnten()) {
-                if (!touchesMenuArea) {
-                    connectPen.bewegeBis(x, y);
-                    connectPen.setFillMode(Consts.FILL);
+      connectPen.zeichneKreis(connectPen.linienBreite() / 2);
+      connectPen.bewegeBis(startPressX, startPressY);
 
-                    connectPen.zeichneKreis(connectPen.linienBreite() / 2);
-                    connectPen.setFillMode(fillMode);
+      connectPen.bewegeBis(x, y);
+      connectPen.zeichneKreis(connectPen.linienBreite() / 2);
+      connectPen.setzeFuellmuster(fillMode);
 
-                    connectPen.drawToScreen();
-                }
-            }
-        } else if (!touchesMenuArea) {
-            if (paintMode == Consts.MODE_LINE) {
-                if (startPressX + startPressY == 0) {
-                    connectPen.bewegeBis(x, y);
-                    return;
-                }
+      connectPen.hoch();
+      connectPen.normal();
 
-                connectPen.wechsle();
-                connectPen.runter();
-                connectPen.setFillMode(Consts.FILL);
+      connectPen.drawToScreen();
+    } else if (paintMode == Consts.MODE_RECTANGLE) {
+      if (startPressX + startPressY == 0) {
+        return;
+      }
 
-                connectPen.zeichneKreis(connectPen.linienBreite() / 2);
-                connectPen.bewegeBis(startPressX, startPressY);
+      connectPen.wechsle();
 
-                connectPen.bewegeBis(x, y);
-                connectPen.zeichneKreis(connectPen.linienBreite() / 2);
-                connectPen.setFillMode(fillMode);
+      drawViereck(
+        startPressX, startPressY, (int)connectPen.hPosition(), (int)connectPen.vPosition());
 
-                connectPen.hoch();
-                connectPen.normal();
+      drawViereck(startPressX, startPressY, x, y);
 
-                connectPen.drawToScreen();
-            } else if (paintMode == Consts.MODE_RECTANGLE) {
-                if (startPressX + startPressY == 0) {
-                    return;
-                }
+      connectPen.bewegeBis(x, y);
 
-                connectPen.wechsle();
+      connectPen.normal();
 
-                penTasks.drawViereck(connectPen,
-                        startPressX, startPressY, (int)connectPen.hPosition(), (int)connectPen.vPosition());
-
-                penTasks.drawViereck(connectPen, startPressX, startPressY, x, y);
-
-                connectPen.bewegeBis(x, y);
-
-                connectPen.normal();
-
-                connectPen.drawToScreen();
-            }
-        }
+      connectPen.drawToScreen();
+    }
     }
 
     public static void stiftRunter(BetterStift connectPen, int x, int y) {
@@ -120,7 +122,7 @@ public class penTasks {
 
                     case Consts.MODE_RECTANGLE:
                         if (startPressX + startPressY != 0) {
-                            penTasks.drawViereck(connectPen, startPressX, startPressY, x, y);
+                            connectPenTasks.drawViereck(connectPen, startPressX, startPressY, x, y);
                             connectPen.drawToScreen();
                         }
                         break;
