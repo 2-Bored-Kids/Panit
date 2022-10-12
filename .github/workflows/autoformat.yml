@@ -13,8 +13,6 @@ jobs:
     steps:
       - name: "Fetch repository"
         uses: actions/checkout@v3
-        with:
-          submodules: recursive
 
       - name: "Autoformat"
         run: find src/ -name '*.java' -exec clang-format -i -style=file {} \;

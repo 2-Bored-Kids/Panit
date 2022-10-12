@@ -13,8 +13,6 @@ jobs:
     steps:
       - name: "Fetch repository"
         uses: actions/checkout@v3
-        with:
-          submodules: recursive
 
       - name: "Fetch SuM"
         run: curl https://www.mg-werl.de/sum/SuMWin.zip --output sum.zip && unzip sum.zip -d SuM && find SuM/ -name \*.jar -exec cp {} SuM \;
