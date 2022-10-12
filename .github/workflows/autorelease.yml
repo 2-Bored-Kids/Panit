@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: "Fetch repository"
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: "Fetch SuM"
         run: curl https://www.mg-werl.de/sum/SuMWin.zip --output sum.zip && unzip sum.zip -d SuM && find SuM/ -name \*.jar -exec cp {} SuM \;
@@ -30,7 +32,7 @@ jobs:
         run: mkdir sum-src && find sum/ -name '*.class' -exec cp --parents \{\} sum-src \;
 
       - name: "Create jar"
-        run: rm -rf sum && mv sum-src/* . && mv src/*.class . && jar cf Panit.jar *.class sum/ icon.png && chmod +x Panit.jar
+        run: rm -rf sum && mv sum-src/* . && mv `find src/ -name \*.class` . && jar cf Panit.jar *.class sum/ icon.png && chmod +x Panit.jar
 
       - name: "Update manifest"
         run: jar -uvfe Panit.jar Main
