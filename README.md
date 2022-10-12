@@ -57,4 +57,8 @@ __Run `main` in [Main](https://github.com/2-Bored-Kids/Panit/blob/main/src/Main.
 
 ## Screenshots
 
-__Coming soon__
+What this actually looks like:
+
+![Screenshot1](https://github.com/2-Bored-Kids/Panit/blob/main/screenshots/Panit0.png?raw=tue)
+![Screenshot1](https://github.com/2-Bored-Kids/Panit/blob/main/screenshots/Panit1.png?raw=tue)
+![Screenshot1](https://github.com/2-Bored-Kids/Panit/blob/main/screenshots/Panit2.png?raw=tue)
