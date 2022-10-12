@@ -17,8 +17,14 @@ public class BetterStift extends Buntstift {
 
   private Graphics2D bufferGraphics, screenGraphics;
 
-  public BetterStift() {
+  private byte paintMode, fillMode;
+
+  private int startPressX, startPressY;
+
+  public BetterStift(BufferedImage bufferedImage) {
     super();
+
+    setToDefault();
 
     try {
       Field dbGraphics = Bildschirm.class.getDeclaredField("dbGraphics");
@@ -27,23 +33,34 @@ public class BetterStift extends Buntstift {
       Field withDb = Bildschirm.class.getDeclaredField("zMitDoubleBuffering");
       withDb.setAccessible(true);
 
-      this.buffer = new BufferedImage(Bildschirm.topFenster.breite(),
-                                      Bildschirm.topFenster.hoehe(),
-                                      BufferedImage.TYPE_INT_RGB);
+      this.buffer = bufferedImage;
 
       this.bufferGraphics = this.buffer.createGraphics();
       this.screenGraphics =
-        this.get2DGraphics(Bildschirm.topFenster.privatPanel().getGraphics());
+              this.get2DGraphics(Bildschirm.topFenster.privatPanel().getGraphics());
 
       dbGraphics.set(Bildschirm.topFenster, this.bufferGraphics);
       withDb.set(Bildschirm.topFenster, true);
 
       this.frame = (JFrame)SwingUtilities.getWindowAncestor(
-        Bildschirm.topFenster.privatPanel());
+              Bildschirm.topFenster.privatPanel());
 
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public BetterStift() {
+    this(new BufferedImage(Bildschirm.topFenster.breite(),
+            Bildschirm.topFenster.hoehe(),
+            BufferedImage.TYPE_INT_RGB));
+  }
+
+  public void setToDefault() {
+    this.setFillMode(Consts.DEFAULT_FILLMODE);
+    this.setzeLinienBreite(Consts.DEFAULT_WIDTH);
+    this.setPaintMode(Consts.DEFAULT_PAINTMODE);
+    this.setzeFarbe(Consts.DEFAULT_COLOR);
   }
 
   public BufferedImage getBuffer() { return this.buffer; }
@@ -64,5 +81,35 @@ public class BetterStift extends Buntstift {
     this.bufferGraphics.setPaint(new Color(255, 255, 255));
     this.bufferGraphics.fillRect(
       0, 0, this.buffer.getWidth(), this.buffer.getHeight());
+  }
+
+  public byte getPaintMode(){
+    return paintMode;
+  }
+  public void setPaintMode(byte paintMode){
+    this.paintMode = paintMode;
+  }
+
+  public int getStartPressX() {
+    return startPressX;
+  }
+
+  public int getStartPressY() {
+    return startPressY;
+  }
+
+  public void setStartPressX(int newStartPressX) {
+    this.startPressX = newStartPressX;
+  }
+
+  public void setStartPressY(int newStartPressY) {
+    this.startPressY = newStartPressY;
+  }
+  public byte getFillMode(){
+    return fillMode;
+  }
+  public void setFillMode(byte fillMode){
+    this.fillMode = fillMode;
+    this.setzeFuellmuster(fillMode);
   }
 }

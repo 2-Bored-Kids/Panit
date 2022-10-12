@@ -24,7 +24,7 @@ jobs:
         run: rm SuM/SuMAkzeptor.jar SuM/SuMGenerator.jar SuM/SuMTransduktor.jar
 
       - name: "Compile"
-        run: javac -cp SuM/\* ./src/*.java
+        run: javac -cp SuM/\* `find src/ -name \*.java`
 
       - name: "Decompress SuM library"
         run: unzip -o -d . 'SuM/*.jar'

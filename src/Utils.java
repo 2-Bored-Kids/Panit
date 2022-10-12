@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import sum.ereignis.Bildschirm;
+import sum.ereignis.Buntstift;
 
 public class Utils {
   private static Field farbeFeld;
@@ -24,27 +25,31 @@ public class Utils {
     }
   }
 
-  public static void setColor(BetterStift stift, int r, int g, int b) {
+  public static void setColor(Buntstift stift, int r, int g, int b) {
     try {
       farbeFeld.set(stift, new Color(r, g, b));
     } catch (Exception e) {
     }
   }
 
-  public static void setColor(BetterStift stift, Color color) {
+  public static void setColor(Buntstift stift, Color color) {
     try {
       farbeFeld.set(stift, color);
     } catch (Exception e) {
     }
   }
 
-  public static Color getColor(BetterStift stift) {
+  public static Color getColor(Buntstift stift) {
     try {
       return (Color)farbeFeld.get(stift);
     } catch (Exception e) {
     }
 
     return null;
+  }
+
+  public static boolean isInBounds(int x, int y, int radius) {
+    return !(x < (Consts.MENU_X + radius)) && !(x >= Consts.SCREEN_X || y >= Consts.SCREEN_Y || x < 0 || y < 0);
   }
 
   public static void setIcon(Bildschirm screen, String filePath) {
