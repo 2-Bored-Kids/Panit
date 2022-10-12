@@ -1,5 +1,7 @@
 import java.awt.Color;
 
+
+//Creating constants
 public class Consts {
   public final static int SCREEN_X = 1600, SCREEN_Y = 900;
 

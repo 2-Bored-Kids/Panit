@@ -1,15 +1,17 @@
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.swing.*;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.EBAnwendung;
 
-// TODO: mehr code kommentare
-
 public class Main extends EBAnwendung {
+
+  //Initialize Main
+  //Creating server & transmitter
   private static BetterStift pen;
   private static Main instance;
 
@@ -22,7 +24,12 @@ public class Main extends EBAnwendung {
                                                  BufferedImage.TYPE_INT_RGB);
 
   public Main() {
+    //Creating Screen
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
+
+    this.hatBildschirm.setTitle("Panit");
+    this.hatBildschirm.setResizable(false);
+    Utils.setIcon(this.hatBildschirm, "icon.png");
 
     instance = this;
 
@@ -31,14 +38,12 @@ public class Main extends EBAnwendung {
     pen = new BetterStift(image);
     pen.setToDefault();
 
-    this.hatBildschirm.setTitle("Panit");
-    this.hatBildschirm.setResizable(false);
-    Utils.setIcon(this.hatBildschirm, "icon.png");
 
     this.hatBildschirm.addWindowListener(new WindowListener());
 
     fuehreAus();
 
+    //Load UI
     UI.init();
 
     DrawingPanel drawingPanel = new DrawingPanel(this, getFrame());
@@ -59,6 +64,7 @@ public class Main extends EBAnwendung {
     pen.drawToScreen();
   }
 
+  //Overriding mouse functions
   @Override
   public void bearbeiteDoppelKlick(int x, int y) {
     bearbeiteMausLos(x, y);
@@ -92,6 +98,7 @@ public class Main extends EBAnwendung {
       this.hatBildschirm.privatPanel());
   }
 
+  //Server functions
   public void sendPacket(Packet packet) {
     if (transmitter != null) {
       transmitter.sende(packet.encode());
@@ -118,8 +125,6 @@ public class Main extends EBAnwendung {
     }
   }
 
-  // TODO: client doenst get disconnected when a remote server stops
-
   public void disconnectFromServer() {
     if (transmitter != null) {
       sendPacket(new DisconnectPacket());
@@ -138,15 +143,9 @@ public class Main extends EBAnwendung {
     }
   }
 
-  private class WindowListener extends WindowAdapter {
-    @Override
-    public void windowClosing(final WindowEvent e) {
-      disconnectFromServer();
-      stopServer();
-    }
-  }
 
-  // UI Funktionen
+
+  //UI listeners
 
   public void b_serverGeklickt() {
     if (server == null) {
@@ -236,6 +235,14 @@ public class Main extends EBAnwendung {
         imgPk.IMG = ImageTasks.encode(image);
         sendPacket(imgPk);
       }
+    }
+  }
+
+  private class WindowListener extends WindowAdapter {
+    @Override
+    public void windowClosing(final WindowEvent e) {
+      disconnectFromServer();
+      stopServer();
     }
   }
 }

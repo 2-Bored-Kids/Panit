@@ -11,6 +11,8 @@ import sum.ereignis.Bildschirm;
 import sum.ereignis.Buntstift;
 
 public class BetterStift extends Buntstift {
+
+  //Initialize public attributes
   private BufferedImage buffer;
 
   private JFrame frame;
@@ -23,6 +25,7 @@ public class BetterStift extends Buntstift {
 
   public BetterStift(BufferedImage bufferedImage) {
     super();
+    //Seting up BetterPen
 
     setToDefault();
 
@@ -65,7 +68,11 @@ public class BetterStift extends Buntstift {
 
   public BufferedImage getBuffer() { return this.buffer; }
 
+  //Draw BufferedImage to screen
+
   public void drawToScreen() { drawToGraphics(this.screenGraphics); }
+
+  //Draw graphic to screen
 
   public void drawToGraphics(Graphics g) {
     g.drawImage(buffer.getSubimage(Consts.MENU_X,
@@ -76,6 +83,8 @@ public class BetterStift extends Buntstift {
                 0,
                 this.kenntPrivatschirm);
   }
+
+  //Clear screen
 
   public void clear() {
     this.bufferGraphics.setPaint(new Color(255, 255, 255));

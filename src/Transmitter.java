@@ -8,11 +8,13 @@ public class Transmitter extends Clientverbindung {
 
   HashMap<String, BetterStift> userPens = new HashMap<>();
 
+  //Setting up new Transmitter
   public Transmitter(Main client, String server, int port, boolean logging) {
     super(server, port, logging);
     main = client;
   }
 
+  //Override receive packet
   @Override
   public void bearbeiteNachricht(String message) {
     String[] packet = message.split(PacketIds.SEPARATOR);
@@ -110,6 +112,7 @@ public class Transmitter extends Clientverbindung {
     }
   }
 
+  //Method for lost connections
   public void bearbeiteVerbindungsverlust() {
     UI.b_connection.setzeInhalt("Verbinden");
 
