@@ -1,6 +1,6 @@
 import java.awt.Color;
 
-//Creating constant colors
+// Creating constant colors
 public class Colors {
   public static Color BLACK = new Color(0, 0, 0);
   public static Color RED = new Color(180, 20, 20);

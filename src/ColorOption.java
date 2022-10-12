@@ -1,7 +1,7 @@
 import java.awt.Color;
 import sum.komponenten.Radioknopf;
 
-//Extends Radioknopf for overriding click method
+// Extends Radioknopf for overriding click method
 public class ColorOption extends Radioknopf {
   Color color;
 

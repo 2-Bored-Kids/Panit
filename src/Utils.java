@@ -17,7 +17,7 @@ import sum.ereignis.Buntstift;
 public class Utils {
   private static Field farbeFeld;
 
-  //Set color of pen accessible
+  // Set color of pen accessible
 
   public static void init() {
     try {
@@ -27,8 +27,7 @@ public class Utils {
     }
   }
 
-
-  //Set pen color
+  // Set pen color
   public static void setColor(Buntstift stift, int r, int g, int b) {
     try {
       farbeFeld.set(stift, new Color(r, g, b));
@@ -52,13 +51,13 @@ public class Utils {
     return null;
   }
 
-  //Tests if x, y is in menu
+  // Tests if x, y is in menu
   public static boolean isInBounds(int x, int y, int radius) {
     return !(x < (Consts.MENU_X + radius)) &&
       !(x >= Consts.SCREEN_X || y >= Consts.SCREEN_Y || x < 0 || y < 0);
   }
 
-  //Sets app icon
+  // Sets app icon
   public static void setIcon(Bildschirm screen, String filePath) {
     JPanel panel = screen.privatPanel();
     JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(panel);
@@ -82,7 +81,7 @@ public class Utils {
     }
   }
 
-  //Crops the left side of the image & saves to path
+  // Crops the left side of the image & saves to path
   public static void saveImage(Bildschirm screen, String filePath) {
     JPanel panel = screen.privatPanel();
 
@@ -99,8 +98,7 @@ public class Utils {
     }
   }
 
-
-  //Creates snapshot of JPanel
+  // Creates snapshot of JPanel
   public static BufferedImage createSnapshot(JPanel panel,
                                              Rectangle boundingBox) {
     if (boundingBox == null) {
@@ -115,7 +113,7 @@ public class Utils {
     return null;
   }
 
-  //Get pixel color at x, y
+  // Get pixel color at x, y
   public static Color getColorAt(int x, int y, BufferedImage image) {
     int color = image.getRGB(x, y);
     int a = (color >> 24) & 255;
@@ -126,8 +124,7 @@ public class Utils {
     return new Color(r, g, b, a);
   }
 
-
-  //Loads image from path
+  // Loads image from path
   public static void loadImage(Bildschirm screen, String filePath) {
     JPanel panel = screen.privatPanel();
 
@@ -142,7 +139,7 @@ public class Utils {
       image, Consts.MENU_X, 0, screen);
   }
 
-  //Dialog for choosing a file path
+  // Dialog for choosing a file path
   public static String pickSaveImage() {
     JFileChooser chooser = new JFileChooser();
     chooser.setDialogTitle("Save image");
@@ -157,8 +154,7 @@ public class Utils {
     return "";
   }
 
-
-  //Dialog for choosing an image
+  // Dialog for choosing an image
   public static File pickImage() {
     JFileChooser chooser = new JFileChooser();
     chooser.setDialogTitle("Load image");
