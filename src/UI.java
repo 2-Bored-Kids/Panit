@@ -112,7 +112,7 @@ public class UI {
     e_server.setzeAusrichtung(1);
     t_server_port = new Textfeld(20, 740, 130, 20, Integer.toString(Consts.DEFAULT_SERVER_PORT));
     t_server_port.setzeHinweis("Port");
-    b_server = new Knopf(20, 775, 130, 20, "Starten");
+    b_server = new Knopf(20, 775, 130, 20, "Host");
     b_server.setzeBearbeiterGeklickt("b_serverGeklickt");
 
   }

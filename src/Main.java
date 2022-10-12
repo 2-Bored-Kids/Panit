@@ -109,7 +109,7 @@ public class Main extends EBAnwendung {
         transmitter = new Transmitter(this, parameters[0], Integer.parseInt(parameters[1]), false);
       } catch(Exception e) {}
 
-      if (transmitter == null || !transmitter.isConnected()) {
+      if (transmitter == null || !transmitter.vorhanden()) {
         transmitter = null;
 
         return;
@@ -118,6 +118,8 @@ public class Main extends EBAnwendung {
       clearScreen();
     }
   }
+
+  //TODO: client doenst get disconnected when a remote server stops
 
   public void disconnectFromServer(){
     if (transmitter != null){
@@ -130,12 +132,18 @@ public class Main extends EBAnwendung {
     }
   }
 
+  private void stopServer() {
+    if (server != null) {
+      server.gibFrei();
+      server = null;
+    }
+  }
+
   private class WindowListener extends WindowAdapter {
         @Override
         public void windowClosing(final WindowEvent e) {
-            if (Main.instance.transmitter != null) {
-              transmitter.gibFrei();
-            }
+            disconnectFromServer();
+            stopServer();
         }
   }
 
@@ -145,13 +153,12 @@ public class Main extends EBAnwendung {
     if (server == null){
       try{
         server = new PanitServer((int) UI.t_server_port.inhaltAlsZahl());
-        UI.b_server.setzeInhalt("Trennen");
+        UI.b_server.setzeInhalt("Stop");
       }catch (Exception ignored){}
     }else {
       disconnectFromServer();
-      server.gibFrei();
-      server = null;
-      UI.b_server.setzeInhalt("Verbinden");
+      stopServer();
+      UI.b_server.setzeInhalt("Host");
     }
   }
   public void b_connectionGeklickt(){
