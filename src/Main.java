@@ -171,6 +171,8 @@ public class Main extends EBAnwendung {
 
   public void s_fillModeGeklickt() {
     pen.setFillMode((byte)(UI.s_fillMode.angeschaltet() ? 1 : 0));
+    sendPacket(new FillModePacket((byte)(UI.s_fillMode.angeschaltet() ? 1 : 0)));
+
   }
 
   public void b_mode_paintGeklickt() {

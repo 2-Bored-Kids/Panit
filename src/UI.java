@@ -60,6 +60,7 @@ public class UI {
     b_mode_rectangle.setzeBearbeiterGeklickt("b_mode_rectangleGeklickt");
     s_fillMode = new Schalter(85, 255, 65, 25, "F\u00fcllung");
     s_fillMode.setzeBearbeiterGeklickt("s_fillModeGeklickt");
+    s_fillMode.schalteAn();
     b_mode_paint.waehle();
 
     a_paintModes = new Radiogruppe();

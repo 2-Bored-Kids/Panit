@@ -15,6 +15,6 @@ public class Consts {
 
   public final static int DEFAULT_WIDTH = 10;
   public final static byte DEFAULT_PAINTMODE = MODE_NORMAL;
-  public final static byte DEFAULT_FILLMODE = NOFILL;
+  public final static byte DEFAULT_FILLMODE = FILL;
   public final static Color DEFAULT_COLOR = Colors.BLACK;
 }

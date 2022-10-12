@@ -101,6 +101,9 @@ public class Transmitter extends Clientverbindung {
         userPens.put(id, pen);
 
         break;
+        case PacketIds.FILLMODE:
+            userPens.get(id).setFillMode(new FillModePacket(packet).FILLMODE);
+          break;
       default:
         System.out.println("Unknown packet: " + packet[0] + " | User: " + id);
         break;
