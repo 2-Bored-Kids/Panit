@@ -37,13 +37,13 @@ public class BetterStift extends Buntstift {
 
       this.bufferGraphics = this.buffer.createGraphics();
       this.screenGraphics =
-              this.get2DGraphics(Bildschirm.topFenster.privatPanel().getGraphics());
+        this.get2DGraphics(Bildschirm.topFenster.privatPanel().getGraphics());
 
       dbGraphics.set(Bildschirm.topFenster, this.bufferGraphics);
       withDb.set(Bildschirm.topFenster, true);
 
       this.frame = (JFrame)SwingUtilities.getWindowAncestor(
-              Bildschirm.topFenster.privatPanel());
+        Bildschirm.topFenster.privatPanel());
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -52,8 +52,8 @@ public class BetterStift extends Buntstift {
 
   public BetterStift() {
     this(new BufferedImage(Bildschirm.topFenster.breite(),
-            Bildschirm.topFenster.hoehe(),
-            BufferedImage.TYPE_INT_RGB));
+                           Bildschirm.topFenster.hoehe(),
+                           BufferedImage.TYPE_INT_RGB));
   }
 
   public void setToDefault() {
@@ -83,20 +83,12 @@ public class BetterStift extends Buntstift {
       0, 0, this.buffer.getWidth(), this.buffer.getHeight());
   }
 
-  public byte getPaintMode(){
-    return paintMode;
-  }
-  public void setPaintMode(byte paintMode){
-    this.paintMode = paintMode;
-  }
+  public byte getPaintMode() { return paintMode; }
+  public void setPaintMode(byte paintMode) { this.paintMode = paintMode; }
 
-  public int getStartPressX() {
-    return startPressX;
-  }
+  public int getStartPressX() { return startPressX; }
 
-  public int getStartPressY() {
-    return startPressY;
-  }
+  public int getStartPressY() { return startPressY; }
 
   public void setStartPressX(int newStartPressX) {
     this.startPressX = newStartPressX;
@@ -105,10 +97,8 @@ public class BetterStift extends Buntstift {
   public void setStartPressY(int newStartPressY) {
     this.startPressY = newStartPressY;
   }
-  public byte getFillMode(){
-    return fillMode;
-  }
-  public void setFillMode(byte fillMode){
+  public byte getFillMode() { return fillMode; }
+  public void setFillMode(byte fillMode) {
     this.fillMode = fillMode;
     this.setzeFuellmuster(fillMode);
   }

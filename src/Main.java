@@ -1,12 +1,11 @@
-import sum.ereignis.Bildschirm;
-import sum.ereignis.EBAnwendung;
-
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowAdapter;
+import javax.swing.*;
+import sum.ereignis.Bildschirm;
+import sum.ereignis.EBAnwendung;
 
 // TODO: mehr code kommentare
 
@@ -19,8 +18,8 @@ public class Main extends EBAnwendung {
   public Transmitter transmitter = null;
 
   public BufferedImage image = new BufferedImage(Bildschirm.topFenster.breite(),
-          Bildschirm.topFenster.hoehe(),
-          BufferedImage.TYPE_INT_RGB);
+                                                 Bildschirm.topFenster.hoehe(),
+                                                 BufferedImage.TYPE_INT_RGB);
 
   public Main() {
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
@@ -86,9 +85,7 @@ public class Main extends EBAnwendung {
     sendPacket(new RunterPacket(x, y));
   }
 
-  public static BetterStift getPen() {
-    return pen;
-  }
+  public static BetterStift getPen() { return pen; }
 
   public JFrame getFrame() {
     return (JFrame)SwingUtilities.getWindowAncestor(
@@ -106,8 +103,10 @@ public class Main extends EBAnwendung {
       String[] parameters = UI.t_id.inhaltAlsText().split(PacketIds.SEPARATOR);
 
       try {
-        transmitter = new Transmitter(this, parameters[0], Integer.parseInt(parameters[1]), false);
-      } catch(Exception e) {}
+        transmitter = new Transmitter(
+          this, parameters[0], Integer.parseInt(parameters[1]), false);
+      } catch (Exception e) {
+      }
 
       if (transmitter == null || !transmitter.vorhanden()) {
         transmitter = null;
@@ -119,10 +118,10 @@ public class Main extends EBAnwendung {
     }
   }
 
-  //TODO: client doenst get disconnected when a remote server stops
+  // TODO: client doenst get disconnected when a remote server stops
 
-  public void disconnectFromServer(){
-    if (transmitter != null){
+  public void disconnectFromServer() {
+    if (transmitter != null) {
       sendPacket(new DisconnectPacket());
 
       transmitter.gibFrei();
@@ -140,31 +139,32 @@ public class Main extends EBAnwendung {
   }
 
   private class WindowListener extends WindowAdapter {
-        @Override
-        public void windowClosing(final WindowEvent e) {
-            disconnectFromServer();
-            stopServer();
-        }
+    @Override
+    public void windowClosing(final WindowEvent e) {
+      disconnectFromServer();
+      stopServer();
+    }
   }
 
   // UI Funktionen
 
-  public void b_serverGeklickt(){
-    if (server == null){
-      try{
-        server = new PanitServer((int) UI.t_server_port.inhaltAlsZahl());
+  public void b_serverGeklickt() {
+    if (server == null) {
+      try {
+        server = new PanitServer((int)UI.t_server_port.inhaltAlsZahl());
         UI.b_server.setzeInhalt("Stop");
-      }catch (Exception ignored){}
-    }else {
+      } catch (Exception ignored) {
+      }
+    } else {
       disconnectFromServer();
       stopServer();
       UI.b_server.setzeInhalt("Host");
     }
   }
-  public void b_connectionGeklickt(){
-    if (transmitter == null){
+  public void b_connectionGeklickt() {
+    if (transmitter == null) {
       connectToServer();
-    }else {
+    } else {
       disconnectFromServer();
     }
   }

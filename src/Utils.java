@@ -49,7 +49,8 @@ public class Utils {
   }
 
   public static boolean isInBounds(int x, int y, int radius) {
-    return !(x < (Consts.MENU_X + radius)) && !(x >= Consts.SCREEN_X || y >= Consts.SCREEN_Y || x < 0 || y < 0);
+    return !(x < (Consts.MENU_X + radius)) &&
+      !(x >= Consts.SCREEN_X || y >= Consts.SCREEN_Y || x < 0 || y < 0);
   }
 
   public static void setIcon(Bildschirm screen, String filePath) {

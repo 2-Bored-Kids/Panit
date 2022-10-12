@@ -13,7 +13,6 @@ public class UI {
   public static Radioknopf b_mode_rectangle;
   public static Schalter s_fillMode;
 
-
   public static Etikett e_lineWidth;
   public static Regler r_linewidth;
 
@@ -41,14 +40,12 @@ public class UI {
 
   public static void init() {
 
-
     b_save = new Knopf(20, 15, 130, 20, "Speichern");
     b_save.setzeBearbeiterGeklickt("b_saveGeklickt");
     b_load = new Knopf(20, 40, 130, 20, "\u00d6ffnen");
     b_load.setzeBearbeiterGeklickt("b_loadGeklickt");
     b_delAll = new Knopf(20, 80, 130, 30, "Alles l\u00f6schen");
     b_delAll.setzeBearbeiterGeklickt("b_delAllGeklickt");
-
 
     e_paintMode = new Etikett(20, 130, 130, 30, "-- Pinselmodus --");
     e_paintMode.setzeAusrichtung(1);
@@ -84,13 +81,17 @@ public class UI {
     a_black.waehle();
     a_red = new ColorOption(20, 420, 130, 20, "Rot", Colors.RED);
     a_colors.fuegeEin(a_red);
-    a_lightBlue = new ColorOption(20, 440, 130, 20, "Hellblau", Colors.LIGHT_BLUE);
+    a_lightBlue =
+      new ColorOption(20, 440, 130, 20, "Hellblau", Colors.LIGHT_BLUE);
     a_colors.fuegeEin(a_lightBlue);
-    a_darkBlue = new ColorOption(20, 460, 130, 20, "Dunkelblau", Colors.DARK_BLUE);
+    a_darkBlue =
+      new ColorOption(20, 460, 130, 20, "Dunkelblau", Colors.DARK_BLUE);
     a_colors.fuegeEin(a_darkBlue);
-    a_lightGreen = new ColorOption(20, 480, 130, 20, "Hellgr\u00fcn", Colors.LIGHT_GREEN);
+    a_lightGreen =
+      new ColorOption(20, 480, 130, 20, "Hellgr\u00fcn", Colors.LIGHT_GREEN);
     a_colors.fuegeEin(a_lightGreen);
-    a_darkGreen = new ColorOption(20, 500, 130, 20, "Dunkelgr\u00fcn", Colors.DARK_GREEN);
+    a_darkGreen =
+      new ColorOption(20, 500, 130, 20, "Dunkelgr\u00fcn", Colors.DARK_GREEN);
     a_colors.fuegeEin(a_darkGreen);
     a_yellow = new ColorOption(20, 520, 130, 20, "Gelb", Colors.YELLOW);
     a_colors.fuegeEin(a_yellow);
@@ -103,17 +104,22 @@ public class UI {
 
     e_multiplayer = new Etikett(20, 625, 130, 30, "-- Multiplayer --");
     e_multiplayer.setzeAusrichtung(1);
-    t_id = new Textfeld(20, 655, 130, 20, Consts.DEFAULT_SERVER_IP + ":" + Consts.DEFAULT_SERVER_PORT);
+    t_id =
+      new Textfeld(20,
+                   655,
+                   130,
+                   20,
+                   Consts.DEFAULT_SERVER_IP + ":" + Consts.DEFAULT_SERVER_PORT);
     t_id.setzeHinweis("ip:port");
     b_connection = new Knopf(20, 690, 130, 20, "Verbinden");
     b_connection.setzeBearbeiterGeklickt("b_connectionGeklickt");
 
     e_server = new Etikett(20, 710, 130, 30, "-- Server --");
     e_server.setzeAusrichtung(1);
-    t_server_port = new Textfeld(20, 740, 130, 20, Integer.toString(Consts.DEFAULT_SERVER_PORT));
+    t_server_port = new Textfeld(
+      20, 740, 130, 20, Integer.toString(Consts.DEFAULT_SERVER_PORT));
     t_server_port.setzeHinweis("Port");
     b_server = new Knopf(20, 775, 130, 20, "Host");
     b_server.setzeBearbeiterGeklickt("b_serverGeklickt");
-
   }
 }
