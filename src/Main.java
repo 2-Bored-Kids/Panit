@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 
 // TODO: mehr code kommentare
 
@@ -33,6 +35,8 @@ public class Main extends EBAnwendung {
     this.hatBildschirm.setTitle("Panit");
     this.hatBildschirm.setResizable(false);
     Utils.setIcon(this.hatBildschirm, "icon.png");
+
+    this.hatBildschirm.addWindowListener(new WindowListener());
 
     fuehreAus();
 
@@ -115,8 +119,6 @@ public class Main extends EBAnwendung {
     }
   }
 
-  //TODO: fix multiple lines at once, sync picture, handle connections
-
   public void disconnectFromServer(){
     if (transmitter != null){
       sendPacket(new DisconnectPacket());
@@ -128,13 +130,15 @@ public class Main extends EBAnwendung {
     }
   }
 
-  @Override
-  public void beenden() {
-    super.beenden();
-    if (transmitter != null) {
-      transmitter.gibFrei();
-    }
+  private class WindowListener extends WindowAdapter {
+        @Override
+        public void windowClosing(final WindowEvent e) {
+            if (Main.instance.transmitter != null) {
+              transmitter.gibFrei();
+            }
+        }
   }
+
   // UI Funktionen
 
   public void b_serverGeklickt(){
@@ -217,6 +221,12 @@ public class Main extends EBAnwendung {
     if (file != null) {
       clearScreen();
       Utils.loadImage(this.hatBildschirm, file.getAbsolutePath());
+
+      if (transmitter != null) {
+        ImagePacket imgPk = new ImagePacket(" : ", " ");
+        imgPk.IMG = ImageTasks.encode(image);
+        sendPacket(imgPk);
+      }
     }
   }
 }

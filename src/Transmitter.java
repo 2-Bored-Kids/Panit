@@ -71,6 +71,17 @@ public class Transmitter extends Clientverbindung {
                 ModePacket mode = new ModePacket(packet);
                 userPens.get(id).setPaintMode(mode.MODE);
                 break;
+            case PacketIds.IMAGE:
+                ImagePacket imgPk = new ImagePacket(packet);
+
+                if (imgPk.IMG == "") {
+                    imgPk.IMG = ImageTasks.encode(main.image);
+
+                    main.sendPacket(imgPk);
+                } else {
+                    ImageTasks.drawDecode(main.getPen(), imgPk.IMG);
+                }
+                break;
             case PacketIds.SETTING:
                 PenSettingsPacket setPk = new PenSettingsPacket(packet);
 
