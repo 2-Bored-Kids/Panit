@@ -14,7 +14,11 @@ jobs:
       - name: "Fetch repository"
         uses: actions/checkout@v3
         with:
-          submodules: true
+          ssh-key: ${{ secrets.SSH_KEY }}
+          persist-credentials: true
+
+      - name: "Fetch submodules"
+        run: git submodule init && git submodule update
 
       - name: "Autoformat"
         run: find src/ -name '*.java' -exec clang-format -i -style=file {} \;
