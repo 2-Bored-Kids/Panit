@@ -16,6 +16,10 @@ jobs:
         with:
           submodules: recursive
 
+      - name: "Get latest commit hash"
+        id: hash
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
       - name: "Fetch SuM"
         run: curl https://www.mg-werl.de/sum/SuMWin.zip --output sum.zip && unzip sum.zip -d SuM && find SuM/ -name \*.jar -exec cp {} SuM \;
 
