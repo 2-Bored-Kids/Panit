@@ -10,8 +10,8 @@ import sum.ereignis.EBAnwendung;
 
 public class Main extends EBAnwendung {
 
-  //Initialize Main
-  //Creating server & transmitter
+  // Initialize Main
+  // Creating server & transmitter
   private static BetterStift pen;
   private static Main instance;
 
@@ -24,7 +24,7 @@ public class Main extends EBAnwendung {
                                                  BufferedImage.TYPE_INT_RGB);
 
   public Main() {
-    //Creating Screen
+    // Creating Screen
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
 
     this.hatBildschirm.setTitle("Panit");
@@ -38,12 +38,11 @@ public class Main extends EBAnwendung {
     pen = new BetterStift(image);
     pen.setToDefault();
 
-
     this.hatBildschirm.addWindowListener(new WindowListener());
 
     fuehreAus();
 
-    //Load UI
+    // Load UI
     UI.init();
 
     DrawingPanel drawingPanel = new DrawingPanel(this, getFrame());
@@ -64,7 +63,7 @@ public class Main extends EBAnwendung {
     pen.drawToScreen();
   }
 
-  //Overriding mouse functions
+  // Overriding mouse functions
   @Override
   public void bearbeiteDoppelKlick(int x, int y) {
     bearbeiteMausLos(x, y);
@@ -98,7 +97,7 @@ public class Main extends EBAnwendung {
       this.hatBildschirm.privatPanel());
   }
 
-  //Server functions
+  // Server functions
   public void sendPacket(Packet packet) {
     if (transmitter != null) {
       transmitter.sende(packet.encode());
@@ -143,9 +142,7 @@ public class Main extends EBAnwendung {
     }
   }
 
-
-
-  //UI listeners
+  // UI listeners
 
   public void b_serverGeklickt() {
     if (server == null) {

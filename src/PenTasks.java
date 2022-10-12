@@ -6,7 +6,7 @@ import sum.ereignis.Bildschirm;
 
 public class PenTasks {
 
-  //Creating functions for BetterStift
+  // Creating functions for BetterStift
 
   public static void stiftBewegt(BetterStift connectPen, int x, int y) {
     byte paintMode = connectPen.getPaintMode();

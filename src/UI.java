@@ -2,7 +2,7 @@ import sum.komponenten.*;
 
 public class UI {
 
-  //Creating UI
+  // Creating UI
 
   public static Knopf b_delAll;
   public static Knopf b_save;

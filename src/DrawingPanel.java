@@ -7,13 +7,13 @@ public class DrawingPanel extends JPanel {
   private Main main;
   private JFrame frame;
 
-  //Setting main attributes
+  // Setting main attributes
   public DrawingPanel(Main mainInstance, JFrame mainFrame) {
     main = mainInstance;
     frame = mainFrame;
   }
 
-  //Draw graphics to main
+  // Draw graphics to main
   @Override
   public void paintComponent(Graphics g) {
     main.getPen().drawToGraphics(g);
