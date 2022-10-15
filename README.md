@@ -9,7 +9,6 @@ Panit can also be used as a whiteboard using the server function.
 This allows multiple users to access and modify the image.
 For all functions we use the German library
 [__SuM__](https://www.mg-werl.de/sum/), which is used for school use.
-Since this is only delivered in German.
 
 ## Some goals for this project
 
@@ -17,7 +16,7 @@ Since this is only delivered in German.
 
 * Improve UI
   * Application window 🏗️
-  * Multi-language support ❓
+  * Multi-language support ✅
 
 * Better colors 🏗️
 
@@ -29,22 +28,22 @@ Since this is only delivered in German.
 
 ## Use
 
-+ *Speichern* `Saves current image to certain path`
++ *Save* `Saves current image to certain path`
 
 
-+ *Öffnen* `Loads image from Saves current image to certain path path`
++ *Load* `Loads image from Saves current image to certain path path`
 
 
-+ *Pinselmodus* `Choose a mode to draw`
++ *Brush mode* `Choose a mode to draw`
 
 
-+ *Pinselbreite* `Select a width to draw with`
++ *Brush width* `Select a width to draw with`
 
 
-+ *Pinselfarbe* `Pick a color to draw with`
++ *Brush color* `Pick a color to draw with`
 
 
-+ *Multiplayer* `Join server with given ip & port`
++ *Network* `Join server with given ip & port`
 
 
 + *Server* `Host a server with given port`
