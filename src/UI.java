@@ -4,23 +4,23 @@ public class UI {
 
   // Creating UI
 
-  public static Knopf b_delAll;
+  public static Knopf b_del_all;
   public static Knopf b_save;
   public static Knopf b_load;
 
-  public static Etikett e_paintMode;
+  public static Etikett e_paint_mode;
   public static Radioknopf b_mode_paint;
   public static Radioknopf b_mode_fill;
   public static Radioknopf b_mode_line;
   public static Radioknopf b_mode_rectangle;
-  public static Schalter s_fillMode;
+  public static Schalter s_filling;
 
-  public static Etikett e_lineWidth;
-  public static Regler r_linewidth;
+  public static Etikett e_line_width;
+  public static Regler r_line_width;
 
   public static Etikett e_color;
   public static Radiogruppe a_colors;
-  public static Radiogruppe a_paintModes;
+  public static Radiogruppe a_paint_modes;
   public static Radioknopf a_black;
   public static Radioknopf a_red;
   public static Radioknopf a_lightBlue;
@@ -42,70 +42,66 @@ public class UI {
 
   public static void init() {
 
-    b_save = new Knopf(20, 15, 130, 20, "Speichern");
-    b_save.setzeBearbeiterGeklickt("b_saveGeklickt");
-    b_load = new Knopf(20, 40, 130, 20, "\u00d6ffnen");
-    b_load.setzeBearbeiterGeklickt("b_loadGeklickt");
-    b_delAll = new Knopf(20, 80, 130, 30, "Alles l\u00f6schen");
-    b_delAll.setzeBearbeiterGeklickt("b_delAllGeklickt");
+    b_save = new Knopf(20, 15, 130, 20, getMenuText("save"));
+    b_save.setzeBearbeiterGeklickt("b_save");
+    b_load = new Knopf(20, 40, 130, 20, getMenuText("load"));
+    b_load.setzeBearbeiterGeklickt("b_load");
+    b_del_all = new Knopf(20, 80, 130, 30, getMenuText("del_all"));
+    b_del_all.setzeBearbeiterGeklickt("b_del_all");
 
-    e_paintMode = new Etikett(20, 130, 130, 30, "-- Pinselmodus --");
-    e_paintMode.setzeAusrichtung(1);
+    e_paint_mode = new Etikett(20, 130, 130, 30, getMenuText("pen_mode"));
+    e_paint_mode.setzeAusrichtung(1);
 
-    b_mode_paint = new Radioknopf(20, 160, 130, 30, "Malen");
-    b_mode_paint.setzeBearbeiterGeklickt("b_mode_paintGeklickt");
-    b_mode_fill = new Radioknopf(20, 190, 130, 30, "F\u00fcllen");
-    b_mode_fill.setzeBearbeiterGeklickt("b_fillGeklickt");
-    b_mode_line = new Radioknopf(20, 220, 130, 30, "Linie");
-    b_mode_line.setzeBearbeiterGeklickt("b_mode_lineGeklickt");
-    b_mode_rectangle = new Radioknopf(20, 250, 60, 30, "Viereck");
-    b_mode_rectangle.setzeBearbeiterGeklickt("b_mode_rectangleGeklickt");
-    s_fillMode = new Schalter(85, 255, 65, 25, "F\u00fcllung");
-    s_fillMode.setzeBearbeiterGeklickt("s_fillModeGeklickt");
-    s_fillMode.schalteAn();
+    b_mode_paint = new ModeOption(20, 160, 130, 30, getMenuText("draw"), Consts.MODE_NORMAL);
+    b_mode_fill = new ModeOption(20, 190, 130, 30, getMenuText("fill"), Consts.MODE_BUCKETFILL);
+    b_mode_line = new ModeOption(20, 220, 130, 30, getMenuText("line"), Consts.MODE_LINE);
+    b_mode_rectangle = new ModeOption(20, 250, 60, 30, getMenuText("rectangle"), Consts.MODE_RECTANGLE);
+    s_filling = new Schalter(85, 255, 65, 25, getMenuText("filling"));
+    s_filling.setzeBearbeiterGeklickt("s_filling");
+    s_filling.schalteAn();
     b_mode_paint.waehle();
 
-    a_paintModes = new Radiogruppe();
-    a_paintModes.fuegeEin(b_mode_paint);
-    a_paintModes.fuegeEin(b_mode_line);
-    a_paintModes.fuegeEin(b_mode_rectangle);
-    a_paintModes.fuegeEin(b_mode_fill);
+    a_paint_modes = new Radiogruppe();
+    a_paint_modes.fuegeEin(b_mode_paint);
+    a_paint_modes.fuegeEin(b_mode_line);
+    a_paint_modes.fuegeEin(b_mode_rectangle);
+    a_paint_modes.fuegeEin(b_mode_fill);
 
-    e_lineWidth = new Etikett(20, 300, 130, 30, "-- Pinselbreite --");
-    e_lineWidth.setzeAusrichtung(1);
-    r_linewidth = new Regler(20, 330, 130, 30, Consts.DEFAULT_WIDTH / 2, 1, 50);
-    r_linewidth.setzeBearbeiterGeaendert("r_linewidthGeaendert");
+    e_line_width = new Etikett(20, 300, 130, 30, getMenuText("pen_width"));
+    e_line_width.setzeAusrichtung(1);
+    r_line_width = new Regler(20, 330, 130, 30, Consts.DEFAULT_WIDTH / 2, 1, 50);
+    r_line_width.setzeBearbeiterGeaendert("r_line_width");
 
-    e_color = new Etikett(20, 370, 130, 30, "-- Pinselfarbe --");
+    e_color = new Etikett(20, 370, 130, 30, getMenuText("pen_color"));
     e_color.setzeAusrichtung(1);
     a_colors = new Radiogruppe();
-    a_black = new ColorOption(20, 400, 130, 20, "Schwarz", Colors.BLACK);
+    a_black = new ColorOption(20, 400, 130, 20, getMenuText("black"), Colors.BLACK);
     a_colors.fuegeEin(a_black);
     a_black.waehle();
-    a_red = new ColorOption(20, 420, 130, 20, "Rot", Colors.RED);
+    a_red = new ColorOption(20, 420, 130, 20, getMenuText("red"), Colors.RED);
     a_colors.fuegeEin(a_red);
     a_lightBlue =
-      new ColorOption(20, 440, 130, 20, "Hellblau", Colors.LIGHT_BLUE);
+      new ColorOption(20, 440, 130, 20, getMenuText("light_blue"), Colors.LIGHT_BLUE);
     a_colors.fuegeEin(a_lightBlue);
     a_darkBlue =
-      new ColorOption(20, 460, 130, 20, "Dunkelblau", Colors.DARK_BLUE);
+      new ColorOption(20, 460, 130, 20, getMenuText("dark_blue"), Colors.DARK_BLUE);
     a_colors.fuegeEin(a_darkBlue);
     a_lightGreen =
-      new ColorOption(20, 480, 130, 20, "Hellgr\u00fcn", Colors.LIGHT_GREEN);
+      new ColorOption(20, 480, 130, 20, getMenuText("light_green"), Colors.LIGHT_GREEN);
     a_colors.fuegeEin(a_lightGreen);
     a_darkGreen =
-      new ColorOption(20, 500, 130, 20, "Dunkelgr\u00fcn", Colors.DARK_GREEN);
+      new ColorOption(20, 500, 130, 20, getMenuText("dark_green"), Colors.DARK_GREEN);
     a_colors.fuegeEin(a_darkGreen);
-    a_yellow = new ColorOption(20, 520, 130, 20, "Gelb", Colors.YELLOW);
+    a_yellow = new ColorOption(20, 520, 130, 20, getMenuText("yellow"), Colors.YELLOW);
     a_colors.fuegeEin(a_yellow);
-    a_orange = new ColorOption(20, 540, 130, 20, "Orange", Colors.ORANGE);
+    a_orange = new ColorOption(20, 540, 130, 20, getMenuText("orange"), Colors.ORANGE);
     a_colors.fuegeEin(a_orange);
-    a_brown = new ColorOption(20, 560, 130, 20, "Braun", Colors.BROWN);
+    a_brown = new ColorOption(20, 560, 130, 20, getMenuText("brown"), Colors.BROWN);
     a_colors.fuegeEin(a_brown);
-    a_white = new ColorOption(20, 580, 130, 20, "L\u00f6shen", Colors.WHITE);
+    a_white = new ColorOption(20, 580, 130, 20, getMenuText("white"), Colors.WHITE);
     a_colors.fuegeEin(a_white);
 
-    e_multiplayer = new Etikett(20, 625, 130, 30, "-- Multiplayer --");
+    e_multiplayer = new Etikett(20, 625, 130, 30, getMenuText("network"));
     e_multiplayer.setzeAusrichtung(1);
     t_id =
       new Textfeld(20,
@@ -113,16 +109,20 @@ public class UI {
                    130,
                    20,
                    Consts.DEFAULT_SERVER_IP + ":" + Consts.DEFAULT_SERVER_PORT);
-    t_id.setzeHinweis("ip:port");
-    b_connection = new Knopf(20, 690, 130, 20, "Verbinden");
-    b_connection.setzeBearbeiterGeklickt("b_connectionGeklickt");
+    t_id.setzeHinweis("Ip:Port");
+    b_connection = new Knopf(20, 690, 130, 20, getMenuText("connect"));
+    b_connection.setzeBearbeiterGeklickt("b_connection");
 
-    e_server = new Etikett(20, 710, 130, 30, "-- Server --");
+    e_server = new Etikett(20, 710, 130, 30, getMenuText("server"));
     e_server.setzeAusrichtung(1);
     t_server_port = new Textfeld(
       20, 740, 130, 20, Integer.toString(Consts.DEFAULT_SERVER_PORT));
     t_server_port.setzeHinweis("Port");
-    b_server = new Knopf(20, 775, 130, 20, "Host");
-    b_server.setzeBearbeiterGeklickt("b_serverGeklickt");
+    b_server = new Knopf(20, 775, 130, 20, getMenuText("start"));
+    b_server.setzeBearbeiterGeklickt("b_server");
+  }
+
+  public static String getMenuText(String str){
+    return Main.resourceBundle.getString(str);
   }
 }

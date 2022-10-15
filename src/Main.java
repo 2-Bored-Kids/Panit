@@ -1,9 +1,9 @@
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ResourceBundle;
 import javax.swing.*;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.EBAnwendung;
@@ -22,10 +22,14 @@ public class Main extends EBAnwendung {
   public BufferedImage image = new BufferedImage(Bildschirm.topFenster.breite(),
                                                  Bildschirm.topFenster.hoehe(),
                                                  BufferedImage.TYPE_INT_RGB);
+  public static ResourceBundle resourceBundle;
 
   public Main() {
     // Creating Screen
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
+
+    resourceBundle = ResourceBundle.getBundle("resources/messages");
+
 
     this.hatBildschirm.setTitle("Panit");
     this.hatBildschirm.setResizable(false);
@@ -41,6 +45,8 @@ public class Main extends EBAnwendung {
     this.hatBildschirm.addWindowListener(new WindowListener());
 
     fuehreAus();
+
+
 
     // Load UI
     UI.init();
@@ -71,7 +77,7 @@ public class Main extends EBAnwendung {
 
   @Override
   public void bearbeiteMausBewegt(int x, int y) {
-    PenTasks.stiftBewegt(pen, x, y);
+    PenTasks.penMove(pen, x, y);
 
     if (pen.getStartPressX() + pen.getStartPressY() != 0) {
       sendPacket(new MovePacket(x, y));
@@ -80,13 +86,13 @@ public class Main extends EBAnwendung {
 
   @Override
   public void bearbeiteMausLos(int x, int y) {
-    PenTasks.stiftHoch(pen, x, y);
+    PenTasks.penUp(pen, x, y);
     sendPacket(new HochPacket());
   }
 
   @Override
   public void bearbeiteMausDruck(int x, int y) {
-    PenTasks.stiftRunter(pen, x, y);
+    PenTasks.penDown(pen, x, y);
     sendPacket(new RunterPacket(x, y));
   }
 
@@ -111,7 +117,7 @@ public class Main extends EBAnwendung {
       try {
         transmitter = new Transmitter(
           this, parameters[0], Integer.parseInt(parameters[1]), false);
-      } catch (Exception e) {
+      } catch (Exception ignored) {
       }
 
       if (transmitter == null || !transmitter.vorhanden()) {
@@ -144,20 +150,20 @@ public class Main extends EBAnwendung {
 
   // UI listeners
 
-  public void b_serverGeklickt() {
+  public void b_server() {
     if (server == null) {
       try {
         server = new PanitServer((int)UI.t_server_port.inhaltAlsZahl());
-        UI.b_server.setzeInhalt("Stop");
+        UI.b_server.setzeInhalt(UI.getMenuText("stop"));
       } catch (Exception ignored) {
       }
     } else {
       disconnectFromServer();
       stopServer();
-      UI.b_server.setzeInhalt("Host");
+      UI.b_server.setzeInhalt(UI.getMenuText("start"));
     }
   }
-  public void b_connectionGeklickt() {
+  public void b_connection() {
     if (transmitter == null) {
       connectToServer();
     } else {
@@ -165,33 +171,18 @@ public class Main extends EBAnwendung {
     }
   }
 
-  public void s_fillModeGeklickt() {
-    pen.setFillMode((byte)(UI.s_fillMode.angeschaltet() ? 1 : 0));
+  public void s_filling() {
+    pen.setFillMode((byte)(UI.s_filling.angeschaltet() ? 1 : 0));
     sendPacket(
-      new FillModePacket((byte)(UI.s_fillMode.angeschaltet() ? 1 : 0)));
+      new FillModePacket((byte)(UI.s_filling.angeschaltet() ? 1 : 0)));
   }
 
-  public void b_mode_paintGeklickt() {
-    pen.setPaintMode(Consts.MODE_NORMAL);
-    sendPacket(new ModePacket(Consts.MODE_NORMAL));
+  public static void pickMode(byte newMode){
+    pen.setPaintMode(newMode);
+    instance.sendPacket(new ModePacket(newMode));
   }
 
-  public void b_fillGeklickt() {
-    pen.setPaintMode(Consts.MODE_BUCKETFILL);
-    sendPacket(new ModePacket(Consts.MODE_BUCKETFILL));
-  }
-
-  public void b_mode_lineGeklickt() {
-    pen.setPaintMode(Consts.MODE_LINE);
-    sendPacket(new ModePacket(Consts.MODE_LINE));
-  }
-
-  public void b_mode_rectangleGeklickt() {
-    pen.setPaintMode(Consts.MODE_RECTANGLE);
-    sendPacket(new ModePacket(Consts.MODE_RECTANGLE));
-  }
-
-  public void b_delAllGeklickt() {
+  public void b_del_all() {
     clearScreen();
     sendPacket(new ClearPacket());
   }
@@ -201,26 +192,26 @@ public class Main extends EBAnwendung {
     instance.sendPacket(new ColorPacket(color));
   }
 
-  public void r_linewidthGeaendert() {
-    pen.setzeLinienBreite(UI.r_linewidth.wert() * 2);
-    sendPacket(new WidthPacket(UI.r_linewidth.wert() * 2));
+  public void r_line_width() {
+    pen.setzeLinienBreite(UI.r_line_width.wert() * 2);
+    sendPacket(new WidthPacket(UI.r_line_width.wert() * 2));
   }
 
-  public void b_saveGeklickt() {
+  public void b_save() {
     String filePath = Utils.pickSaveImage();
 
     // Hack! Wait for the save menu to close
     try {
       Thread.sleep(500);
-    } catch (Exception e) {
+    } catch (Exception ignored) {
     }
 
-    if (filePath != "") {
+    if (!filePath.equals("")) {
       Utils.saveImage(this.hatBildschirm, filePath);
     }
   }
 
-  public void b_loadGeklickt() {
+  public void b_load() {
     File file = Utils.pickImage();
 
     if (file != null) {
@@ -240,6 +231,7 @@ public class Main extends EBAnwendung {
     public void windowClosing(final WindowEvent e) {
       disconnectFromServer();
       stopServer();
+      beenden();
     }
   }
 }

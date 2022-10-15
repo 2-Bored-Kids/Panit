@@ -8,7 +8,7 @@ public class PenTasks {
 
   // Creating functions for BetterStift
 
-  public static void stiftBewegt(BetterStift connectPen, int x, int y) {
+  public static void penMove(BetterStift connectPen, int x, int y) {
     byte paintMode = connectPen.getPaintMode();
     byte fillMode = connectPen.getFillMode();
     int startPressX = connectPen.getStartPressX();
@@ -17,7 +17,7 @@ public class PenTasks {
     if (paintMode != Consts.MODE_NORMAL &&
         paintMode != Consts.MODE_BUCKETFILL &&
         !Utils.isInBounds(x, y, connectPen.linienBreite() / 2)) {
-      stiftHoch(
+      penUp(
         connectPen, (int)connectPen.hPosition(), (int)connectPen.vPosition());
       return;
     }
@@ -48,13 +48,13 @@ public class PenTasks {
       } else if (paintMode == Consts.MODE_RECTANGLE) {
         connectPen.wechsle();
 
-        drawViereck(connectPen,
+        drawRectangle(connectPen,
                     startPressX,
                     startPressY,
                     (int)connectPen.hPosition(),
                     (int)connectPen.vPosition());
 
-        drawViereck(connectPen, startPressX, startPressY, x, y);
+        drawRectangle(connectPen, startPressX, startPressY, x, y);
 
         connectPen.bewegeBis(x, y);
 
@@ -65,7 +65,7 @@ public class PenTasks {
     }
   }
 
-  public static void stiftRunter(BetterStift connectPen, int x, int y) {
+  public static void penDown(BetterStift connectPen, int x, int y) {
     if (Utils.isInBounds(x, y, connectPen.linienBreite() / 2)) {
       connectPen.bewegeBis(x, y);
 
@@ -82,7 +82,7 @@ public class PenTasks {
     }
   }
 
-  public static void stiftHoch(BetterStift connectPen, int x, int y) {
+  public static void penUp(BetterStift connectPen, int x, int y) {
     byte paintMode = connectPen.getPaintMode();
     int startPressX = connectPen.getStartPressX();
     int startPressY = connectPen.getStartPressY();
@@ -99,13 +99,13 @@ public class PenTasks {
               connectPen.wechsle();
               connectPen.bewegeBis(startPressX, startPressY);
 
-              drawLinie(connectPen, startPressX, startPressY, x, y);
+              drawLine(connectPen, startPressX, startPressY, x, y);
             }
             break;
 
           case Consts.MODE_RECTANGLE:
             if (startPressX + startPressY != 0) {
-              PenTasks.drawViereck(connectPen, startPressX, startPressY, x, y);
+              PenTasks.drawRectangle(connectPen, startPressX, startPressY, x, y);
             }
             break;
 
@@ -147,6 +147,7 @@ public class PenTasks {
       BufferedImage snapshot =
         Utils.createSnapshot(Bildschirm.topFenster.privatPanel(), null);
 
+      assert snapshot != null;
       Color colorReplaced = Utils.getColorAt(x, y, snapshot);
 
       if (fillColor.getRGB() == colorReplaced.getRGB()) {
@@ -157,12 +158,12 @@ public class PenTasks {
 
       q.add(new Vector2(x, y));
 
-      final int offsets[][] = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+      final int[][] offsets = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 
       while (!q.isEmpty()) {
         Vector2 pos = q.poll();
 
-        for (int offset[] : offsets) {
+        for (int[] offset : offsets) {
           final int posX = pos.x + offset[0];
           final int posY = pos.y + offset[1];
 
@@ -176,15 +177,15 @@ public class PenTasks {
           }
         }
       }
-    } catch (Exception e) {
+    } catch (Exception ignored) {
     }
   }
 
-  public static void drawViereck(BetterStift connectPen,
-                                 int sX,
-                                 int sY,
-                                 int eX,
-                                 int eY) {
+  public static void drawRectangle(BetterStift connectPen,
+                                   int sX,
+                                   int sY,
+                                   int eX,
+                                   int eY) {
     int minX = Math.min(sX, eX);
     int maxX = Math.max(sX, eX);
 
@@ -196,11 +197,11 @@ public class PenTasks {
     connectPen.bewegeBis(maxX, maxY);
   }
 
-  public static void drawLinie(BetterStift connectPen,
-                               int sX,
-                               int sY,
-                               int eX,
-                               int eY) {
+  public static void drawLine(BetterStift connectPen,
+                              int sX,
+                              int sY,
+                              int eX,
+                              int eY) {
     byte oldMode = connectPen.getFillMode();
 
     connectPen.normal();
