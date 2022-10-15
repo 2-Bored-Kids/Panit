@@ -15,37 +15,37 @@ import sum.ereignis.Bildschirm;
 import sum.ereignis.Buntstift;
 
 public class Utils {
-  private static Field farbeFeld;
+  private static Field colorField;
 
   // Set color of pen accessible
 
   public static void init() {
     try {
-      farbeFeld = BetterStift.class.getSuperclass().getDeclaredField("zFarbe");
-      farbeFeld.setAccessible(true);
-    } catch (Exception e) {
+      colorField = BetterStift.class.getSuperclass().getDeclaredField("zFarbe");
+      colorField.setAccessible(true);
+    } catch (Exception ignored) {
     }
   }
 
   // Set pen color
-  public static void setColor(Buntstift stift, int r, int g, int b) {
+  public static void setColor(Buntstift pen, int r, int g, int b) {
     try {
-      farbeFeld.set(stift, new Color(r, g, b));
-    } catch (Exception e) {
+      colorField.set(pen, new Color(r, g, b));
+    } catch (Exception ignored) {
     }
   }
 
-  public static void setColor(Buntstift stift, Color color) {
+  public static void setColor(Buntstift pen, Color color) {
     try {
-      farbeFeld.set(stift, color);
-    } catch (Exception e) {
+      colorField.set(pen, color);
+    } catch (Exception ignored) {
     }
   }
 
-  public static Color getColor(Buntstift stift) {
+  public static Color getColor(Buntstift pen) {
     try {
-      return (Color)farbeFeld.get(stift);
-    } catch (Exception e) {
+      return (Color) colorField.get(pen);
+    } catch (Exception ignored) {
     }
 
     return null;
@@ -77,7 +77,7 @@ public class Utils {
 
       frame.setIconImage(icon);
       Taskbar.getTaskbar().setIconImage(icon);
-    } catch (Exception e) {
+    } catch (Exception ignored) {
     }
   }
 
@@ -94,7 +94,7 @@ public class Utils {
       ImageIO.write(createSnapshot(screen.privatPanel(), panelBoundingBox),
                     "png",
                     new File(filePath));
-    } catch (Exception e) {
+    } catch (Exception ignored) {
     }
   }
 
@@ -107,7 +107,7 @@ public class Utils {
 
     try {
       return new Robot().createScreenCapture(boundingBox);
-    } catch (Exception e) {
+    } catch (Exception ignored) {
     }
 
     return null;
@@ -126,7 +126,7 @@ public class Utils {
       panel.getWidth(), panel.getHeight(), BufferedImage.TYPE_INT_ARGB);
     try {
       image = ImageIO.read(new File(filePath));
-    } catch (Exception e) {
+    } catch (Exception ignored) {
     }
 
     Main.getPen().getBuffer().getGraphics().drawImage(

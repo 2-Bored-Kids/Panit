@@ -39,24 +39,24 @@ public class Transmitter extends Clientverbindung {
         System.out.println("User disconnected: " + id);
         break;
       case PacketIds.CONNECT:
-        UI.b_connection.setzeInhalt("Trennen");
+        UI.b_connection.setzeInhalt(UI.getMenuText("disconnect"));
         break;
       case PacketIds.DISCONNECT:
-        UI.b_connection.setzeInhalt("Verbinden");
+        UI.b_connection.setzeInhalt(UI.getMenuText("connect"));
         this.gibFrei();
         break;
       case PacketIds.RUNTER:
         RunterPacket rnPk = new RunterPacket(packet);
-        PenTasks.stiftRunter(userPens.get(id), rnPk.X, rnPk.Y);
+        PenTasks.penDown(userPens.get(id), rnPk.X, rnPk.Y);
         break;
       case PacketIds.HOCH:
-        PenTasks.stiftHoch(userPens.get(id),
+        PenTasks.penUp(userPens.get(id),
                            (int)userPens.get(id).hPosition(),
                            (int)userPens.get(id).vPosition());
         break;
       case PacketIds.MOVE:
         MovePacket move = new MovePacket(packet);
-        PenTasks.stiftBewegt(userPens.get(id), move.X, move.Y);
+        PenTasks.penMove(userPens.get(id), move.X, move.Y);
         break;
       case PacketIds.WIDTH:
         userPens.get(id).setzeLinienbreite(Integer.parseInt(packet[1]));
@@ -114,13 +114,12 @@ public class Transmitter extends Clientverbindung {
 
   // Method for lost connections
   public void bearbeiteVerbindungsverlust() {
-    UI.b_connection.setzeInhalt("Verbinden");
+    UI.b_connection.setzeInhalt(UI.getMenuText("connect"));
 
     if (main.transmitter != null) {
       main.transmitter.gibFrei();
       main.transmitter = null;
     }
-
     main.clearScreen();
   }
 }
