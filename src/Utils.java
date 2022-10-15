@@ -115,13 +115,7 @@ public class Utils {
 
   // Get pixel color at x, y
   public static Color getColorAt(int x, int y, BufferedImage image) {
-    int color = image.getRGB(x, y);
-    int a = (color >> 24) & 255;
-    int r = (color >> 16) & 255;
-    int g = (color >> 8) & 255;
-    int b = color & 255;
-
-    return new Color(r, g, b, a);
+    return new Color(image.getRGB(x, y));
   }
 
   // Loads image from path
