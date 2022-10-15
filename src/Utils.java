@@ -44,7 +44,7 @@ public class Utils {
 
   public static Color getColor(Buntstift pen) {
     try {
-      return (Color) colorField.get(pen);
+      return (Color)colorField.get(pen);
     } catch (Exception ignored) {
     }
 

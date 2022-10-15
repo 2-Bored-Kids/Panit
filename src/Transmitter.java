@@ -51,8 +51,8 @@ public class Transmitter extends Clientverbindung {
         break;
       case PacketIds.HOCH:
         PenTasks.penUp(userPens.get(id),
-                           (int)userPens.get(id).hPosition(),
-                           (int)userPens.get(id).vPosition());
+                       (int)userPens.get(id).hPosition(),
+                       (int)userPens.get(id).vPosition());
         break;
       case PacketIds.MOVE:
         MovePacket move = new MovePacket(packet);

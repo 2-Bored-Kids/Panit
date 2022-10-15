@@ -30,7 +30,6 @@ public class Main extends EBAnwendung {
 
     resourceBundle = ResourceBundle.getBundle("resources/messages");
 
-
     this.hatBildschirm.setTitle("Panit");
     this.hatBildschirm.setResizable(false);
     Utils.setIcon(this.hatBildschirm, "icon.png");
@@ -45,8 +44,6 @@ public class Main extends EBAnwendung {
     this.hatBildschirm.addWindowListener(new WindowListener());
 
     fuehreAus();
-
-
 
     // Load UI
     UI.init();
@@ -173,11 +170,10 @@ public class Main extends EBAnwendung {
 
   public void s_filling() {
     pen.setFillMode((byte)(UI.s_filling.angeschaltet() ? 1 : 0));
-    sendPacket(
-      new FillModePacket((byte)(UI.s_filling.angeschaltet() ? 1 : 0)));
+    sendPacket(new FillModePacket((byte)(UI.s_filling.angeschaltet() ? 1 : 0)));
   }
 
-  public static void pickMode(byte newMode){
+  public static void pickMode(byte newMode) {
     pen.setPaintMode(newMode);
     instance.sendPacket(new ModePacket(newMode));
   }

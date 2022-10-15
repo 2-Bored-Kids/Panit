@@ -49,10 +49,10 @@ public class PenTasks {
         connectPen.wechsle();
 
         drawRectangle(connectPen,
-                    startPressX,
-                    startPressY,
-                    (int)connectPen.hPosition(),
-                    (int)connectPen.vPosition());
+                      startPressX,
+                      startPressY,
+                      (int)connectPen.hPosition(),
+                      (int)connectPen.vPosition());
 
         drawRectangle(connectPen, startPressX, startPressY, x, y);
 
@@ -105,7 +105,8 @@ public class PenTasks {
 
           case Consts.MODE_RECTANGLE:
             if (startPressX + startPressY != 0) {
-              PenTasks.drawRectangle(connectPen, startPressX, startPressY, x, y);
+              PenTasks.drawRectangle(
+                connectPen, startPressX, startPressY, x, y);
             }
             break;
 

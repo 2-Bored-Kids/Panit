@@ -52,10 +52,14 @@ public class UI {
     e_paint_mode = new Etikett(20, 130, 130, 30, getMenuText("pen_mode"));
     e_paint_mode.setzeAusrichtung(1);
 
-    b_mode_paint = new ModeOption(20, 160, 130, 30, getMenuText("draw"), Consts.MODE_NORMAL);
-    b_mode_fill = new ModeOption(20, 190, 130, 30, getMenuText("fill"), Consts.MODE_BUCKETFILL);
-    b_mode_line = new ModeOption(20, 220, 130, 30, getMenuText("line"), Consts.MODE_LINE);
-    b_mode_rectangle = new ModeOption(20, 250, 60, 30, getMenuText("rectangle"), Consts.MODE_RECTANGLE);
+    b_mode_paint =
+      new ModeOption(20, 160, 130, 30, getMenuText("draw"), Consts.MODE_NORMAL);
+    b_mode_fill = new ModeOption(
+      20, 190, 130, 30, getMenuText("fill"), Consts.MODE_BUCKETFILL);
+    b_mode_line =
+      new ModeOption(20, 220, 130, 30, getMenuText("line"), Consts.MODE_LINE);
+    b_mode_rectangle = new ModeOption(
+      20, 250, 60, 30, getMenuText("rectangle"), Consts.MODE_RECTANGLE);
     s_filling = new Schalter(85, 255, 65, 25, getMenuText("filling"));
     s_filling.setzeBearbeiterGeklickt("s_filling");
     s_filling.schalteAn();
@@ -69,36 +73,42 @@ public class UI {
 
     e_line_width = new Etikett(20, 300, 130, 30, getMenuText("pen_width"));
     e_line_width.setzeAusrichtung(1);
-    r_line_width = new Regler(20, 330, 130, 30, Consts.DEFAULT_WIDTH / 2, 1, 50);
+    r_line_width =
+      new Regler(20, 330, 130, 30, Consts.DEFAULT_WIDTH / 2, 1, 50);
     r_line_width.setzeBearbeiterGeaendert("r_line_width");
 
     e_color = new Etikett(20, 370, 130, 30, getMenuText("pen_color"));
     e_color.setzeAusrichtung(1);
     a_colors = new Radiogruppe();
-    a_black = new ColorOption(20, 400, 130, 20, getMenuText("black"), Colors.BLACK);
+    a_black =
+      new ColorOption(20, 400, 130, 20, getMenuText("black"), Colors.BLACK);
     a_colors.fuegeEin(a_black);
     a_black.waehle();
     a_red = new ColorOption(20, 420, 130, 20, getMenuText("red"), Colors.RED);
     a_colors.fuegeEin(a_red);
-    a_lightBlue =
-      new ColorOption(20, 440, 130, 20, getMenuText("light_blue"), Colors.LIGHT_BLUE);
+    a_lightBlue = new ColorOption(
+      20, 440, 130, 20, getMenuText("light_blue"), Colors.LIGHT_BLUE);
     a_colors.fuegeEin(a_lightBlue);
-    a_darkBlue =
-      new ColorOption(20, 460, 130, 20, getMenuText("dark_blue"), Colors.DARK_BLUE);
+    a_darkBlue = new ColorOption(
+      20, 460, 130, 20, getMenuText("dark_blue"), Colors.DARK_BLUE);
     a_colors.fuegeEin(a_darkBlue);
-    a_lightGreen =
-      new ColorOption(20, 480, 130, 20, getMenuText("light_green"), Colors.LIGHT_GREEN);
+    a_lightGreen = new ColorOption(
+      20, 480, 130, 20, getMenuText("light_green"), Colors.LIGHT_GREEN);
     a_colors.fuegeEin(a_lightGreen);
-    a_darkGreen =
-      new ColorOption(20, 500, 130, 20, getMenuText("dark_green"), Colors.DARK_GREEN);
+    a_darkGreen = new ColorOption(
+      20, 500, 130, 20, getMenuText("dark_green"), Colors.DARK_GREEN);
     a_colors.fuegeEin(a_darkGreen);
-    a_yellow = new ColorOption(20, 520, 130, 20, getMenuText("yellow"), Colors.YELLOW);
+    a_yellow =
+      new ColorOption(20, 520, 130, 20, getMenuText("yellow"), Colors.YELLOW);
     a_colors.fuegeEin(a_yellow);
-    a_orange = new ColorOption(20, 540, 130, 20, getMenuText("orange"), Colors.ORANGE);
+    a_orange =
+      new ColorOption(20, 540, 130, 20, getMenuText("orange"), Colors.ORANGE);
     a_colors.fuegeEin(a_orange);
-    a_brown = new ColorOption(20, 560, 130, 20, getMenuText("brown"), Colors.BROWN);
+    a_brown =
+      new ColorOption(20, 560, 130, 20, getMenuText("brown"), Colors.BROWN);
     a_colors.fuegeEin(a_brown);
-    a_white = new ColorOption(20, 580, 130, 20, getMenuText("white"), Colors.WHITE);
+    a_white =
+      new ColorOption(20, 580, 130, 20, getMenuText("white"), Colors.WHITE);
     a_colors.fuegeEin(a_white);
 
     e_multiplayer = new Etikett(20, 625, 130, 30, getMenuText("network"));
@@ -122,7 +132,7 @@ public class UI {
     b_server.setzeBearbeiterGeklickt("b_server");
   }
 
-  public static String getMenuText(String str){
+  public static String getMenuText(String str) {
     return Main.resourceBundle.getString(str);
   }
 }
