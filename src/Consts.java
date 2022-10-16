@@ -1,4 +1,4 @@
-import java.awt.Color;
+import java.awt.*;
 
 // Creating constants
 public class Consts {
@@ -18,4 +18,8 @@ public class Consts {
   public final static byte DEFAULT_PAINTMODE = MODE_NORMAL;
   public final static byte DEFAULT_FILLMODE = FILL;
   public final static Color DEFAULT_COLOR = Colors.BLACK;
+
+  public static final String[] fonts = {Font.MONOSPACED, Font.SERIF, Font.SANS_SERIF};
+
+  public static final  String[] fontsNames = { "Monospaced", "Serif", "Sans Serif"};
 }

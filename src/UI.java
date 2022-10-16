@@ -1,6 +1,6 @@
 import sum.komponenten.*;
 
-public class UI {
+public abstract class UI {
 
   // Creating UI
 
@@ -11,6 +11,7 @@ public class UI {
   public static Etikett e_paint_mode;
   public static Radioknopf b_mode_paint;
   public static Radioknopf b_mode_fill;
+  public static Radioknopf b_mode_text;
   public static Radioknopf b_mode_line;
   public static Radioknopf b_mode_rectangle;
   public static Schalter s_filling;
@@ -53,23 +54,26 @@ public class UI {
     e_paint_mode.setzeAusrichtung(1);
 
     b_mode_paint =
-      new ModeOption(20, 160, 130, 30, getMenuText("draw"), Consts.MODE_NORMAL);
+      new ModeOption(20, 160, 130, 25, getMenuText("draw"), Consts.MODE_NORMAL);
     b_mode_fill = new ModeOption(
-      20, 190, 130, 30, getMenuText("fill"), Consts.MODE_BUCKETFILL);
+      20, 185, 130, 25, getMenuText("fill"), Consts.MODE_BUCKETFILL);
+    b_mode_text = new ModeOption(
+            20, 210, 130, 25, getMenuText("text"), Consts.MODE_TEXT);
     b_mode_line =
-      new ModeOption(20, 220, 130, 30, getMenuText("line"), Consts.MODE_LINE);
+      new ModeOption(20, 235, 130, 25, getMenuText("line"), Consts.MODE_LINE);
     b_mode_rectangle = new ModeOption(
-      20, 250, 60, 30, getMenuText("rectangle"), Consts.MODE_RECTANGLE);
-    s_filling = new Schalter(85, 255, 65, 25, getMenuText("filling"));
+      20, 260, 60, 25, getMenuText("rectangle"), Consts.MODE_RECTANGLE);
+    s_filling = new Schalter(85, 265, 65, 20, getMenuText("filling"));
     s_filling.setzeBearbeiterGeklickt("s_filling");
     s_filling.schalteAn();
     b_mode_paint.waehle();
 
     a_paint_modes = new Radiogruppe();
     a_paint_modes.fuegeEin(b_mode_paint);
+    a_paint_modes.fuegeEin(b_mode_fill);
+    a_paint_modes.fuegeEin(b_mode_text);
     a_paint_modes.fuegeEin(b_mode_line);
     a_paint_modes.fuegeEin(b_mode_rectangle);
-    a_paint_modes.fuegeEin(b_mode_fill);
 
     e_line_width = new Etikett(20, 300, 130, 30, getMenuText("pen_width"));
     e_line_width.setzeAusrichtung(1);

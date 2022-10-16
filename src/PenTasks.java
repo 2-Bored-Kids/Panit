@@ -128,6 +128,10 @@ public class PenTasks {
         }
       }
     } else if (paintMode == Consts.MODE_TEXT) {
+      if (Utils.isInBounds(x, y, connectPen.linienBreite())){
+        TextModeTasks.textMode(x, y);
+      }
+
     }
 
     connectPen.setStartPressX(0);
@@ -218,5 +222,15 @@ public class PenTasks {
     connectPen.zeichneKreis(connectPen.linienBreite() / 2);
     connectPen.setFillMode(oldMode);
     connectPen.hoch();
+  }
+
+  public static void printText(Text text){
+    BetterStift pen = new BetterStift(Main.instance.image);
+    pen.bewegeBis(text.X, text.Y);
+    pen.setzeSchriftArt(text.font);
+    pen.setzeSchriftGroesse(text.SIZE);
+    pen.setzeFarbe(Utils.getColor(Main.getPen()));
+    pen.schreibeText(text.TEXT);
+    pen.drawToScreen();
   }
 }

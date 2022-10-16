@@ -13,7 +13,7 @@ public class Main extends EBAnwendung {
   // Initialize Main
   // Creating server & transmitter
   private static BetterStift pen;
-  private static Main instance;
+  public static Main instance;
 
   public PanitServer server = null;
 
@@ -70,6 +70,7 @@ public class Main extends EBAnwendung {
   @Override
   public void bearbeiteDoppelKlick(int x, int y) {
     bearbeiteMausLos(x, y);
+    pen.setPaintMode(Consts.MODE_TEXT);
   }
 
   @Override
