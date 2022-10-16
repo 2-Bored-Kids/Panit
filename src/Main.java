@@ -33,7 +33,7 @@ public class Main extends EBAnwendung {
 
     this.hatBildschirm.setTitle("Panit");
     this.hatBildschirm.setResizable(false);
-    Utils.setIcon(this.hatBildschirm, "icon.png");
+    Utils.setIcon(this.hatBildschirm, "resources/icon.png");
 
     instance = this;
 

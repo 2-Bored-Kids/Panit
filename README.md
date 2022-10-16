@@ -1,5 +1,5 @@
 # Panit
-![The Logo](https://github.com/2-Bored-Kids/Panit/blob/main/icon.png?raw=true)
+![The Logo](https://github.com/2-Bored-Kids/Panit/blob/main/resources/icon.png?raw=true)
 
 *Whiteboard for drawing your ideas together - Java & SuM library*
 
