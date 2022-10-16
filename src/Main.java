@@ -23,7 +23,8 @@ public class Main extends EBAnwendung {
   public BufferedImage image = new BufferedImage(Bildschirm.topFenster.breite(),
                                                  Bildschirm.topFenster.hoehe(),
                                                  BufferedImage.TYPE_INT_RGB);
-  public static ResourceBundle resourceBundle;
+
+  private static ResourceBundle languageBundle = ResourceBundle.getBundle("resources/messages");
 
   public Main() {
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
@@ -140,19 +141,32 @@ public class Main extends EBAnwendung {
     }
   }
 
+  public static String getTranslated(String str) {
+    return languageBundle.getString(str);
+  }
+
   // UI listeners
+
+  private class WindowListener extends WindowAdapter {
+    @Override
+    public void windowClosing(final WindowEvent e) {
+      disconnectFromServer();
+      stopServer();
+      beenden();
+    }
+  }
 
   public void b_server() {
     if (server == null) {
       try {
         server = new PanitServer((int)UI.t_server_port.inhaltAlsZahl());
-        UI.b_server.setzeInhalt(UI.getMenuText("stop"));
+        UI.b_server.setzeInhalt(Main.getTranslated("stop"));
       } catch (Exception ignored) {
       }
     } else {
       disconnectFromServer();
       stopServer();
-      UI.b_server.setzeInhalt(UI.getMenuText("start"));
+      UI.b_server.setzeInhalt(Main.getTranslated("start"));
     }
   }
   public void b_connection() {

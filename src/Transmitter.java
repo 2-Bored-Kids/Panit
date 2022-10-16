@@ -47,10 +47,11 @@ public class Transmitter extends Clientverbindung {
         System.out.println("User disconnected: " + id);
         break;
       case PacketIds.CONNECT:
-        UI.b_connection.setzeInhalt(UI.getMenuText("disconnect"));
+        // Toggle the text on the connect button
+        UI.b_connection.setzeInhalt(Main.getTranslated("disconnect"));
         break;
       case PacketIds.DISCONNECT:
-        UI.b_connection.setzeInhalt(UI.getMenuText("connect"));
+        UI.b_connection.setzeInhalt(Main.getTranslated("connect"));
         this.gibFrei();
         break;
       case PacketIds.DOWN:
