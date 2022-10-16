@@ -45,11 +45,11 @@ public class Transmitter extends Clientverbindung {
         UI.b_connection.setzeInhalt(UI.getMenuText("connect"));
         this.gibFrei();
         break;
-      case PacketIds.RUNTER:
+      case PacketIds.DOWN:
         RunterPacket rnPk = new RunterPacket(packet);
         PenTasks.penDown(userPens.get(id), rnPk.X, rnPk.Y);
         break;
-      case PacketIds.HOCH:
+      case PacketIds.UP:
         PenTasks.penUp(userPens.get(id),
                        (int)userPens.get(id).hPosition(),
                        (int)userPens.get(id).vPosition());
@@ -103,7 +103,7 @@ public class Transmitter extends Clientverbindung {
         userPens.put(id, pen);
 
         break;
-      case PacketIds.FILLMODE:
+      case PacketIds.FILLING:
         userPens.get(id).setFillMode(new FillModePacket(packet).FILLMODE);
         break;
       default:

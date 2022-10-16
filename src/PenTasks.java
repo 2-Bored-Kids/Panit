@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import sum.ereignis.Bildschirm;
 
+import javax.swing.*;
+
 public class PenTasks {
 
   // Creating functions for BetterStift
@@ -125,6 +127,7 @@ public class PenTasks {
             break;
         }
       }
+    } else if (paintMode == Consts.MODE_TEXT) {
     }
 
     connectPen.setStartPressX(0);
