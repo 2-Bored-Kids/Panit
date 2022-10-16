@@ -9,10 +9,9 @@ import javax.swing.SwingUtilities;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.EBAnwendung;
 
-public class Main extends EBAnwendung {
+// Interfaces with user input and does basic SuM initialisation
 
-  // Initialize Main
-  // Creating server & transmitter
+public class Main extends EBAnwendung {
   private static BetterStift pen;
   private static Main instance;
 
@@ -20,16 +19,14 @@ public class Main extends EBAnwendung {
 
   public Transmitter transmitter = null;
 
+  // Everything is drawn onto this image, then onto the screen
   public BufferedImage image = new BufferedImage(Bildschirm.topFenster.breite(),
                                                  Bildschirm.topFenster.hoehe(),
                                                  BufferedImage.TYPE_INT_RGB);
   public static ResourceBundle resourceBundle;
 
   public Main() {
-    // Creating Screen
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
-
-    resourceBundle = ResourceBundle.getBundle("resources/messages");
 
     this.hatBildschirm.setTitle("Panit");
     this.hatBildschirm.setResizable(false);
@@ -67,7 +64,6 @@ public class Main extends EBAnwendung {
     pen.drawToScreen();
   }
 
-  // Overriding mouse functions
   @Override
   public void bearbeiteDoppelKlick(int x, int y) {
     bearbeiteMausLos(x, y);
@@ -101,7 +97,6 @@ public class Main extends EBAnwendung {
       this.hatBildschirm.privatPanel());
   }
 
-  // Server functions
   public void sendPacket(Packet packet) {
     if (transmitter != null) {
       transmitter.sende(packet.encode());
@@ -197,7 +192,7 @@ public class Main extends EBAnwendung {
   public void b_save() {
     String filePath = Utils.pickSaveImage();
 
-    // Hack! Wait for the save menu to close
+    // Hack! Wait for the save dialog to close
     try {
       Thread.sleep(500);
     } catch (Exception ignored) {

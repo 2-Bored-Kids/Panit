@@ -7,9 +7,10 @@ import java.util.Base64;
 import javax.imageio.ImageIO;
 import sum.ereignis.Bildschirm;
 
+// Here we do all the image encoding/decoding to sync it between the clients
+
 public class ImageTasks {
 
-  // Encode current image to String
   public static String encode(BufferedImage image) {
     try {
       ByteArrayOutputStream outputStr = new ByteArrayOutputStream();
@@ -21,7 +22,6 @@ public class ImageTasks {
     return "";
   }
 
-  // Decode String to image
   public static void drawDecode(BetterStift pen, String image) {
     try {
       byte[] bytes = Base64.getDecoder().decode(image);

@@ -1,8 +1,8 @@
 import sum.komponenten.*;
 
-public class UI {
+// A mostly auto-generated class with UI definitions, nothing to see here
 
-  // Creating UI
+public class UI {
 
   public static Knopf b_del_all;
   public static Knopf b_save;

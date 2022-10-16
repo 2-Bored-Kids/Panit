@@ -14,10 +14,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.Buntstift;
 
+// A collection of reflection hacks we use to get into the guts of the SuM library
+
 public class Utils {
   private static Field colorField;
-
-  // Set color of pen accessible
 
   public static void init() {
     try {
@@ -27,7 +27,6 @@ public class Utils {
     }
   }
 
-  // Set pen color
   public static void setColor(Buntstift pen, int r, int g, int b) {
     try {
       colorField.set(pen, new Color(r, g, b));
@@ -51,13 +50,13 @@ public class Utils {
     return null;
   }
 
-  // Tests if x, y is in menu
+  // Tests if a position is valid for drawing something other than UI
   public static boolean isInBounds(int x, int y, int radius) {
     return !(x < (Consts.MENU_X + radius)) &&
       !(x >= Consts.SCREEN_X || y >= Consts.SCREEN_Y || x < 0 || y < 0);
   }
 
-  // Sets app icon
+  // Sets the program's icon
   public static void setIcon(Bildschirm screen, String filePath) {
     JPanel panel = screen.privatPanel();
     JFrame frame = (JFrame)SwingUtilities.getWindowAncestor(panel);
@@ -81,14 +80,14 @@ public class Utils {
     }
   }
 
-  // Crops the left side of the image & saves to path
+  // Saves a screenshot of the drawable area
   public static void saveImage(Bildschirm screen, String filePath) {
     JPanel panel = screen.privatPanel();
 
     Rectangle panelBoundingBox =
       new Rectangle(panel.getLocationOnScreen(), panel.getSize());
     panelBoundingBox.x += Consts.MENU_X;
-    panelBoundingBox.width -= Consts.MENU_X;
+    panelBoundingBox.width -= Consts.MENU_X + 16;
 
     try {
       ImageIO.write(createSnapshot(screen.privatPanel(), panelBoundingBox),
@@ -113,12 +112,10 @@ public class Utils {
     return null;
   }
 
-  // Get pixel color at x, y
   public static Color getColorAt(int x, int y, BufferedImage image) {
     return new Color(image.getRGB(x, y));
   }
 
-  // Loads image from path
   public static void loadImage(Bildschirm screen, String filePath) {
     JPanel panel = screen.privatPanel();
 
@@ -133,7 +130,6 @@ public class Utils {
       image, Consts.MENU_X, 0, screen);
   }
 
-  // Dialog for choosing a file path
   public static String pickSaveImage() {
     JFileChooser chooser = new JFileChooser();
     chooser.setDialogTitle("Save image");
@@ -148,7 +144,6 @@ public class Utils {
     return "";
   }
 
-  // Dialog for choosing an image
   public static File pickImage() {
     JFileChooser chooser = new JFileChooser();
     chooser.setDialogTitle("Load image");

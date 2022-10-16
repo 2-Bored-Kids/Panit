@@ -4,7 +4,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 import sum.ereignis.Bildschirm;
 
-public class PenTasks {
+// The whole pen-handling for each user, including ourselves is performed here
+
+/* The way we draw the previews for shapes is:
+   1. Invert the colors on our old mouse position
+   2. Move the pen to the new one
+   3. Invert the colors again */
 
   // Creating functions for BetterStift
 
@@ -140,6 +145,8 @@ public class PenTasks {
     }
   }
 
+
+  // Masterfully ported from the pseudocode on wikipedia
   public static void bucketFill(BetterStift connectPen,
                                 int x,
                                 int y,

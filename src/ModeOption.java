@@ -1,6 +1,6 @@
 import sum.komponenten.Radioknopf;
 
-// Extends Radioknopf for overriding click method
+// Extends Radioknopf for overriding the click listener
 public class ModeOption extends Radioknopf {
 
   byte mode;

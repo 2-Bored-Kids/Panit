@@ -1,6 +1,7 @@
 import java.awt.Color;
 
-// Creating constants
+// Here we define the stuff we managed not to mindlessly hardcode
+
 public class Consts {
   public final static int SCREEN_X = 1600, SCREEN_Y = 900;
 

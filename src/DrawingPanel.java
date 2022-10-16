@@ -13,12 +13,12 @@ public class DrawingPanel extends JPanel {
     frame = mainFrame;
   }
 
-  // Draw graphics to main
   @Override
   public void paintComponent(Graphics g) {
-    main.getPen().drawToGraphics(g);
+    // Draw the main image to the panel
+    Main.instance.getPen().drawToGraphics(g);
 
-    // Hack to prevent the ui rendering from breaking, causes components to get
+    // Hack to prevent the UI rendering from breaking, causes components to get
     // redrawn too often. Too bad!
     frame.repaint();
   }

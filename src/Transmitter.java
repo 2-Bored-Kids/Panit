@@ -3,35 +3,44 @@ import java.util.Arrays;
 import java.util.HashMap;
 import sum.netz.Clientverbindung;
 
-public class Transmitter extends Clientverbindung {
-  Main main;
+/* To prevent a lot of confusion: there is a distinction between "fill-mode"
+   and "fill mode", with the first one being MODE_BUCKETFILL and the latter
+   being whether the SuM pen should be filling the shapes it draws */
 
+public class Transmitter extends Clientverbindung {
+  // The String in this case is the user id: "<ip>:<port>"
   HashMap<String, BetterStift> userPens = new HashMap<>();
 
-  // Setting up new Transmitter
-  public Transmitter(Main client, String server, int port, boolean logging) {
+  public Transmitter(String server, int port, boolean logging) {
+    // The 'logging' here being the SuM logging. Using such a library for tasks
+    // like this one has consequences.
     super(server, port, logging);
     main = client;
   }
 
-  // Override receive packet
+  // Handle packets
   @Override
   public void bearbeiteNachricht(String message) {
     String[] packet = message.split(PacketIds.SEPARATOR);
 
-    // Get the id+port header
+    // Get the user id as described above
     String id = packet[0] + PacketIds.SEPARATOR + packet[1];
-    // And remove it
+    // And remove it from the packet so the individual packet constructors dont
+    // have to do the same
     packet = Arrays.copyOfRange(packet, 2, packet.length);
 
+    // The first byte of the packet determines its kind
+    // The packet ids are pulled from the server submodule
     switch (Integer.parseInt(packet[0])) {
       case PacketIds.JOIN:
-        userPens.put(id, new BetterStift(main.image));
-        main.sendPacket(new PenSettingsPacket(id,
-                                              main.getPen(),
-                                              main.getPen().getFillMode(),
-                                              Utils.getColor(main.getPen()),
-                                              main.getPen().getPaintMode()));
+        // Hence we use an id -> pen hashmap to keep track of the users,
+        // removing/adding them from it essentially disconnects/connects them
+        userPens.put(id, new BetterStift(Main.instance.image));
+        Main.instance.sendPacket(new PenSettingsPacket(id,
+                                              Main.instance.getPen(),
+                                              Main.instance.getPen().getFillMode(),
+                                              Utils.getColor(Main.instance.getPen()),
+                                              Main.instance.getPen().getPaintMode()));
         System.out.println("User connected: " + id);
         break;
       case PacketIds.QUIT:
@@ -104,6 +113,7 @@ public class Transmitter extends Clientverbindung {
 
         break;
       case PacketIds.FILLING:
+        // The fill mode one ^
         userPens.get(id).setFillMode(new FillModePacket(packet).FILLMODE);
         break;
       default:
@@ -112,7 +122,7 @@ public class Transmitter extends Clientverbindung {
     }
   }
 
-  // Method for lost connections
+  // Is ran whenever we get separated from the server for whatever reason
   public void bearbeiteVerbindungsverlust() {
     UI.b_connection.setzeInhalt(UI.getMenuText("connect"));
 
