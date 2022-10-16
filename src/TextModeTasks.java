@@ -25,7 +25,6 @@ public abstract class TextModeTasks {
 
         JFrame frame = new JFrame(UI.getMenuText("textTitle"));
         frame.setSize(260, 215);
-        frame.setBackground(new Color(0, 186, 255));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
@@ -66,10 +65,11 @@ public abstract class TextModeTasks {
             }
         });
 
-        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+        frame.addWindowFocusListener(new WindowAdapter() {
             @Override
-            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                TextModeTasks.texting = false;
+            public void windowLostFocus(WindowEvent e) {
+                super.windowLostFocus(e);
+                frame.dispose();
             }
         });
 

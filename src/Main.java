@@ -70,7 +70,6 @@ public class Main extends EBAnwendung {
   @Override
   public void bearbeiteDoppelKlick(int x, int y) {
     bearbeiteMausLos(x, y);
-    pen.setPaintMode(Consts.MODE_TEXT);
   }
 
   @Override
@@ -221,6 +220,10 @@ public class Main extends EBAnwendung {
         sendPacket(imgPk);
       }
     }
+  }
+
+  public void b_colors(){
+    ColorTasks.colorMode();
   }
 
   private class WindowListener extends WindowAdapter {

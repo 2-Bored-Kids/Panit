@@ -33,6 +33,8 @@ public abstract class UI {
   public static Radioknopf a_brown;
   public static Radioknopf a_white;
 
+  public static Knopf b_colors;
+
   public static Etikett e_multiplayer;
   public static Textfeld t_id;
   public static Knopf b_connection;
@@ -114,6 +116,7 @@ public abstract class UI {
     a_white =
       new ColorOption(20, 580, 130, 20, getMenuText("white"), Colors.WHITE);
     a_colors.fuegeEin(a_white);
+    b_colors = new Knopf(20, 600, 130, 20, "Choose", "b_colors");
 
     e_multiplayer = new Etikett(20, 625, 130, 30, getMenuText("network"));
     e_multiplayer.setzeAusrichtung(1);
