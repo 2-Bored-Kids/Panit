@@ -15,7 +15,6 @@ public class Transmitter extends Clientverbindung {
     // The 'logging' here being the SuM logging. Using such a library for tasks
     // like this one has consequences.
     super(server, port, logging);
-    main = client;
   }
 
   // Handle packets
@@ -69,7 +68,6 @@ public class Transmitter extends Clientverbindung {
         break;
       case PacketIds.WIDTH:
         userPens.get(id).setzeLinienbreite(Integer.parseInt(packet[1]));
-        userPens.get(id).drawToScreen();
         break;
       case PacketIds.CLEAR:
         userPens.get(id).clear();
@@ -87,17 +85,18 @@ public class Transmitter extends Clientverbindung {
         ImagePacket imgPk = new ImagePacket(packet);
 
         if (imgPk.IMG == "") {
-          imgPk.IMG = ImageTasks.encode(main.image);
+          imgPk.IMG = ImageTasks.encode(Main.instance.image);
 
-          main.sendPacket(imgPk);
+          Main.instance.sendPacket(imgPk);
         } else {
-          ImageTasks.drawDecode(main.getPen(), imgPk.IMG);
+          ImageTasks.drawDecode(Main.instance.getPen(), imgPk.IMG);
         }
         break;
       case PacketIds.SETTING:
+        // Used to sync all pen settings at once
         PenSettingsPacket setPk = new PenSettingsPacket(packet);
 
-        BetterStift pen = new BetterStift(main.image);
+        BetterStift pen = new BetterStift(Main.instance.image);
 
         pen.bewegeBis(setPk.PEN.hPosition(), setPk.PEN.vPosition());
         if (setPk.PEN.istUnten()) {
@@ -113,7 +112,7 @@ public class Transmitter extends Clientverbindung {
 
         break;
       case PacketIds.FILLING:
-        // The fill mode one ^
+        // The "fill mode" one ^
         userPens.get(id).setFillMode(new FillModePacket(packet).FILLMODE);
         break;
       default:
@@ -124,12 +123,12 @@ public class Transmitter extends Clientverbindung {
 
   // Is ran whenever we get separated from the server for whatever reason
   public void bearbeiteVerbindungsverlust() {
-    UI.b_connection.setzeInhalt(UI.getMenuText("connect"));
+    UI.b_connection.setzeInhalt(Main.getTranslated("connect"));
 
-    if (main.transmitter != null) {
-      main.transmitter.gibFrei();
-      main.transmitter = null;
+    if (Main.instance.transmitter != null) {
+      Main.instance.transmitter.gibFrei();
+      Main.instance.transmitter = null;
     }
-    main.clearScreen();
+    Main.instance.clearScreen();
   }
 }

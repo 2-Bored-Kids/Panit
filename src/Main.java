@@ -13,7 +13,7 @@ import sum.ereignis.EBAnwendung;
 
 public class Main extends EBAnwendung {
   private static BetterStift pen;
-  private static Main instance;
+  public static Main instance;
 
   public PanitServer server = null;
 
@@ -46,7 +46,7 @@ public class Main extends EBAnwendung {
     // Load UI
     UI.init();
 
-    DrawingPanel drawingPanel = new DrawingPanel(this, getFrame());
+    DrawingPanel drawingPanel = new DrawingPanel(getFrame());
     drawingPanel.setBounds(0, 0, Consts.SCREEN_X, Consts.SCREEN_Y);
     getFrame().add(drawingPanel);
 
@@ -108,8 +108,7 @@ public class Main extends EBAnwendung {
       String[] parameters = UI.t_id.inhaltAlsText().split(PacketIds.SEPARATOR);
 
       try {
-        transmitter = new Transmitter(
-          this, parameters[0], Integer.parseInt(parameters[1]), false);
+        transmitter = new Transmitter(parameters[0], Integer.parseInt(parameters[1]), false);
       } catch (Exception ignored) {
       }
 
@@ -215,15 +214,6 @@ public class Main extends EBAnwendung {
         imgPk.IMG = ImageTasks.encode(image);
         sendPacket(imgPk);
       }
-    }
-  }
-
-  private class WindowListener extends WindowAdapter {
-    @Override
-    public void windowClosing(final WindowEvent e) {
-      disconnectFromServer();
-      stopServer();
-      beenden();
     }
   }
 }

@@ -11,7 +11,7 @@ import sum.ereignis.Bildschirm;
    2. Move the pen to the new one
    3. Invert the colors again */
 
-  // Creating functions for BetterStift
+public class PenTasks {
 
   public static void penMove(BetterStift connectPen, int x, int y) {
     byte paintMode = connectPen.getPaintMode();

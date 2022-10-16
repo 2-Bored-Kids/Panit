@@ -120,19 +120,15 @@ public class UI {
                    20,
                    Consts.DEFAULT_SERVER_IP + ":" + Consts.DEFAULT_SERVER_PORT);
     t_id.setzeHinweis("Ip:Port");
-    b_connection = new Knopf(20, 690, 130, 20, getMenuText("connect"));
+    b_connection = new Knopf(20, 690, 130, 20, Main.getTranslated("connect"));
     b_connection.setzeBearbeiterGeklickt("b_connection");
 
-    e_server = new Etikett(20, 710, 130, 30, getMenuText("server"));
+    e_server = new Etikett(20, 710, 130, 30, Main.getTranslated("server"));
     e_server.setzeAusrichtung(1);
     t_server_port = new Textfeld(
       20, 740, 130, 20, Integer.toString(Consts.DEFAULT_SERVER_PORT));
     t_server_port.setzeHinweis("Port");
-    b_server = new Knopf(20, 775, 130, 20, getMenuText("start"));
+    b_server = new Knopf(20, 775, 130, 20, Main.getTranslated("start"));
     b_server.setzeBearbeiterGeklickt("b_server");
-  }
-
-  public static String getMenuText(String str) {
-    return Main.resourceBundle.getString(str);
   }
 }

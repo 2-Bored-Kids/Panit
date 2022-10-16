@@ -4,12 +4,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class DrawingPanel extends JPanel {
-  private Main main;
   private JFrame frame;
 
-  // Setting main attributes
-  public DrawingPanel(Main mainInstance, JFrame mainFrame) {
-    main = mainInstance;
+  public DrawingPanel(JFrame mainFrame) {
     frame = mainFrame;
   }
 
