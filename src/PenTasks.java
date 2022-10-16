@@ -145,7 +145,6 @@ public class PenTasks {
     }
   }
 
-
   // Masterfully ported from the pseudocode on wikipedia
   public static void bucketFill(BetterStift connectPen,
                                 int x,

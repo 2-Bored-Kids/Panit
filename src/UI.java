@@ -49,15 +49,16 @@ public class UI {
     b_del_all = new Knopf(20, 80, 130, 30, Main.getTranslated("del_all"));
     b_del_all.setzeBearbeiterGeklickt("b_del_all");
 
-    e_paint_mode = new Etikett(20, 130, 130, 30, Main.getTranslated("pen_mode"));
+    e_paint_mode =
+      new Etikett(20, 130, 130, 30, Main.getTranslated("pen_mode"));
     e_paint_mode.setzeAusrichtung(1);
 
-    b_mode_paint =
-      new ModeOption(20, 160, 130, 30, Main.getTranslated("draw"), Consts.MODE_NORMAL);
+    b_mode_paint = new ModeOption(
+      20, 160, 130, 30, Main.getTranslated("draw"), Consts.MODE_NORMAL);
     b_mode_fill = new ModeOption(
       20, 190, 130, 30, Main.getTranslated("fill"), Consts.MODE_BUCKETFILL);
-    b_mode_line =
-      new ModeOption(20, 220, 130, 30, Main.getTranslated("line"), Consts.MODE_LINE);
+    b_mode_line = new ModeOption(
+      20, 220, 130, 30, Main.getTranslated("line"), Consts.MODE_LINE);
     b_mode_rectangle = new ModeOption(
       20, 250, 60, 30, Main.getTranslated("rectangle"), Consts.MODE_RECTANGLE);
     s_filling = new Schalter(85, 255, 65, 25, Main.getTranslated("filling"));
@@ -71,7 +72,8 @@ public class UI {
     a_paint_modes.fuegeEin(b_mode_rectangle);
     a_paint_modes.fuegeEin(b_mode_fill);
 
-    e_line_width = new Etikett(20, 300, 130, 30, Main.getTranslated("pen_width"));
+    e_line_width =
+      new Etikett(20, 300, 130, 30, Main.getTranslated("pen_width"));
     e_line_width.setzeAusrichtung(1);
     r_line_width =
       new Regler(20, 330, 130, 30, Consts.DEFAULT_WIDTH / 2, 1, 50);
@@ -80,11 +82,12 @@ public class UI {
     e_color = new Etikett(20, 370, 130, 30, Main.getTranslated("pen_color"));
     e_color.setzeAusrichtung(1);
     a_colors = new Radiogruppe();
-    a_black =
-      new ColorOption(20, 400, 130, 20, Main.getTranslated("black"), Colors.BLACK);
+    a_black = new ColorOption(
+      20, 400, 130, 20, Main.getTranslated("black"), Colors.BLACK);
     a_colors.fuegeEin(a_black);
     a_black.waehle();
-    a_red = new ColorOption(20, 420, 130, 20, Main.getTranslated("red"), Colors.RED);
+    a_red =
+      new ColorOption(20, 420, 130, 20, Main.getTranslated("red"), Colors.RED);
     a_colors.fuegeEin(a_red);
     a_lightBlue = new ColorOption(
       20, 440, 130, 20, Main.getTranslated("light_blue"), Colors.LIGHT_BLUE);
@@ -98,20 +101,21 @@ public class UI {
     a_darkGreen = new ColorOption(
       20, 500, 130, 20, Main.getTranslated("dark_green"), Colors.DARK_GREEN);
     a_colors.fuegeEin(a_darkGreen);
-    a_yellow =
-      new ColorOption(20, 520, 130, 20, Main.getTranslated("yellow"), Colors.YELLOW);
+    a_yellow = new ColorOption(
+      20, 520, 130, 20, Main.getTranslated("yellow"), Colors.YELLOW);
     a_colors.fuegeEin(a_yellow);
-    a_orange =
-      new ColorOption(20, 540, 130, 20, Main.getTranslated("orange"), Colors.ORANGE);
+    a_orange = new ColorOption(
+      20, 540, 130, 20, Main.getTranslated("orange"), Colors.ORANGE);
     a_colors.fuegeEin(a_orange);
-    a_brown =
-      new ColorOption(20, 560, 130, 20, Main.getTranslated("brown"), Colors.BROWN);
+    a_brown = new ColorOption(
+      20, 560, 130, 20, Main.getTranslated("brown"), Colors.BROWN);
     a_colors.fuegeEin(a_brown);
-    a_white =
-      new ColorOption(20, 580, 130, 20, Main.getTranslated("white"), Colors.WHITE);
+    a_white = new ColorOption(
+      20, 580, 130, 20, Main.getTranslated("white"), Colors.WHITE);
     a_colors.fuegeEin(a_white);
 
-    e_multiplayer = new Etikett(20, 625, 130, 30, Main.getTranslated("network"));
+    e_multiplayer =
+      new Etikett(20, 625, 130, 30, Main.getTranslated("network"));
     e_multiplayer.setzeAusrichtung(1);
     t_id =
       new Textfeld(20,

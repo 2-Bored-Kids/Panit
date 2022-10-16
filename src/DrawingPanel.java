@@ -6,9 +6,7 @@ import javax.swing.SwingUtilities;
 public class DrawingPanel extends JPanel {
   private JFrame frame;
 
-  public DrawingPanel(JFrame mainFrame) {
-    frame = mainFrame;
-  }
+  public DrawingPanel(JFrame mainFrame) { frame = mainFrame; }
 
   @Override
   public void paintComponent(Graphics g) {

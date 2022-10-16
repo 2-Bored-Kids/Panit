@@ -14,7 +14,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.Buntstift;
 
-// A collection of reflection hacks we use to get into the guts of the SuM library
+// A collection of reflection hacks we use to get into the guts of the SuM
+// library
 
 public class Utils {
   private static Field colorField;

@@ -24,7 +24,8 @@ public class Main extends EBAnwendung {
                                                  Bildschirm.topFenster.hoehe(),
                                                  BufferedImage.TYPE_INT_RGB);
 
-  private static ResourceBundle languageBundle = ResourceBundle.getBundle("resources/messages");
+  private static ResourceBundle languageBundle =
+    ResourceBundle.getBundle("resources/messages");
 
   public Main() {
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
@@ -109,7 +110,8 @@ public class Main extends EBAnwendung {
       String[] parameters = UI.t_id.inhaltAlsText().split(PacketIds.SEPARATOR);
 
       try {
-        transmitter = new Transmitter(parameters[0], Integer.parseInt(parameters[1]), false);
+        transmitter = new Transmitter(
+          parameters[0], Integer.parseInt(parameters[1]), false);
       } catch (Exception ignored) {
       }
 

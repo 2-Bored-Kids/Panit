@@ -35,11 +35,12 @@ public class Transmitter extends Clientverbindung {
         // Hence we use an id -> pen hashmap to keep track of the users,
         // removing/adding them from it essentially disconnects/connects them
         userPens.put(id, new BetterStift(Main.instance.image));
-        Main.instance.sendPacket(new PenSettingsPacket(id,
-                                              Main.instance.getPen(),
-                                              Main.instance.getPen().getFillMode(),
-                                              Utils.getColor(Main.instance.getPen()),
-                                              Main.instance.getPen().getPaintMode()));
+        Main.instance.sendPacket(
+          new PenSettingsPacket(id,
+                                Main.instance.getPen(),
+                                Main.instance.getPen().getFillMode(),
+                                Utils.getColor(Main.instance.getPen()),
+                                Main.instance.getPen().getPaintMode()));
         System.out.println("User connected: " + id);
         break;
       case PacketIds.QUIT:
