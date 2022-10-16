@@ -1,10 +1,11 @@
-import java.awt.*;
+import java.awt.Color;
+import javax.swing.JFrame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ResourceBundle;
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.EBAnwendung;
 
