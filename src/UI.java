@@ -32,7 +32,7 @@ public class UI {
 
   public static Knopf b_colorPicker;
   public static Knopf b_pickColor;
-  public static JPanel colorPanel;
+  public static JPanel p_colorPreviewPanel;
 
   public static Etikett e_multiplayer;
   public static Textfeld t_id;
@@ -108,10 +108,10 @@ public class UI {
       20, 520, 130, 20, Main.getTranslated("color_button"), "b_colorPicker");
     b_pickColor = new Knopf(
             20, 540, 130, 20, Main.getTranslated("color_picker_button"), "b_pickColor");
-    colorPanel = new JPanel(null);
-    colorPanel.setBounds(20, 570, 130, 20);
-    colorPanel.setBackground(Consts.DEFAULT_COLOR);
-    Main.instance.hatBildschirm.add(colorPanel);
+    p_colorPreviewPanel = new JPanel(null);
+    p_colorPreviewPanel.setBounds(20, 570, 130, 20);
+    p_colorPreviewPanel.setBackground(Consts.DEFAULT_COLOR);
+    Main.instance.hatBildschirm.add(p_colorPreviewPanel);
 
     e_multiplayer =
       new Etikett(20, 625, 130, 30, Main.getTranslated("network"));
