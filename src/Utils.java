@@ -15,6 +15,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.Buntstift;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.JColorChooser;
 
 // A collection of reflection hacks we use to get into the guts of the SuM
 // library & some utility functions
@@ -156,6 +159,29 @@ public class Utils {
     }
 
     return null;
+  }
+
+  public static void chooseColor() {
+    JFrame frame = new JFrame(Main.getTranslated("color_picker_title"));
+    frame.setSize(550, 300);
+    frame.setResizable(false);
+    frame.setAlwaysOnTop(true);
+
+    JColorChooser colorChooser =
+      new JColorChooser(Utils.getColor(Main.getPen()));
+    colorChooser.setPreviewPanel(new JPanel());
+
+    colorChooser.getSelectionModel().addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent e) {
+        Main.pickColor(colorChooser.getColor());
+
+        UI.a_colors.clearSelection();
+      }
+    });
+
+    frame.add(colorChooser);
+    frame.setVisible(true);
   }
 
   public static String encodeImage(BufferedImage image) {

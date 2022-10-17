@@ -4,12 +4,8 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ResourceBundle;
-import javax.swing.JColorChooser;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.EBAnwendung;
 
@@ -185,26 +181,7 @@ public class Main extends EBAnwendung {
   }
 
   public void b_colorPicker() {
-    JFrame frame = new JFrame(Main.getTranslated("color_picker_title"));
-    frame.setSize(650, 500);
-    frame.setResizable(false);
-    frame.setAlwaysOnTop(true);
-
-    JColorChooser colorChooser =
-      new JColorChooser(Utils.getColor(Main.getPen()));
-    colorChooser.setPreviewPanel(new JPanel());
-
-    colorChooser.getSelectionModel().addChangeListener(new ChangeListener() {
-      @Override
-      public void stateChanged(ChangeEvent e) {
-        Main.pickColor(colorChooser.getColor());
-
-        UI.a_colors.clearSelection();
-      }
-    });
-
-    frame.add(colorChooser);
-    frame.setVisible(true);
+    Utils.chooseColor();
   }
 
   public void s_filling() {
