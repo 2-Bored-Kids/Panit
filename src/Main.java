@@ -30,6 +30,8 @@ public class Main extends EBAnwendung {
 
   public static boolean isPicking = false;
 
+  public static boolean isMouseDown = false;
+
   public Main() {
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
 
@@ -86,6 +88,7 @@ public class Main extends EBAnwendung {
 
   @Override
   public void bearbeiteMausLos(int x, int y) {
+    isMouseDown = false;
     PenTasks.penUp(pen, x, y);
     sendPacket(new PenUpPacket());
   }
@@ -97,6 +100,10 @@ public class Main extends EBAnwendung {
       UI.a_colors.clearSelection();
      isPicking = false; return;
     }
+    if (isMouseDown){
+      return;
+    }
+    isMouseDown = true;
     PenTasks.penDown(pen, x, y);
     sendPacket(new PenDownPacket(x, y));
   }
