@@ -1,6 +1,7 @@
 import sum.komponenten.*;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+
 
 // A mostly auto-generated class with UI definitions, nothing to see here
 
