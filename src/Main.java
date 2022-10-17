@@ -180,9 +180,7 @@ public class Main extends EBAnwendung {
     }
   }
 
-  public void b_colorPicker() {
-    Utils.chooseColor();
-  }
+  public void b_colorPicker() { Utils.chooseColor(); }
 
   public void s_filling() {
     getPen().setFillMode((byte)(UI.s_filling.angeschaltet() ? 1 : 0));
