@@ -18,6 +18,7 @@ public class ColorOption extends Radioknopf {
 
   @Override
   protected void knopfGeklickt() {
-    Main.pickColor(color);
+    Main.changeColor(color);
+
   }
 }

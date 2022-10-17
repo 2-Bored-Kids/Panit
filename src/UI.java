@@ -1,5 +1,8 @@
 import sum.komponenten.*;
 
+import javax.swing.JPanel;
+
+
 // A mostly auto-generated class with UI definitions, nothing to see here
 
 public class UI {
@@ -24,15 +27,13 @@ public class UI {
   public static Radioknopf a_black;
   public static Radioknopf a_red;
   public static Radioknopf a_lightBlue;
-  public static Radioknopf a_darkBlue;
-  public static Radioknopf a_lightGreen;
   public static Radioknopf a_darkGreen;
-  public static Radioknopf a_yellow;
   public static Radioknopf a_orange;
-  public static Radioknopf a_brown;
   public static Radioknopf a_white;
 
   public static Knopf b_colorPicker;
+  public static Knopf b_pickColor;
+  public static JPanel p_colorPreviewPanel;
 
   public static Etikett e_multiplayer;
   public static Textfeld t_id;
@@ -94,30 +95,24 @@ public class UI {
     a_lightBlue = new ColorOption(
       20, 440, 130, 20, Main.getTranslated("light_blue"), Colors.LIGHT_BLUE);
     a_colors.fuegeEin(a_lightBlue);
-    a_darkBlue = new ColorOption(
-      20, 460, 130, 20, Main.getTranslated("dark_blue"), Colors.DARK_BLUE);
-    a_colors.fuegeEin(a_darkBlue);
-    a_lightGreen = new ColorOption(
-      20, 480, 130, 20, Main.getTranslated("light_green"), Colors.LIGHT_GREEN);
-    a_colors.fuegeEin(a_lightGreen);
     a_darkGreen = new ColorOption(
-      20, 500, 130, 20, Main.getTranslated("dark_green"), Colors.DARK_GREEN);
+      20, 460, 130, 20, Main.getTranslated("dark_green"), Colors.DARK_GREEN);
     a_colors.fuegeEin(a_darkGreen);
-    a_yellow = new ColorOption(
-      20, 520, 130, 20, Main.getTranslated("yellow"), Colors.YELLOW);
-    a_colors.fuegeEin(a_yellow);
     a_orange = new ColorOption(
-      20, 540, 130, 20, Main.getTranslated("orange"), Colors.ORANGE);
+      20, 480, 130, 20, Main.getTranslated("orange"), Colors.ORANGE);
     a_colors.fuegeEin(a_orange);
-    a_brown = new ColorOption(
-      20, 560, 130, 20, Main.getTranslated("brown"), Colors.BROWN);
-    a_colors.fuegeEin(a_brown);
     a_white = new ColorOption(
-      20, 580, 130, 20, Main.getTranslated("white"), Colors.WHITE);
+      20, 500, 130, 20, Main.getTranslated("white"), Colors.WHITE);
     a_colors.fuegeEin(a_white);
 
     b_colorPicker = new Knopf(
-      20, 605, 130, 20, Main.getTranslated("color_button"), "b_colorPicker");
+      20, 520, 130, 20, Main.getTranslated("color_button"), "b_colorPicker");
+    b_pickColor = new Knopf(
+            20, 540, 130, 20, Main.getTranslated("color_picker_button"), "b_pickColor");
+    p_colorPreviewPanel = new JPanel(null);
+    p_colorPreviewPanel.setBounds(20, 570, 130, 20);
+    p_colorPreviewPanel.setBackground(Consts.DEFAULT_COLOR);
+    Main.instance.hatBildschirm.add(p_colorPreviewPanel);
 
     e_multiplayer =
       new Etikett(20, 625, 130, 30, Main.getTranslated("network"));
