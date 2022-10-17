@@ -51,9 +51,7 @@ public class BetterStift extends Buntstift {
   }
 
   public BetterStift() {
-    this(new BufferedImage(Bildschirm.topFenster.breite(),
-                           Bildschirm.topFenster.hoehe(),
-                           BufferedImage.TYPE_INT_RGB));
+    this(new BufferedImage(Consts.SCREEN_X, Consts.SCREEN_Y, BufferedImage.TYPE_INT_RGB));
   }
 
   public void setToDefault() {

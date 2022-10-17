@@ -8,11 +8,16 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.EBAnwendung;
+import javax.swing.JColorChooser;
+import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 // Interfaces with user input and does basic SuM initialisation
 
 public class Main extends EBAnwendung {
-  private static BetterStift pen;
+  private BetterStift pen;
+
   public static Main instance;
 
   public PanitServer server = null;
@@ -20,8 +25,8 @@ public class Main extends EBAnwendung {
   public Transmitter transmitter = null;
 
   // Everything is drawn onto this image, then onto the screen
-  public BufferedImage image = new BufferedImage(Bildschirm.topFenster.breite(),
-                                                 Bildschirm.topFenster.hoehe(),
+  public BufferedImage image = new BufferedImage(Consts.SCREEN_X,
+                                                 Consts.SCREEN_Y,
                                                  BufferedImage.TYPE_INT_RGB);
 
   private static ResourceBundle languageBundle =
@@ -39,7 +44,7 @@ public class Main extends EBAnwendung {
     Utils.init();
 
     pen = new BetterStift(image);
-    pen.setToDefault();
+     getPen().setToDefault();
 
     this.hatBildschirm.addWindowListener(new WindowListener());
 
@@ -62,8 +67,8 @@ public class Main extends EBAnwendung {
   public static void main(String[] args) { new Main(); }
 
   public void clearScreen() {
-    pen.clear();
-    pen.drawToScreen();
+     getPen().clear();
+     getPen().drawToScreen();
   }
 
   @Override
@@ -75,7 +80,7 @@ public class Main extends EBAnwendung {
   public void bearbeiteMausBewegt(int x, int y) {
     PenTasks.penMove(pen, x, y);
 
-    if (pen.getStartPressX() + pen.getStartPressY() != 0) {
+    if ( getPen().getStartPressX() +  getPen().getStartPressY() != 0) {
       sendPacket(new MovePacket(x, y));
     }
   }
@@ -92,7 +97,7 @@ public class Main extends EBAnwendung {
     sendPacket(new PenDownPacket(x, y));
   }
 
-  public static BetterStift getPen() { return pen; }
+  public static BetterStift getPen() { return instance.pen; }
 
   public JFrame getFrame() {
     return (JFrame)SwingUtilities.getWindowAncestor(
@@ -179,13 +184,35 @@ public class Main extends EBAnwendung {
     }
   }
 
+  public void b_colorPicker() {
+        JFrame frame = new JFrame(Main.getTranslated("color_picker_title"));
+        frame.setSize(650, 500);
+        frame.setResizable(false);
+        frame.setAlwaysOnTop(true);
+
+        JColorChooser colorChooser = new JColorChooser(Utils.getColor(Main.getPen()));
+        colorChooser.setPreviewPanel(new JPanel());
+
+        colorChooser.getSelectionModel().addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+              Main.pickColor(colorChooser.getColor());
+
+              UI.a_colors.clearSelection();
+            }
+        });
+
+        frame.add(colorChooser);
+        frame.setVisible(true);
+  }
+
   public void s_filling() {
-    pen.setFillMode((byte)(UI.s_filling.angeschaltet() ? 1 : 0));
+   getPen().setFillMode((byte)(UI.s_filling.angeschaltet() ? 1 : 0));
     sendPacket(new FillModePacket((byte)(UI.s_filling.angeschaltet() ? 1 : 0)));
   }
 
   public static void pickMode(byte newMode) {
-    pen.setPaintMode(newMode);
+    getPen().setPaintMode(newMode);
     instance.sendPacket(new ModePacket(newMode));
   }
 
@@ -195,12 +222,12 @@ public class Main extends EBAnwendung {
   }
 
   public static void pickColor(Color color) {
-    pen.setzeFarbe(color);
+    getPen().setzeFarbe(color);
     instance.sendPacket(new ColorPacket(color));
   }
 
   public void r_line_width() {
-    pen.setzeLinienBreite(UI.r_line_width.wert() * 2);
+    getPen().setzeLinienBreite(UI.r_line_width.wert() * 2);
     sendPacket(new WidthPacket(UI.r_line_width.wert() * 2));
   }
 

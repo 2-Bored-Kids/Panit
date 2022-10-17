@@ -32,6 +32,8 @@ public class UI {
   public static Radioknopf a_brown;
   public static Radioknopf a_white;
 
+  public static Knopf b_colorPicker;
+
   public static Etikett e_multiplayer;
   public static Textfeld t_id;
   public static Knopf b_connection;
@@ -113,6 +115,8 @@ public class UI {
     a_white = new ColorOption(
       20, 580, 130, 20, Main.getTranslated("white"), Colors.WHITE);
     a_colors.fuegeEin(a_white);
+
+    b_colorPicker = new Knopf(20, 605, 130, 20, Main.getTranslated("color_button"), "b_colorPicker");
 
     e_multiplayer =
       new Etikett(20, 625, 130, 30, Main.getTranslated("network"));
