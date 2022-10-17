@@ -56,7 +56,7 @@ public class Transmitter extends Clientverbindung {
         this.gibFrei();
         break;
       case PacketIds.DOWN:
-        RunterPacket rnPk = new RunterPacket(packet);
+        PenDownPacket rnPk = new PenDownPacket(packet);
         PenTasks.penDown(userPens.get(id), rnPk.X, rnPk.Y);
         break;
       case PacketIds.UP:

@@ -83,13 +83,13 @@ public class Main extends EBAnwendung {
   @Override
   public void bearbeiteMausLos(int x, int y) {
     PenTasks.penUp(pen, x, y);
-    sendPacket(new HochPacket());
+    sendPacket(new PenUpPacket());
   }
 
   @Override
   public void bearbeiteMausDruck(int x, int y) {
     PenTasks.penDown(pen, x, y);
-    sendPacket(new RunterPacket(x, y));
+    sendPacket(new PenDownPacket(x, y));
   }
 
   public static BetterStift getPen() { return pen; }
