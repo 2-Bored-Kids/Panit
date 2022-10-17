@@ -162,7 +162,7 @@ public class Utils {
   }
 
   public static void chooseColor() {
-    JFrame frame = new JFrame(Main.getTranslated("color_picker_title"));
+    JFrame frame = new JFrame(Main.getTranslated("color_choose_title"));
     frame.setSize(580, 300);
     frame.setResizable(false);
     frame.setAlwaysOnTop(true);
@@ -174,8 +174,7 @@ public class Utils {
     colorChooser.getSelectionModel().addChangeListener(new ChangeListener() {
       @Override
       public void stateChanged(ChangeEvent e) {
-        Main.pickColor(colorChooser.getColor());
-
+        Main.changeColor(colorChooser.getColor());
         UI.a_colors.clearSelection();
       }
     });

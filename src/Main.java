@@ -3,10 +3,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import sum.ereignis.Bildschirm;
+
 import sum.ereignis.EBAnwendung;
 
 // Interfaces with user input and does basic SuM initialisation
@@ -25,8 +26,10 @@ public class Main extends EBAnwendung {
                                                  Consts.SCREEN_Y,
                                                  BufferedImage.TYPE_INT_RGB);
 
-  private static ResourceBundle languageBundle =
-    ResourceBundle.getBundle("resources/messages");
+  private static ResourceBundle languageBundle;
+
+
+  public static boolean isPicking = false;
 
   public Main() {
     super(Consts.SCREEN_X, Consts.SCREEN_Y);
@@ -34,6 +37,10 @@ public class Main extends EBAnwendung {
     this.hatBildschirm.setTitle("Panit");
     this.hatBildschirm.setResizable(false);
     Utils.setIcon(this.hatBildschirm, "resources/icon.png");
+
+    Locale.setDefault(new Locale("de", "DE"));
+
+    languageBundle = ResourceBundle.getBundle("resources/messages");
 
     instance = this;
 
@@ -75,7 +82,6 @@ public class Main extends EBAnwendung {
   @Override
   public void bearbeiteMausBewegt(int x, int y) {
     PenTasks.penMove(pen, x, y);
-
     if (getPen().getStartPressX() + getPen().getStartPressY() != 0) {
       sendPacket(new MovePacket(x, y));
     }
@@ -89,6 +95,11 @@ public class Main extends EBAnwendung {
 
   @Override
   public void bearbeiteMausDruck(int x, int y) {
+    if (isPicking){
+      changeColor(new Color(image.getRGB(x, y)));
+      UI.a_colors.clearSelection();
+     isPicking = false; return;
+    }
     PenTasks.penDown(pen, x, y);
     sendPacket(new PenDownPacket(x, y));
   }
@@ -180,7 +191,13 @@ public class Main extends EBAnwendung {
     }
   }
 
-  public void b_colorPicker() { Utils.chooseColor(); }
+  public void b_colorPicker() {
+    Utils.chooseColor();
+  }
+
+  public void b_pickColor() {
+    isPicking = true;
+  }
 
   public void s_filling() {
     getPen().setFillMode((byte)(UI.s_filling.angeschaltet() ? 1 : 0));
@@ -197,7 +214,8 @@ public class Main extends EBAnwendung {
     sendPacket(new ClearPacket());
   }
 
-  public static void pickColor(Color color) {
+  public static void changeColor(Color color) {
+    UI.colorPanel.setBackground(color);
     getPen().setzeFarbe(color);
     instance.sendPacket(new ColorPacket(color));
   }
