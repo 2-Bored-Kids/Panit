@@ -3,7 +3,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -37,8 +36,6 @@ public class Main extends EBAnwendung {
     this.hatBildschirm.setTitle("Panit");
     this.hatBildschirm.setResizable(false);
     Utils.setIcon(this.hatBildschirm, "resources/icon.png");
-
-    Locale.setDefault(new Locale("de", "DE"));
 
     languageBundle = ResourceBundle.getBundle("resources/messages");
 
