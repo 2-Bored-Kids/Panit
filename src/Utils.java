@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Robot;
-import java.awt.Taskbar;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,7 +17,7 @@ import sum.ereignis.Bildschirm;
 import sum.ereignis.Buntstift;
 
 // A collection of reflection hacks we use to get into the guts of the SuM
-// library
+// library & some utility functions
 
 public class Utils {
   private static Field colorField;
@@ -79,7 +78,6 @@ public class Utils {
       }
 
       frame.setIconImage(icon);
-      Taskbar.getTaskbar().setIconImage(icon);
     } catch (Exception ignored) {
     }
   }
