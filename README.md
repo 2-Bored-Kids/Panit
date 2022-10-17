@@ -17,11 +17,6 @@ since its the language nearly all of SuM's function/variable names are written i
 
 Its a spaghetti mess based upon the shaky foundation that the SuM library provides.
 
-## TODOs
-
-* More pen modes
-* Better colors
-
 ## Dependencies
 
 + ☕️[__Java 1.8+__](https://www.oracle.com/java/technologies/downloads/)
