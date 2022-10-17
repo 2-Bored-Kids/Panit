@@ -116,7 +116,8 @@ public class UI {
       20, 580, 130, 20, Main.getTranslated("white"), Colors.WHITE);
     a_colors.fuegeEin(a_white);
 
-    b_colorPicker = new Knopf(20, 605, 130, 20, Main.getTranslated("color_button"), "b_colorPicker");
+    b_colorPicker = new Knopf(
+      20, 605, 130, 20, Main.getTranslated("color_button"), "b_colorPicker");
 
     e_multiplayer =
       new Etikett(20, 625, 130, 30, Main.getTranslated("network"));

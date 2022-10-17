@@ -4,14 +4,14 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ResourceBundle;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import sum.ereignis.Bildschirm;
-import sum.ereignis.EBAnwendung;
 import javax.swing.JColorChooser;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import sum.ereignis.Bildschirm;
+import sum.ereignis.EBAnwendung;
 
 // Interfaces with user input and does basic SuM initialisation
 
@@ -44,7 +44,7 @@ public class Main extends EBAnwendung {
     Utils.init();
 
     pen = new BetterStift(image);
-     getPen().setToDefault();
+    getPen().setToDefault();
 
     this.hatBildschirm.addWindowListener(new WindowListener());
 
@@ -67,8 +67,8 @@ public class Main extends EBAnwendung {
   public static void main(String[] args) { new Main(); }
 
   public void clearScreen() {
-     getPen().clear();
-     getPen().drawToScreen();
+    getPen().clear();
+    getPen().drawToScreen();
   }
 
   @Override
@@ -80,7 +80,7 @@ public class Main extends EBAnwendung {
   public void bearbeiteMausBewegt(int x, int y) {
     PenTasks.penMove(pen, x, y);
 
-    if ( getPen().getStartPressX() +  getPen().getStartPressY() != 0) {
+    if (getPen().getStartPressX() + getPen().getStartPressY() != 0) {
       sendPacket(new MovePacket(x, y));
     }
   }
@@ -185,29 +185,30 @@ public class Main extends EBAnwendung {
   }
 
   public void b_colorPicker() {
-        JFrame frame = new JFrame(Main.getTranslated("color_picker_title"));
-        frame.setSize(650, 500);
-        frame.setResizable(false);
-        frame.setAlwaysOnTop(true);
+    JFrame frame = new JFrame(Main.getTranslated("color_picker_title"));
+    frame.setSize(650, 500);
+    frame.setResizable(false);
+    frame.setAlwaysOnTop(true);
 
-        JColorChooser colorChooser = new JColorChooser(Utils.getColor(Main.getPen()));
-        colorChooser.setPreviewPanel(new JPanel());
+    JColorChooser colorChooser =
+      new JColorChooser(Utils.getColor(Main.getPen()));
+    colorChooser.setPreviewPanel(new JPanel());
 
-        colorChooser.getSelectionModel().addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-              Main.pickColor(colorChooser.getColor());
+    colorChooser.getSelectionModel().addChangeListener(new ChangeListener() {
+      @Override
+      public void stateChanged(ChangeEvent e) {
+        Main.pickColor(colorChooser.getColor());
 
-              UI.a_colors.clearSelection();
-            }
-        });
+        UI.a_colors.clearSelection();
+      }
+    });
 
-        frame.add(colorChooser);
-        frame.setVisible(true);
+    frame.add(colorChooser);
+    frame.setVisible(true);
   }
 
   public void s_filling() {
-   getPen().setFillMode((byte)(UI.s_filling.angeschaltet() ? 1 : 0));
+    getPen().setFillMode((byte)(UI.s_filling.angeschaltet() ? 1 : 0));
     sendPacket(new FillModePacket((byte)(UI.s_filling.angeschaltet() ? 1 : 0)));
   }
 
