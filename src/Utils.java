@@ -13,6 +13,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.Buntstift;
+import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
+import java.util.Base64;
 
 // A collection of reflection hacks we use to get into the guts of the SuM
 // library
@@ -113,10 +116,6 @@ public class Utils {
     return null;
   }
 
-  public static Color getColorAt(int x, int y, BufferedImage image) {
-    return new Color(image.getRGB(x, y));
-  }
-
   public static void loadImage(Bildschirm screen, String filePath) {
     JPanel panel = screen.privatPanel();
 
@@ -159,5 +158,25 @@ public class Utils {
     }
 
     return null;
+  }
+
+  public static String encodeImage(BufferedImage image) {
+    try {
+      ByteArrayOutputStream outputStr = new ByteArrayOutputStream();
+      ImageIO.write(image, "png", outputStr);
+      return Base64.getEncoder().encodeToString(outputStr.toByteArray());
+    } catch (Exception e) {
+    }
+
+    return "";
+  }
+
+  public static void drawDecodeImage(BetterStift pen, String image) {
+    try {
+      byte[] bytes = Base64.getDecoder().decode(image);
+      pen.getBuffer().getGraphics().drawImage(
+        ImageIO.read(new ByteArrayInputStream(bytes)), 0, 0, Bildschirm.topFenster);
+    } catch (Exception e) {
+    }
   }
 }

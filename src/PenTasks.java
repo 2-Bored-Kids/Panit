@@ -122,7 +122,7 @@ public class PenTasks {
                 bucketFill(connectPen,
                            x,
                            y,
-                           new Color(Utils.getColor(connectPen).getRGB()));
+                           Utils.getColor(connectPen).getRGB());
               }
             };
 
@@ -149,15 +149,14 @@ public class PenTasks {
   public static void bucketFill(BetterStift connectPen,
                                 int x,
                                 int y,
-                                Color fillColor) {
+                                int fillColor) {
     try {
       BufferedImage snapshot =
         Utils.createSnapshot(Bildschirm.topFenster.privatPanel(), null);
 
-      assert snapshot != null;
-      Color colorReplaced = Utils.getColorAt(x, y, snapshot);
+      int colorReplaced = connectPen.getBuffer().getRGB(x, y);
 
-      if (fillColor.getRGB() == colorReplaced.getRGB()) {
+      if (fillColor == colorReplaced) {
         return;
       }
 
@@ -176,9 +175,9 @@ public class PenTasks {
 
           if (Utils.isInBounds(posX, posY, 0) &&
               connectPen.getBuffer().getRGB(posX, posY) ==
-                colorReplaced.getRGB()) {
+                colorReplaced) {
 
-            connectPen.getBuffer().setRGB(posX, posY, fillColor.getRGB());
+            connectPen.getBuffer().setRGB(posX, posY, fillColor);
 
             q.add(new Vector2(posX, posY));
           }

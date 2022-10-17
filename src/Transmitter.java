@@ -87,11 +87,11 @@ public class Transmitter extends Clientverbindung {
         ImagePacket imgPk = new ImagePacket(packet);
 
         if (imgPk.IMG == "") {
-          imgPk.IMG = ImageTasks.encode(Main.instance.image);
+          imgPk.IMG = Utils.encodeImage(Main.instance.image);
 
           Main.instance.sendPacket(imgPk);
         } else {
-          ImageTasks.drawDecode(Main.instance.getPen(), imgPk.IMG);
+          Utils.drawDecodeImage(Main.instance.getPen(), imgPk.IMG);
         }
         break;
       case PacketIds.SETTING:

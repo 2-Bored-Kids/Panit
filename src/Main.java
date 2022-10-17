@@ -227,7 +227,7 @@ public class Main extends EBAnwendung {
 
       if (transmitter != null) {
         ImagePacket imgPk = new ImagePacket(" : ", " ");
-        imgPk.IMG = ImageTasks.encode(image);
+        imgPk.IMG = Utils.encodeImage(image);
         sendPacket(imgPk);
       }
     }
