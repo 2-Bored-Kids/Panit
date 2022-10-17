@@ -3,8 +3,11 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Taskbar;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.Base64;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -13,9 +16,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import sum.ereignis.Bildschirm;
 import sum.ereignis.Buntstift;
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
-import java.util.Base64;
 
 // A collection of reflection hacks we use to get into the guts of the SuM
 // library
@@ -175,7 +175,10 @@ public class Utils {
     try {
       byte[] bytes = Base64.getDecoder().decode(image);
       pen.getBuffer().getGraphics().drawImage(
-        ImageIO.read(new ByteArrayInputStream(bytes)), 0, 0, Bildschirm.topFenster);
+        ImageIO.read(new ByteArrayInputStream(bytes)),
+        0,
+        0,
+        Bildschirm.topFenster);
     } catch (Exception e) {
     }
   }

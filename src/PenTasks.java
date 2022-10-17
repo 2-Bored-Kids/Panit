@@ -119,10 +119,8 @@ public class PenTasks {
 
             Thread fillThread = new Thread() {
               public void run() {
-                bucketFill(connectPen,
-                           x,
-                           y,
-                           Utils.getColor(connectPen).getRGB());
+                bucketFill(
+                  connectPen, x, y, Utils.getColor(connectPen).getRGB());
               }
             };
 
@@ -174,8 +172,7 @@ public class PenTasks {
           final int posY = pos.y + offset[1];
 
           if (Utils.isInBounds(posX, posY, 0) &&
-              connectPen.getBuffer().getRGB(posX, posY) ==
-                colorReplaced) {
+              connectPen.getBuffer().getRGB(posX, posY) == colorReplaced) {
 
             connectPen.getBuffer().setRGB(posX, posY, fillColor);
 
