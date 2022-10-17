@@ -195,10 +195,6 @@ public class Main extends EBAnwendung {
     }
   }
 
-  public void b_colorPicker() {
-    Utils.chooseColor();
-  }
-
   public void b_pickColor() {
     isPicking = true;
   }

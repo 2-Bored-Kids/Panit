@@ -1,6 +1,9 @@
 import sum.komponenten.*;
 
 import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 // A mostly auto-generated class with UI definitions, nothing to see here
@@ -31,7 +34,6 @@ public class UI {
   public static Radioknopf a_orange;
   public static Radioknopf a_white;
 
-  public static Knopf b_colorPicker;
   public static Knopf b_pickColor;
   public static JPanel p_colorPreviewPanel;
 
@@ -85,34 +87,28 @@ public class UI {
     e_color = new Etikett(20, 370, 130, 30, Main.getTranslated("pen_color"));
     e_color.setzeAusrichtung(1);
     a_colors = new Radiogruppe();
+    addPreviewPanel();
     a_black = new ColorOption(
-      20, 400, 130, 20, Main.getTranslated("black"), Colors.BLACK);
+      20, 430, 130, 20, Main.getTranslated("black"), Colors.BLACK);
     a_colors.fuegeEin(a_black);
     a_black.waehle();
     a_red =
-      new ColorOption(20, 420, 130, 20, Main.getTranslated("red"), Colors.RED);
+      new ColorOption(20, 450, 130, 20, Main.getTranslated("red"), Colors.RED);
     a_colors.fuegeEin(a_red);
     a_lightBlue = new ColorOption(
-      20, 440, 130, 20, Main.getTranslated("light_blue"), Colors.LIGHT_BLUE);
+      20, 470, 130, 20, Main.getTranslated("light_blue"), Colors.LIGHT_BLUE);
     a_colors.fuegeEin(a_lightBlue);
     a_darkGreen = new ColorOption(
-      20, 460, 130, 20, Main.getTranslated("dark_green"), Colors.DARK_GREEN);
+      20, 490, 130, 20, Main.getTranslated("dark_green"), Colors.DARK_GREEN);
     a_colors.fuegeEin(a_darkGreen);
     a_orange = new ColorOption(
-      20, 480, 130, 20, Main.getTranslated("orange"), Colors.ORANGE);
+      20, 510, 130, 20, Main.getTranslated("orange"), Colors.ORANGE);
     a_colors.fuegeEin(a_orange);
     a_white = new ColorOption(
-      20, 500, 130, 20, Main.getTranslated("white"), Colors.WHITE);
+      20, 530, 130, 20, Main.getTranslated("white"), Colors.WHITE);
     a_colors.fuegeEin(a_white);
-
-    b_colorPicker = new Knopf(
-      20, 520, 130, 20, Main.getTranslated("color_button"), "b_colorPicker");
     b_pickColor = new Knopf(
-            20, 540, 130, 20, Main.getTranslated("color_picker_button"), "b_pickColor");
-    p_colorPreviewPanel = new JPanel(null);
-    p_colorPreviewPanel.setBounds(20, 570, 130, 20);
-    p_colorPreviewPanel.setBackground(Consts.DEFAULT_COLOR);
-    Main.instance.hatBildschirm.add(p_colorPreviewPanel);
+            20, 560, 130, 20, Main.getTranslated("color_picker_button"), "b_pickColor");
 
     e_multiplayer =
       new Etikett(20, 625, 130, 30, Main.getTranslated("network"));
@@ -134,5 +130,19 @@ public class UI {
     t_server_port.setzeHinweis("Port");
     b_server = new Knopf(20, 775, 130, 20, Main.getTranslated("start"));
     b_server.setzeBearbeiterGeklickt("b_server");
+  }
+
+  public static void addPreviewPanel(){
+    p_colorPreviewPanel = new JPanel(null);
+    p_colorPreviewPanel.setBounds(20, 400, 130, 20);
+    p_colorPreviewPanel.setBackground(Consts.DEFAULT_COLOR);
+    Main.instance.hatBildschirm.add(p_colorPreviewPanel);
+    p_colorPreviewPanel.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        super.mouseClicked(e);
+        Utils.chooseColor();
+      }
+    });
   }
 }
