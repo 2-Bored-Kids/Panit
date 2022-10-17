@@ -163,7 +163,7 @@ public class Utils {
 
   public static void chooseColor() {
     JFrame frame = new JFrame(Main.getTranslated("color_picker_title"));
-    frame.setSize(550, 300);
+    frame.setSize(580, 300);
     frame.setResizable(false);
     frame.setAlwaysOnTop(true);
 
