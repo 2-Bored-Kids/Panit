@@ -5,8 +5,13 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Insets;
+import javax.swing.border.Border;
 
-// A mostly auto-generated class with UI definitions, nothing to see here
+// A mostly auto-generated class with UI definitions
 
 public class UI {
 
@@ -87,7 +92,7 @@ public class UI {
     e_color = new Etikett(20, 370, 130, 30, Main.getTranslated("pen_color"));
     e_color.setzeAusrichtung(1);
     a_colors = new Radiogruppe();
-    addPreviewPanel();
+    createPreviewPanel();
     a_black = new ColorOption(
       20, 430, 130, 20, Main.getTranslated("black"), Colors.BLACK);
     a_colors.fuegeEin(a_black);
@@ -132,10 +137,35 @@ public class UI {
     b_server.setzeBearbeiterGeklickt("b_server");
   }
 
-  public static void addPreviewPanel(){
+  private static class RoundedBorder implements Border {
+        private int radius;
+
+        RoundedBorder(int radius) {
+            this.radius = radius;
+        }
+
+        @Override
+        public Insets getBorderInsets(Component c) {
+            return new Insets(this.radius, this.radius, this.radius, this.radius);
+        }
+
+        @Override
+        public boolean isBorderOpaque() {
+            return false;
+        }
+
+        @Override
+        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+            g.setColor(Utils.getColor(Main.getPen()));
+            g.fillRoundRect(x,y,width,height,radius,radius);
+        }
+    }
+
+  public static void createPreviewPanel(){
     p_colorPreviewPanel = new JPanel(null);
+    p_colorPreviewPanel.setBorder(new RoundedBorder(15));
     p_colorPreviewPanel.setBounds(20, 400, 130, 20);
-    p_colorPreviewPanel.setBackground(Consts.DEFAULT_COLOR);
+    p_colorPreviewPanel.setBackground(Colors.GREY);
     Main.instance.hatBildschirm.add(p_colorPreviewPanel);
     p_colorPreviewPanel.addMouseListener(new MouseAdapter() {
       @Override

@@ -215,7 +215,6 @@ public class Main extends EBAnwendung {
   }
 
   public static void changeColor(Color color) {
-    UI.p_colorPreviewPanel.setBackground(color);
     getPen().setzeFarbe(color);
     instance.sendPacket(new ColorPacket(color));
   }
