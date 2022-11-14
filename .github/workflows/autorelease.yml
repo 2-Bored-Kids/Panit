@@ -23,6 +23,9 @@ jobs:
       - name: "Fetch SuM"
         run: curl https://www.mg-werl.de/sum/SuMWin.zip --output sum.zip && unzip sum.zip -d SuM && find SuM/ -name \*.jar -exec cp {} SuM \;
 
+      - name: "Delete BlueJ extensions"
+        run: rm SuM/SuMAkzeptor.jar SuM/SuMGenerator.jar SuM/SuMTransduktor.jar
+
       - name: "Compile"
         run: ${JAVA_HOME_8_X64}/bin/javac -cp SuM/\* `find src/ -name \*.java`
 
