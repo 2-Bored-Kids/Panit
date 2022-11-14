@@ -33,7 +33,7 @@ jobs:
         run: unzip -o -d . 'SuM/*.jar'
 
       - name: "Move all class files to a separate folder"
-        run: mkdir sum-src && mv -t sum-src SuM/sum/ereignis/ SuM/sum/komponenten/ SuM/sum/netz/
+        run: mkdir sum-src && mv -t sum-src sum/ereignis/ sum/komponenten/ sum/netz/
 
       - name: "Create jar"
         run: rm -rf sum && mv sum-src/* . && mv `find src/ -name \*.class` . && jar cf Panit.jar *.class sum/ resources/ && chmod +x Panit.jar
