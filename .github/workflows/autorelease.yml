@@ -23,7 +23,7 @@ jobs:
       - name: "Fetch SuM"
         run: curl https://www.mg-werl.de/sum/SuMWin.zip --output sum.zip && unzip sum.zip -d SuM && find SuM/ -name \*.jar -exec cp {} SuM \;
 
-      - name: "Delete bloat"
+      - name: "Delete BlueJ extensions"
         run: rm SuM/SuMAkzeptor.jar SuM/SuMGenerator.jar SuM/SuMTransduktor.jar
 
       - name: "Compile"
@@ -33,10 +33,10 @@ jobs:
         run: unzip -o -d . 'SuM/*.jar'
 
       - name: "Move all class files to a separate folder"
-        run: mkdir sum-src && find sum/ -name '*.class' -exec cp --parents \{\} sum-src \;
+        run: mkdir sum-src && mv -t sum-src sum/ereignis/ sum/komponenten/ sum/netz/
 
       - name: "Create jar"
-        run: rm -rf sum && mv sum-src/* . && mv `find src/ -name \*.class` . && jar cf Panit.jar *.class sum/ resources/ && chmod +x Panit.jar
+        run: rm -rf sum/* && mv sum-src/* sum/ && mv `find src/ -name \*.class` . && jar cf Panit.jar *.class sum/ resources/ && chmod +x Panit.jar
 
       - name: "Update manifest"
         run: jar -uvfe Panit.jar Main
