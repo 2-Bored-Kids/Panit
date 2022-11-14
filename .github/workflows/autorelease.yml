@@ -21,10 +21,7 @@ jobs:
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
       - name: "Fetch SuM"
-        run: curl https://www.mg-werl.de/sum/SuMWin.zip --output sum.zip && unzip sum.zip -d SuM && find SuM/ -name \*.jar -exec cp {} SuM \;
-
-      - name: "Delete bloat"
-        run: rm SuM/SuMAkzeptor.jar SuM/SuMGenerator.jar SuM/SuMTransduktor.jar
+        run: curl https://www.mg-werl.de/sum/SuMWin.zip --output sum.zip && unzip sum.zip -d sm && mv -t SuM/ sm/SuMEreignis.jar sm/SuMKomponenten.jar sm/SuMNetz.jar
 
       - name: "Compile"
         run: ${JAVA_HOME_8_X64}/bin/javac -cp SuM/\* `find src/ -name \*.java`
