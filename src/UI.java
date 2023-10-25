@@ -122,7 +122,7 @@ public class UI {
       new Textfeld(20,
                    655,
                    130,
-                   20,
+                   30,
                    Consts.DEFAULT_SERVER_IP + ":" + Consts.DEFAULT_SERVER_PORT);
     t_id.setzeHinweis("Ip:Port");
     b_connection = new Knopf(20, 690, 130, 20, Main.getTranslated("connect"));
@@ -131,7 +131,7 @@ public class UI {
     e_server = new Etikett(20, 710, 130, 30, Main.getTranslated("server"));
     e_server.setzeAusrichtung(1);
     t_server_port = new Textfeld(
-      20, 740, 130, 20, Integer.toString(Consts.DEFAULT_SERVER_PORT));
+      20, 740, 130, 30, Integer.toString(Consts.DEFAULT_SERVER_PORT));
     t_server_port.setzeHinweis("Port");
     b_server = new Knopf(20, 775, 130, 20, Main.getTranslated("start"));
     b_server.setzeBearbeiterGeklickt("b_server");
